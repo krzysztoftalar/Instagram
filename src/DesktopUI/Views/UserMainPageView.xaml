@@ -1,0 +1,129 @@
+﻿<UserControl x:Class="DesktopUI.Views.UserMainPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DesktopUI.Views"
+             mc:Ignorable="d" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             d:DesignHeight="600" d:DesignWidth="1080">
+    <Grid Background="#FF44325F">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="80" />
+            <RowDefinition Height="*" />            
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="680" />
+            <ColumnDefinition Width="*" />           
+        </Grid.ColumnDefinitions>
+
+        <!-- NavBar -->
+        <Grid Grid.Row="0" Background="White" Grid.ColumnSpan="2">
+            <Image Source="../Assets/insta.jpg" HorizontalAlignment="Left" Margin="10 0"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="FOLLOWERS" Margin="10 0" FontSize="16" FontWeight="Bold" Foreground="#FF2A6088" />
+
+                    <!-- Followers -->
+                    <TextBlock x:Name="Followers" Text="{Binding FollowersCount}" HorizontalAlignment="Center" Margin="5 0 5 5" FontSize="16" Foreground="#FF2A6088"/>
+
+                </StackPanel>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="FOLLOWING" Margin="10 0" FontSize="16" FontWeight="Bold" Foreground="#FF2A6088"/>
+
+                    <!-- Following -->
+                    <TextBlock x:Name="Following" Text="{Binding FollowingCount}" HorizontalAlignment="Center" Margin="5 0 5 5" FontSize="16" Foreground="#FF2A6088"/>
+
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <!-- SideBar -->
+        <Grid Grid.Row="1" Grid.Column="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin=" 20 -75" >
+
+                <!-- User Display Name -->
+                <TextBlock x:Name="Displayname" FontFamily="Nirmala UI" Text="Jullie" FontSize="30" Margin="20" VerticalAlignment="Center" Foreground="White"/>
+
+                <StackPanel HorizontalAlignment="Right">
+                    <Ellipse Height="150" Width="150" Stroke="White" StrokeThickness="3">
+                        <Ellipse.Fill>
+
+                            <!-- User Image -->
+                            <ImageBrush x:Name="Image" ImageSource="../Assets/user.png" Stretch="UniformToFill"/>
+
+                        </Ellipse.Fill>
+                    </Ellipse>
+
+                    <!-- Edit Profile Button-->
+                    <Button x:Name="EditProfile" HorizontalAlignment="Center" Margin="10" Content="Edit Profile" Background="{x:Null}" BorderBrush="White"/>
+
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <!-- Search Grid -->
+        <Grid Grid.Row="1" Grid.Column="0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="10">
+                <materialDesign:ColorZone Mode="Standard" Padding="8 4 8 4" CornerRadius="2" Panel.ZIndex="1"
+                    Margin="16 0 0 0" materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition  Width="Auto" />
+                            <ColumnDefinition  Width="*" />
+                            <ColumnDefinition  Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Button Style="{DynamicResource MaterialDesignToolButton}">
+                            <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
+                        </Button>
+                        <TextBox Grid.Column="1" Margin="8 0 0 0" materialDesign:HintAssist.Hint="Search" materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                        BorderThickness="0" MinWidth="200" VerticalAlignment="Center" />
+                        <Button Style="{DynamicResource MaterialDesignToolButton}" Grid.Column="2"></Button>
+                    </Grid>
+                </materialDesign:ColorZone>
+
+                <!-- Search Users Button -->
+                <Button x:Name="SearchUsers" Style="{DynamicResource MaterialDesignToolForegroundButton}" Margin="8 0 0 0" Panel.ZIndex="0">
+                    <materialDesign:PackIcon Kind="Send" Foreground="White" />
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <!-- Photos List -->
+        <Grid Grid.Row="2" Grid.Column="0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>                    
+                    <StackPanel Margin="20 0">
+
+                        <!-- User Photos -->
+                        <ItemsControl x:Name="PhotosList" ItemsSource="{Binding Photos}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Margin="10" Width="110" Height="160">
+                                        <StackPanel>
+                                            <Border Width="100" Height="100" CornerRadius="5" Margin="5">
+                                                <Border.Effect>
+                                                    <DropShadowEffect ShadowDepth="1"/>
+                                                </Border.Effect>
+                                                <Border.Background>
+
+                                                    <!-- Photo Url -->
+                                                    <ImageBrush ImageSource="{Binding Url}"/>
+                                                </Border.Background>
+                                            </Border>                                            
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>        
+        </Grid>
+    </Grid>
+</UserControl>

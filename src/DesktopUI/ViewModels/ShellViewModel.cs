@@ -11,7 +11,7 @@ namespace DesktopUI.ViewModels
 
         public ShellViewModel(IEventAggregator events, LoginViewModel loginVM, RegisterViewModel registerVM)
         {
-            ActivateItem(IoC.Get<RegisterViewModel>());
+            ActivateItem(IoC.Get<UserMainPageViewModel>());
 
             _events = events;
             _loginVM = loginVM;

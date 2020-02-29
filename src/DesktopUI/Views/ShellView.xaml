@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DesktopUI.Views"
         mc:Ignorable="d"
-        Title="ShellView" Height="600" Width="1000" WindowStartupLocation="CenterScreen" >
+        Title="ShellView" Height="600" Width="1080" WindowStartupLocation="CenterScreen" >
     <Grid>
         <Grid>
-            <ContentControl x:Name="ActiveItem" Margin="20 5 20 20" />
+            <ContentControl x:Name="ActiveItem"/>
         </Grid>
     </Grid>
 </Window>
