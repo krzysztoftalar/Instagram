@@ -1,8 +1,8 @@
 ﻿using MediatR;
 
-namespace Application.User.Commands
+namespace Application.User.Commands.Register
 {
-    public class LoginUserCommand : IRequest<UserDto>
+    public class RegisterUserCommand : IRequest<UserDto>
     {
         public string DisplayName { get; set; }
         public string Username { get; set; }

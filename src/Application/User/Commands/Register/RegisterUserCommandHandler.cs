@@ -10,22 +10,22 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.User.Commands
+namespace Application.User.Commands.Register
 {
-    public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, UserDto>
+    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, UserDto>
     {
         private readonly IApplicationDbContext _context;
         private readonly IJwtGenerator _jwtGenerator;
         private readonly UserManager<AppUser> _userManager;
 
-        public LoginUserCommandHandler(IApplicationDbContext context, IJwtGenerator jwtGenerator, UserManager<AppUser> userManager)
+        public RegisterUserCommandHandler(IApplicationDbContext context, IJwtGenerator jwtGenerator, UserManager<AppUser> userManager)
         {
             _context = context;
             _jwtGenerator = jwtGenerator;
             _userManager = userManager;
         }
 
-        public async Task<UserDto> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+        public async Task<UserDto> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             if (await _context.Users.Where(x => x.Email == request.Email).AnyAsync())
                 throw new RestException(HttpStatusCode.BadRequest, new { Email = "Email already exists" });

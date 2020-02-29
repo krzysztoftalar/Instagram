@@ -1,11 +1,11 @@
 ﻿using Application.Validators;
 using FluentValidation;
 
-namespace Application.User.Commands
+namespace Application.User.Commands.Register
 {
-    public class LoginUserCommandValidator : AbstractValidator<LoginUserCommand>
+    public class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
     {
-        public LoginUserCommandValidator()
+        public RegisterUserCommandValidator()
         {
             RuleFor(x => x.DisplayName).NotEmpty();
             RuleFor(x => x.Username).NotEmpty();
