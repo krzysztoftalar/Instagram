@@ -1,33 +1,75 @@
 ﻿using Caliburn.Micro;
 using DesktopUI.EventModels;
+using DesktopUI.Library.Api.User;
+using DesktopUI.Library.Models;
 
 namespace DesktopUI.ViewModels
 {
-    public class ShellViewModel : Conductor<object>, IHandle<LogOnEvent>, IHandle<RegisterEvent>
+    public class ShellViewModel : Conductor<object>, IHandle<ProjectSignals>
     {
         private readonly IEventAggregator _events;
-        private readonly LoginViewModel _loginVM;
-        private readonly RegisterViewModel _registerVM;
+        private readonly IAuthenticatedUser _user;
+        private readonly IUserEndpoint _userEndpoint;
 
-        public ShellViewModel(IEventAggregator events, LoginViewModel loginVM, RegisterViewModel registerVM)
+        public ShellViewModel(IEventAggregator events, IAuthenticatedUser user, IUserEndpoint userEndpoint)
         {
-            ActivateItem(IoC.Get<UserMainPageViewModel>());
+            ActivateItem(IoC.Get<LoginViewModel>());
 
             _events = events;
-            _loginVM = loginVM;
-            _registerVM = registerVM;
+            _userEndpoint = userEndpoint;
+            _user = user;
 
             _events.Subscribe(this);
         }
 
-        public void Handle(LogOnEvent message)
+        //protected override async void OnViewLoaded(object view)
+        //{
+        //    try
+        //    {
+        //        await _userEndpoint.CurrentUser(_user.Token);
+        //    }
+        //    catch
+        //    {
+
+        //    }
+        //}
+
+        public bool IsLoggedIn
         {
-            ActivateItem(_loginVM);
+            get
+            {
+                bool output = string.IsNullOrWhiteSpace(_user.Token) == false;
+
+                return output;
+            }
         }
 
-        public void Handle(RegisterEvent message)
+        public void Handle(ProjectSignals message)
         {
-            ActivateItem(_registerVM);
+            switch (message)
+            {
+                case ProjectSignals.Login:
+                    ActivateItem(IoC.Get<LoginViewModel>());
+                    break;
+
+                case ProjectSignals.Register:
+                    ActivateItem(IoC.Get<RegisterViewModel>());
+                    break;
+
+                case ProjectSignals.Authenticated:
+                    ActivateItem(IoC.Get<UserMainPageViewModel>());
+                    NotifyOfPropertyChange(() => IsLoggedIn);
+                    break;
+
+                case ProjectSignals.AddPhoto:
+                    ActivateItem(IoC.Get<AddPhotoViewModel>());
+                    break;
+
+                case ProjectSignals.Profile:
+                    ActivateItem(IoC.Get<UserProfilePageViewModel>());
+                    break;
+            }
         }
     }
 }
+

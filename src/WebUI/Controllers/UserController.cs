@@ -1,6 +1,7 @@
 ﻿using API.Controllers;
 using Application.User;
 using Application.User.Commands.Register;
+using Application.User.Queries.CurrentUser;
 using Application.User.Queries.Login;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,12 @@ namespace WebUI.Controllers
         public async Task<ActionResult<UserDto>> Login(LoginUserQuery query)
         {
             return await Mediator.Send(query);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<UserDto>> CurrentUser()
+        {
+            return await Mediator.Send(new CurrentUserQuery());
         }
     }
 }

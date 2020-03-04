@@ -7,5 +7,6 @@ namespace DesktopUI.Library.Api.User
     {
         Task Register(UserFormValues data);
         Task<AuthenticatedUser> Login(UserFormValues user);
+        Task<AuthenticatedUser> CurrentUser(string token);
     }
 }

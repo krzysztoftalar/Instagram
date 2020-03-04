@@ -1,6 +1,8 @@
 ﻿using Caliburn.Micro;
+using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Api.User;
 using DesktopUI.Library.Helpers;
+using DesktopUI.Library.Models;
 using DesktopUI.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -27,12 +29,14 @@ namespace DesktopUI
         protected override void Configure()
         {
             _container.Instance(_container)
-                .PerRequest<IUserEndpoint, UserEndpoint>();
+                .PerRequest<IUserEndpoint, UserEndpoint>()
+                .PerRequest<IProfileEndpoint, ProfileEndpoint>();
 
             _container
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
-                .Singleton<IApiHelper, ApiHelper>();
+                .Singleton<IApiHelper, ApiHelper>()
+                .Singleton<IAuthenticatedUser, AuthenticatedUser>();
 
             GetType().Assembly.GetTypes()
                 .Where(type => type.IsClass)

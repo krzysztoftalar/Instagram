@@ -1,13 +1,21 @@
+using API.Middleware;
 using Application;
+using Application.User.Commands.Register;
+using Application.User.Queries.Login;
 using FluentValidation.AspNetCore;
+using Infrastructure.Photos;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Persistence;
-using System.Reflection;
+using System.Text;
 
 namespace WebUI
 {
@@ -22,10 +30,15 @@ namespace WebUI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers()
+            services.AddControllers(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            })
                .AddFluentValidation(opt =>
                {
-                   opt.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+                   opt.RegisterValidatorsFromAssemblyContaining<LoginUserQueryValidator>();
+                   opt.RegisterValidatorsFromAssemblyContaining<RegisterUserCommandValidator>();
                });
 
             services.AddApplication();
@@ -35,17 +48,65 @@ namespace WebUI
             services.AddHealthChecks()
                .AddDbContextCheck<ApplicationDbContext>();
 
-            //var builder = services.AddIdentityCore<AppUser>();
-            //var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
-            //identityBuilder.AddEntityFrameworkStores<ApplicationDbContext>();
-            //identityBuilder.AddSignInManager<SignInManager<AppUser>>();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
 
-            services.AddSwaggerGen(setup => setup.SwaggerDoc("v1",
-                new OpenApiInfo { Title = "My API", Version = "v1" }));
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme."
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+                    }
+                });
+            });
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = key,
+                        ValidateAudience = false,
+                        ValidateIssuer = false
+                    };
+                });
+
+            services.AddCors(options =>
+               options.AddPolicy("CorsPolicy",
+                   policy =>
+                   {
+                       policy
+                           .AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .AllowCredentials();
+                   }));
+
+            services.Configure<CloudinarySettings>(Configuration.GetSection("Cloudinary"));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -54,6 +115,7 @@ namespace WebUI
             //app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors("CorsPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();

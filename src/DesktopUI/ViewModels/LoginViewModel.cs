@@ -18,7 +18,7 @@ namespace DesktopUI.ViewModels
             _events = events;
         }
 
-        private string _email;
+        private string _email = "bob@test.com";
 
         public string Email
         {
@@ -31,7 +31,7 @@ namespace DesktopUI.ViewModels
             }
         }
 
-        private string _password;
+        private string _password = "Pa$$w0rd";
 
         public string Password
         {
@@ -64,7 +64,11 @@ namespace DesktopUI.ViewModels
 
             try
             {
-                await _userEndpoint.Login(user);
+                var result = await _userEndpoint.Login(user);
+
+                //await _userEndpoint.CurrentUser(result.Token);
+
+                _events.PublishOnUIThread(ProjectSignals.Authenticated);
             }
             catch (Exception ex)
             {
@@ -74,7 +78,7 @@ namespace DesktopUI.ViewModels
 
         public void GoToRegister()
         {
-            _events.PublishOnUIThread(new RegisterEvent());
+            _events.PublishOnUIThread(ProjectSignals.Register);
         }
     }
 }

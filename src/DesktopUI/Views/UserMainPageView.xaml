@@ -50,7 +50,7 @@
                         <Ellipse.Fill>
 
                             <!-- User Image -->
-                            <ImageBrush x:Name="Image" ImageSource="../Assets/user.png" Stretch="UniformToFill"/>
+                            <ImageBrush x:Name="Image" ImageSource="{Binding Image}" Stretch="UniformToFill"/>
 
                         </Ellipse.Fill>
                     </Ellipse>
