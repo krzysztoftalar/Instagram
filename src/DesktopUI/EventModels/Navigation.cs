@@ -1,11 +1,10 @@
 ﻿namespace DesktopUI.EventModels
 {
-    public enum ProjectSignals
+    public enum Navigation
     {
         Register,
         Login,
         Profile,
-        AddPhoto,
-        Authenticated
+        Main
     }
 }

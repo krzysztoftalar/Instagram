@@ -44,6 +44,9 @@
         <!-- NavBar -->
         <Grid Grid.Row="0" Background="White" Grid.ColumnSpan="2">
             <Image Source="../Assets/insta.jpg" HorizontalAlignment="Left" Margin="10 0"/>
+            <Button x:Name="BackToMainPage" Height="30" Width="30" HorizontalAlignment="Left" Margin="170 0 0 5" Style="{DynamicResource MaterialDesignToolForegroundButton}" Panel.ZIndex="0">
+                <materialDesign:PackIcon Kind="HandPointingLeft" Foreground="#FF44325F" />
+            </Button>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Text="FOLLOWERS" Margin="10 0" FontSize="16" FontWeight="Bold" Foreground="#FF2A6088" />
@@ -60,44 +63,10 @@
 
                 </StackPanel>
             </StackPanel>
-        </Grid>
-
-        <!-- Grid Main -->
-        <Grid x:Name="ActiveItem" Grid.Row="1" Grid.Column="1">
-            <materialDesign:Card Width="350" Margin="20">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="300" />
-                        <RowDefinition Height="60" />
-                        <RowDefinition Height="100" />
-                    </Grid.RowDefinitions>
-
-                    <Image Source="{Binding ImagePath}" x:Name="Viewer"  Margin="0 10" Width="230">
-                        <!--Image.Source>
-                            <Binding Path="../Assets/bg-01.jpg"  />
-                        </Image.Source>-->
-                    </Image>
-
-                    <StackPanel Grid.Row="1" Margin="10">
-                        <TextBlock  FontSize="15" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            Drop image here and press the green button to upload.
-                        </TextBlock>
-                    </StackPanel>
-                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10">
-
-                        <!-- Upload Image Button -->
-                        <Button x:Name="UploadImage" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" Foreground="White" Background="Green">
-                            <materialDesign:PackIcon Kind="Check" />
-                        </Button>
-
-                        <!-- Cancel Image Button -->
-                        <Button x:Name="Cancel" Width="100" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Foreground="White" Background="Black">
-                            <materialDesign:PackIcon Kind="Close" />
-                        </Button>
-                    </StackPanel>
-                </Grid>
-            </materialDesign:Card>
-        </Grid>
+        </Grid>      
+        
+        <!-- Content Control -->
+        <ContentControl x:Name="ActiveItem" Grid.Row="1" Grid.Column="1" />
 
         <!-- Grid Menu -->
         <Grid x:Name="GridMenu" Grid.Row="1" Width="70" HorizontalAlignment="Left" Background="#FF44325F">
@@ -122,20 +91,20 @@
                     </Button>
                 </Grid>
 
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Left"> 
-                    <StackPanel Orientation="Horizontal" Height="60" >
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                    <StackPanel  Visibility="{Binding IsCurrentUser, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" Height="60" HorizontalAlignment="Left">
                         <Button BorderBrush="#FF44325F" Height="60" Width="250" x:Name="UploadPhoto" Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0" >
-                            <StackPanel Orientation="Horizontal" >
-                                <materialDesign:PackIcon Kind="FileUploadOutline" Margin="-30 0 25 0" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                <TextBlock Text="Upload Photo" FontSize="20" VerticalAlignment="Center" FontFamily="Consolas"/>
+                            <StackPanel Orientation="Horizontal" Width="220">
+                                <materialDesign:PackIcon Kind="FileUploadOutline" Margin="5 0" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                <TextBlock Margin="20 0" Text="Upload Photo" FontSize="20" FontFamily="Consolas"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Height="60" >
-                        <Button BorderBrush="#FF44325F" Height="60" Width="250" x:Name="ViewFollowers" Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0" >
-                            <StackPanel Orientation="Horizontal" >
-                                <materialDesign:PackIcon Kind="FileUploadOutline" Margin="-55 0 25 0" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                <TextBlock Text="Followers" FontSize="20" VerticalAlignment="Center" FontFamily="Consolas"/>
+                    <StackPanel Orientation="Horizontal" Height="60"  >
+                        <Button BorderBrush="#FF44325F" Height="60" Width="250" x:Name="PhotosList" Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0" >
+                            <StackPanel Orientation="Horizontal" Width="220">
+                                <materialDesign:PackIcon Kind="PhotoAlbum" Margin="5 0" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                <TextBlock Margin="20 0" Text="Photos" FontSize="20" VerticalAlignment="Center" FontFamily="Consolas"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>

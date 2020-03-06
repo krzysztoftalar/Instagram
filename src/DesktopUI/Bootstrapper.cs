@@ -1,5 +1,5 @@
 ﻿using Caliburn.Micro;
-using DesktopUI.Library.Api.Profile;
+using DesktopUI.Library.Api.Profiles;
 using DesktopUI.Library.Api.User;
 using DesktopUI.Library.Helpers;
 using DesktopUI.Library.Models;
@@ -36,7 +36,8 @@ namespace DesktopUI
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
                 .Singleton<IApiHelper, ApiHelper>()
-                .Singleton<IAuthenticatedUser, AuthenticatedUser>();
+                .Singleton<IAuthenticatedUser, AuthenticatedUser>()
+                .Singleton<IProfile, Profile>();
 
             GetType().Assembly.GetTypes()
                 .Where(type => type.IsClass)

@@ -20,7 +20,8 @@ namespace DesktopUI.Library.Api.User
 
         public async Task Register(UserFormValues user)
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/user/register", user))
+            using (HttpResponseMessage response =
+                await _apiHelper.ApiClient.PostAsJsonAsync("/api/user/register", user))
             {
                 if (response.IsSuccessStatusCode)
                 {

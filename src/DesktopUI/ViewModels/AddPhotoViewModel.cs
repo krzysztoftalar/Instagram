@@ -1,13 +1,23 @@
 ﻿using Caliburn.Micro;
+using DesktopUI.Library.Api.Profiles;
 using Microsoft.Win32;
+using System;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace DesktopUI.ViewModels
 {
     public class AddPhotoViewModel : Screen
     {
-        public AddPhotoViewModel()
+        private readonly IEventAggregator _events;
+        private readonly IProfileEndpoint _profile;
+
+        public AddPhotoViewModel(IEventAggregator events, IProfileEndpoint profile)
         {
+            _events = events;
+            _profile = profile;
+
         }
 
         private Image _viewer;
@@ -34,45 +44,31 @@ namespace DesktopUI.ViewModels
             }
         }
 
-        public void UploadImage()
-        {
-            LoadImage();
-        }
-
-        private void LoadImage()
+        public void AddPhoto()
         {
             OpenFileDialog open = new OpenFileDialog();
             open.DefaultExt = (".png");
             open.Filter = "Pictures (*.jpg;*.gif;*.png)|*.jpg;*.gif;*.png";
 
             if (open.ShowDialog() == true)
+            {
                 ImagePath = open.FileName;
+            }
         }
 
-        //private BitmapImage LoadImageFromFile(string filename)
-        //{
-        //    using (var fs = File.OpenRead(filename))
-        //    {
+        public async Task UploadPhoto()
+        {
+            try
+            {
+                await _profile.UpoloadPhoto(ImagePath);
 
-        //        var img = new BitmapImage();
-        //        img.BeginInit();
-        //        img.UriSource = new Uri(filename, UriKind.Absolute);
-        //        img.CacheOption = BitmapCacheOption.OnLoad;
-        //        img.DecodePixelWidth = (int)SystemParameters.PrimaryScreenWidth;
-        //        img.StreamSource = fs;
-        //        img.EndInit();
-        //        return img;
-        //    }
-        //}
-
-        //public void FileDropped(object sender, DragEventArgs e)
-        //{
-        //    var data = e.Data as DataObject;
-        //    if (data.ContainsFileDropList())
-        //    {
-        //        var files = data.GetFileDropList();
-        //        //Viewer.Source = LoadImageFromFile(files[0]);
-        //    }
-        //}
+                MessageBox.Show("Image uploaded successfully", "Congratulations!",
+                   MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

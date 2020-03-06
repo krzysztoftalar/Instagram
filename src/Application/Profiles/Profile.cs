@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Domain.Entities;
+using System.Collections.Generic;
 
-namespace DesktopUI.Library.Models
+namespace Application.Profiles
 {
-    public class Profile : IProfile
+    public class Profile
     {
         public string DisplayName { get; set; }
         public string Username { get; set; }

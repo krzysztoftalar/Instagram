@@ -66,9 +66,9 @@ namespace DesktopUI.ViewModels
             {
                 var result = await _userEndpoint.Login(user);
 
-                //await _userEndpoint.CurrentUser(result.Token);
+                await _userEndpoint.CurrentUser(result.Token);
 
-                _events.PublishOnUIThread(ProjectSignals.Authenticated);
+                _events.PublishOnUIThread(Navigation.Main);
             }
             catch (Exception ex)
             {
@@ -78,7 +78,7 @@ namespace DesktopUI.ViewModels
 
         public void GoToRegister()
         {
-            _events.PublishOnUIThread(ProjectSignals.Register);
+            _events.PublishOnUIThread(Navigation.Register);
         }
     }
 }

@@ -1,19 +1,22 @@
 ﻿using DesktopUI.Library.Helpers;
+using DesktopUI.Library.Models;
 using System;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace DesktopUI.Library.Api.Profile
+namespace DesktopUI.Library.Api.Profiles
 {
     public class ProfileEndpoint : IProfileEndpoint
     {
         private readonly IApiHelper _apiHelper;
+        private readonly IProfile _profile;
 
-        public ProfileEndpoint(IApiHelper apiHelper)
+        public ProfileEndpoint(IApiHelper apiHelper, IProfile profile)
         {
             _apiHelper = apiHelper;
+            _profile = profile;
         }
 
         public async Task UpoloadPhoto(string photo)
@@ -40,6 +43,27 @@ namespace DesktopUI.Library.Api.Profile
                             }
                         }
                     }
+                }
+            }
+        }
+
+        public async Task<Profile> LoadProfile(string displayname)
+        {
+            using (HttpResponseMessage response =
+                await _apiHelper.ApiClient.GetAsync($"/api/profiles/{displayname}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<Profile>();
+                    _profile.DisplayName = result.DisplayName;
+                    _profile.Username = result.Username;
+                    _profile.Image = result.Image;
+                    _profile.Photos = result.Photos;
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
                 }
             }
         }

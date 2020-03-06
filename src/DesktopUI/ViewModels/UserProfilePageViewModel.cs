@@ -1,21 +1,28 @@
 ﻿using Caliburn.Micro;
-using DesktopUI.Library.Api.Profile;
-using Microsoft.Win32;
-using System;
-using System.Threading.Tasks;
+using DesktopUI.EventModels;
+using DesktopUI.Library.Models;
 using System.Windows.Controls;
 
 namespace DesktopUI.ViewModels
 {
-    public class UserProfilePageViewModel : Screen
+    public class UserProfilePageViewModel : Conductor<object>
     {
         private readonly IEventAggregator _events;
-        private readonly IProfileEndpoint _profile;
+        private readonly IProfile _profile;
+        private readonly IAuthenticatedUser _user;
 
-        public UserProfilePageViewModel(IEventAggregator events, IProfileEndpoint profile)
+        public UserProfilePageViewModel(IEventAggregator events, IProfile profile, IAuthenticatedUser user)
         {
             _events = events;
             _profile = profile;
+            _user = user;
+        }
+
+        protected override void OnViewLoaded(object view)
+        {
+            base.OnViewLoaded(view);
+
+            //IsLoggedIn = true;
         }
 
         private Image _viewer;
@@ -42,33 +49,31 @@ namespace DesktopUI.ViewModels
             }
         }
 
+        public bool IsCurrentUser
+        {
+            get
+            {
+                bool output = _user.DisplayName == _profile.DisplayName;
+
+                return output;
+            }
+        }
+
         public void UploadPhoto()
         {
-            LoadImage();
+            ActivateItem(IoC.Get<AddPhotoViewModel>());
         }
 
-        private void LoadImage()
+        public void PhotosList()
         {
-            OpenFileDialog open = new OpenFileDialog();
-            open.DefaultExt = (".png");
-            open.Filter = "Pictures (*.jpg;*.gif;*.png)|*.jpg;*.gif;*.png";
+            ActivateItem(IoC.Get<PhotosListViewModel>());
 
-            if (open.ShowDialog() == true)
-            {
-                ImagePath = open.FileName;
-            }
+            _events.PublishOnUIThread(new MessageEvent { Message = _profile.DisplayName });
         }
 
-        public async Task UploadImage()
+        public void BackToMainPage()
         {
-            try
-            {
-                await _profile.UpoloadPhoto(ImagePath);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            _events.PublishOnUIThread(Navigation.Main);
         }
     }
 }

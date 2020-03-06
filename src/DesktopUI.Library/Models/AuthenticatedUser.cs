@@ -2,11 +2,6 @@
 {
     public class AuthenticatedUser : IAuthenticatedUser
     {
-        public AuthenticatedUser()
-        {
-
-        }
-
         public string DisplayName { get; set; }
         public string Token { get; set; }
         public string Username { get; set; }

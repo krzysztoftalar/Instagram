@@ -100,7 +100,7 @@ namespace DesktopUI.ViewModels
                 MessageBox.Show("You have been successfully registered.", "Congratulations!",
                      MessageBoxButton.OK, MessageBoxImage.Information);
 
-                _events.PublishOnUIThread(ProjectSignals.Login);
+                _events.PublishOnUIThread(Navigation.Login);
             }
             catch (Exception ex)
             {
@@ -110,7 +110,7 @@ namespace DesktopUI.ViewModels
 
         public void GoToLogin()
         {
-            _events.PublishOnUIThread(ProjectSignals.Login);
+            _events.PublishOnUIThread(Navigation.Login);
         }
     }
 }
