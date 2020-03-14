@@ -3,7 +3,6 @@ using Application.User;
 using Application.User.Commands.Register;
 using Application.User.Queries.CurrentUser;
 using Application.User.Queries.Login;
-using Application.User.Queries.SearchUser;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -31,11 +30,5 @@ namespace WebUI.Controllers
         {
             return await Mediator.Send(new CurrentUserQuery());
         }
-
-        //[HttpGet]
-        //public async Task<ActionResult<UserDto>> SearchUser(string displayname)
-        //{
-        //    return await Mediator.Send(new SearchUserQuery { DisplayName = displayname });
-        //}
     }
 }

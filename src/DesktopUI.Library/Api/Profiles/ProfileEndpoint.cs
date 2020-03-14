@@ -47,10 +47,10 @@ namespace DesktopUI.Library.Api.Profiles
             }
         }
 
-        public async Task<Profile> LoadProfile(string displayname)
+        public async Task<Profile> LoadProfile(string username)
         {
             using (HttpResponseMessage response =
-                await _apiHelper.ApiClient.GetAsync($"/api/profiles/{displayname}"))
+                await _apiHelper.ApiClient.GetAsync($"/api/profiles/{username}"))
             {
                 if (response.IsSuccessStatusCode)
                 {
@@ -59,7 +59,26 @@ namespace DesktopUI.Library.Api.Profiles
                     _profile.Username = result.Username;
                     _profile.Image = result.Image;
                     _profile.Photos = result.Photos;
+                    _profile.Following = result.Following;
+                    _profile.FollowingsCount = result.FollowingsCount;
                     return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task Follow(string username)
+        {
+            using (HttpResponseMessage response =
+                await _apiHelper.ApiClient.PostAsJsonAsync($"/api/profiles/{username}/follow", new StringContent(string.Empty)))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    _profile.Following = true;
+                    _profile.FollowingsCount++;
                 }
                 else
                 {

@@ -8,10 +8,10 @@ namespace WebUI.Controllers
 {
     public class ProfilesController : BaseController
     {
-        [HttpGet("{displayname}")]
-        public async Task<ActionResult<Profile>> Details(string displayname)
+        [HttpGet("{username}")]
+        public async Task<ActionResult<Profile>> Details(string username)
         {
-            return await Mediator.Send(new ProfileDetailsQuery { DisplayName = displayname });
+            return await Mediator.Send(new ProfileDetailsQuery { Username = username });
         }
     }
 }

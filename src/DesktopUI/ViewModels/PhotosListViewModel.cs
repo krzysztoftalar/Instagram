@@ -9,7 +9,7 @@ namespace DesktopUI.ViewModels
     {
         private readonly IProfileEndpoint _profile;
         private readonly IEventAggregator _events;
-        private new string DisplayName;
+        private string Username;
 
         public PhotosListViewModel(IProfileEndpoint profile, IEventAggregator events)
         {
@@ -23,7 +23,7 @@ namespace DesktopUI.ViewModels
         {
             base.OnViewLoaded(view);
 
-            var profile = await _profile.LoadProfile(DisplayName);
+            var profile = await _profile.LoadProfile(Username);
             UserPhotos = new BindableCollection<Photo>(profile.Photos);
         }
 
@@ -41,7 +41,7 @@ namespace DesktopUI.ViewModels
 
         public void Handle(MessageEvent message)
         {
-            DisplayName = message.Message;
+            Username = message.Message;
         }
     }
 }

@@ -6,7 +6,10 @@ namespace DesktopUI.Library.Models
     {
         string DisplayName { get; set; }
         string Image { get; set; }
-        ICollection<Photo> Photos { get; set; }
         string Username { get; set; }
+        bool Following { get; set; }
+        int FollowingsCount { get; set; }
+        ICollection<Photo> Photos { get; set; }
+
     }
 }

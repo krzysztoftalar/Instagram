@@ -7,5 +7,6 @@ namespace DesktopUI.Library.Api.Profiles
     {
         Task UpoloadPhoto(string photo);
         Task<Profile> LoadProfile(string username);
+        Task Follow(string username);
     }
 }

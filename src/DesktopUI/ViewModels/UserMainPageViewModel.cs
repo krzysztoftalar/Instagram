@@ -3,6 +3,7 @@ using DesktopUI.EventModels;
 using DesktopUI.Library.Api.Profiles;
 using DesktopUI.Library.Models;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace DesktopUI.ViewModels
 {
@@ -10,13 +11,15 @@ namespace DesktopUI.ViewModels
     {
         private readonly IEventAggregator _events;
         private readonly IAuthenticatedUser _user;
-        private readonly IProfileEndpoint _profile;
+        private readonly IProfileEndpoint _profileEndpoint;
+        private readonly IProfile _profile;
 
         public UserMainPageViewModel(IEventAggregator events, IAuthenticatedUser user,
-            IProfileEndpoint profile)
+            IProfileEndpoint profileEndpoint, IProfile profile)
         {
             _events = events;
             _user = user;
+            _profileEndpoint = profileEndpoint;
             _profile = profile;
 
             ActivateItem(IoC.Get<PhotosListViewModel>());
@@ -27,9 +30,9 @@ namespace DesktopUI.ViewModels
             base.OnViewLoaded(view);
 
             Image = _user.Image;
-            DisplayName = _user.DisplayName;        
-                      
-            _events.PublishOnUIThread(new MessageEvent { Message = _user.DisplayName });
+            DisplayName = _user.DisplayName;
+
+            _events.PublishOnUIThread(new MessageEvent { Message = _user.Username });
         }
 
         private string _image;
@@ -108,15 +111,49 @@ namespace DesktopUI.ViewModels
         {
             IsUserFind = false;
 
-            var result = await _profile.LoadProfile(Search);
+            var result = await _profileEndpoint.LoadProfile(Search);
 
             if (result.Username.Length > 0)
             {
                 IsUserFind = true;
-                Search = "";
                 SearchUserImage = result.Image;
                 SearchUserDisplayName = result.DisplayName;
             }
+
+            NotifyOfPropertyChange(() => FollowBtnContent);
+            NotifyOfPropertyChange(() => FollowBtnBorder);
+        }
+
+        private string _followBtnContent;
+
+        public string FollowBtnContent
+        {
+            get { return _profile.Following ? "UNFOLLOW" : "FOLLOW"; }
+            set
+            {
+                _followBtnContent = value;
+                NotifyOfPropertyChange(() => FollowBtnContent);
+            }
+        }
+
+        private SolidColorBrush _followBtnBorder;
+
+        public SolidColorBrush FollowBtnBorder
+        {
+            get { return _profile.Following ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.Green); }
+            set
+            {
+                _followBtnBorder = value;
+                NotifyOfPropertyChange(() => FollowBtnBorder);
+            }
+        }
+
+
+        public async Task Follow()
+        {
+            await _profileEndpoint.Follow(Search);
+
+
         }
 
         public void ViewProfile()

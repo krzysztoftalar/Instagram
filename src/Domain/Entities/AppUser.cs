@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Entities
 {
@@ -12,5 +12,7 @@ namespace Domain.Entities
         }
         public string DisplayName { get; set; }
         public virtual ICollection<Photo> Photos { get; set; }
+        public virtual ICollection<UserFollowing> Followings { get; set; }
+        public virtual ICollection<UserFollowing> Followers { get; set; }
     }
 }

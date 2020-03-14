@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:DesktopUI.Views"
              mc:Ignorable="d" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              d:DesignHeight="600" d:DesignWidth="1080">
-    <Grid Background="#FF44325F">
+    <Grid Background="#FF44325F" x:Name="UserProfile">
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
             <RowDefinition Height="150" />
@@ -32,13 +32,13 @@
                     <TextBlock Text="FOLLOWING" Margin="10 0" FontSize="16" FontWeight="Bold" Foreground="#FF2A6088"/>
 
                     <!-- Following -->
-                    <TextBlock x:Name="Following" Text="{Binding FollowingCount}" HorizontalAlignment="Center" Margin="5 0 5 5" FontSize="16" Foreground="#FF2A6088"/>
+                    <TextBlock x:Name="Following" Text="{Binding FollowingsCount}" HorizontalAlignment="Center" Margin="5 0 5 5" FontSize="16" Foreground="#FF2A6088"/>
 
                 </StackPanel>
             </StackPanel>
         </Grid>
 
-        <!-- Right SideBar -->
+        <!-- Avatar -->
         <Grid Grid.Row="1" Grid.Column="1">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin=" 20 -75" >
 
@@ -82,10 +82,10 @@
                         <Button Style="{DynamicResource MaterialDesignToolButton}">
                             <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
                         </Button>
-                        
+
                         <!-- Search TextBox -->
                         <TextBox x:Name="Search" Grid.Column="1" Margin="8 0 0 0" materialDesign:HintAssist.Hint="Search" materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
-                        BorderThickness="0" MinWidth="200" VerticalAlignment="Center" />                        
+                        BorderThickness="0" MinWidth="200" VerticalAlignment="Center" />
                     </Grid>
                 </materialDesign:ColorZone>
             </StackPanel>
@@ -103,17 +103,57 @@
                         </Ellipse.Fill>
                     </Ellipse>
 
-                    <!-- View Profile Button-->                   
-                    <Button x:Name="ViewProfile" Width="120" Content="View Profile" Background="{x:Null}" BorderBrush="White"/>
-                
+                    <!-- Search User Display Name -->
+                    <TextBlock x:Name="SearchUserDisplayName" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Nirmala UI" Text="Name" FontSize="20" Foreground="White"/>
+
                 </StackPanel>
-                
-                <!-- Search User Display Name -->
-                <TextBlock x:Name="SearchUserDisplayName" VerticalAlignment="Center" Margin="5 0 0 50" FontFamily="Nirmala UI" Text="Name" FontSize="20" Foreground="White"/>
+                <StackPanel Orientation="Vertical">
+
+                    <!-- View Profile Button-->
+                    <Button x:Name="ViewProfile" Width="120" Margin="30" Content="View Profile" Background="{x:Null}" BorderBrush="White"/>
+
+                    <!-- Follow User Button-->
+                    <Button x:Name="Follow" Width="120" Content="{Binding FollowBtnContent}" Background="FloralWhite" Foreground="Black" BorderThickness="2" BorderBrush="{Binding FollowBtnBorder}"/>
+                </StackPanel>
             </StackPanel>
         </Grid>
 
         <!-- Photos List -->
         <ContentControl x:Name="ActiveItem" Grid.Row="2" Grid.Column="0" />
+
+        <!-- Subscription Panel -->
+        <Grid x:Name="Items" Grid.Row="2" Grid.Column="1" >
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <StackPanel Margin="20 0">
+
+                        <!-- User Followings List -->
+                        <ItemsControl x:Name="UserFollowings">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <Grid Height="50" >
+                                            <Ellipse Width="40" Height="40" StrokeThickness="0.5" Stroke="White" HorizontalAlignment="Left">
+                                                <Ellipse.Fill>
+                                                    <ImageBrush ImageSource="../Assets/bg-01.jpg" Stretch="UniformToFill"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                            <TextBlock Width="150" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White"  Margin="55 0" Text="Name" FontSize="10" TextWrapping="Wrap"/>
+                                            <Button HorizontalAlignment="Right" Content="FOLLOW" FontSize="10" Margin="10 0" Height="20" Padding="10 0"/>
+                                        </Grid>
+
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </UserControl>
