@@ -3,8 +3,10 @@ using Application.User;
 using Application.User.Commands.Register;
 using Application.User.Queries.CurrentUser;
 using Application.User.Queries.Login;
+using Application.User.Queries.Search;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace WebUI.Controllers
@@ -29,6 +31,12 @@ namespace WebUI.Controllers
         public async Task<ActionResult<UserDto>> CurrentUser()
         {
             return await Mediator.Send(new CurrentUserQuery());
+        }
+
+        [HttpGet("{displayname}")]
+        public async Task<ActionResult<List<UserDto>>> UsersList(string displayname)
+        {
+            return await Mediator.Send(new SearchUsersQuery { DisplayName = displayname });
         }
     }
 }

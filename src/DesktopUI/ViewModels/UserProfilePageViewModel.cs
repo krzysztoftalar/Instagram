@@ -1,61 +1,67 @@
 ﻿using Caliburn.Micro;
 using DesktopUI.EventModels;
+using DesktopUI.Library.Api.Profiles;
 using DesktopUI.Library.Models;
-using System.Windows.Controls;
 
 namespace DesktopUI.ViewModels
 {
-    public class UserProfilePageViewModel : Conductor<object>
+    public class UserProfilePageViewModel : Conductor<object>, IHandle<MessageEvent>
     {
         private readonly IEventAggregator _events;
-        private readonly IProfile _profile;
         private readonly IAuthenticatedUser _user;
+        private readonly IProfileEndpoint _profileEndpoint;
+        private string _username;
 
-        public UserProfilePageViewModel(IEventAggregator events, IProfile profile, IAuthenticatedUser user)
+        public UserProfilePageViewModel(IEventAggregator events, IAuthenticatedUser user,
+            IProfileEndpoint profileEndpoint)
         {
             _events = events;
-            _profile = profile;
             _user = user;
+            _profileEndpoint = profileEndpoint;
+
+            _events.Subscribe(this);
         }
 
-        protected override void OnViewLoaded(object view)
+        protected override async void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
 
-            //IsLoggedIn = true;
-        }
-
-        private Image _viewer;
-
-        public Image Viewer
-        {
-            get { return _viewer; }
-            set
-            {
-                _viewer = value;
-                NotifyOfPropertyChange(() => Viewer);
-            }
-        }
-
-        private string _imagePath;
-
-        public string ImagePath
-        {
-            get { return _imagePath; }
-            set
-            {
-                _imagePath = value;
-                NotifyOfPropertyChange(() => ImagePath);
-            }
+            var result = await _profileEndpoint.LoadProfile(_username);
+            FollowersCount = result.FollowersCount.ToString();
+            FollowingCount = result.FollowingCount.ToString();
         }
 
         public bool IsCurrentUser
         {
             get
             {
-                bool output = _user.DisplayName == _profile.DisplayName;
+                bool output = _user.Username == _username;
 
                 return output;
+            }
+        }
+
+        private string _followersCount;
+
+        public string FollowersCount
+        {
+            get => _followersCount;
+            set
+            {
+                _followersCount = value;
+                NotifyOfPropertyChange(() => FollowersCount);
+            }
+        }
+
+        private string _followingCount;
+
+        public string FollowingCount
+        {
+            get => _followingCount;
+            set
+            {
+                _followingCount = value;
+                NotifyOfPropertyChange(() => FollowingCount);
             }
         }
 
@@ -68,12 +74,31 @@ namespace DesktopUI.ViewModels
         {
             ActivateItem(IoC.Get<PhotosListViewModel>());
 
-            _events.PublishOnUIThread(new MessageEvent { Message = _profile.DisplayName });
+            _events.PublishOnUIThread(new MessageEvent { Message = _username });
+        }
+
+        public void LoadFollowing()
+        {
+            ActivateItem(IoC.Get<FollowersListViewModel>());
+
+            _events.PublishOnUIThread(new MessageEvent { Message = "following" });
+        }
+
+        public void LoadFollowers()
+        {
+            ActivateItem(IoC.Get<FollowersListViewModel>());
+
+            _events.PublishOnUIThread(new MessageEvent { Message = "followers" });
         }
 
         public void BackToMainPage()
         {
             _events.PublishOnUIThread(Navigation.Main);
+        }
+
+        public void Handle(MessageEvent message)
+        {
+            _username = message.Message;
         }
     }
 }

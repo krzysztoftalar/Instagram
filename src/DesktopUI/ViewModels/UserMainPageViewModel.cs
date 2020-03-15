@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using DesktopUI.EventModels;
 using DesktopUI.Library.Api.Profiles;
+using DesktopUI.Library.Api.User;
 using DesktopUI.Library.Models;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -13,14 +14,16 @@ namespace DesktopUI.ViewModels
         private readonly IAuthenticatedUser _user;
         private readonly IProfileEndpoint _profileEndpoint;
         private readonly IProfile _profile;
+        private readonly IUserEndpoint _userEndpoint;
 
         public UserMainPageViewModel(IEventAggregator events, IAuthenticatedUser user,
-            IProfileEndpoint profileEndpoint, IProfile profile)
+            IProfileEndpoint profileEndpoint, IProfile profile, IUserEndpoint userEndpoint)
         {
             _events = events;
             _user = user;
             _profileEndpoint = profileEndpoint;
             _profile = profile;
+            _userEndpoint = userEndpoint;
 
             ActivateItem(IoC.Get<PhotosListViewModel>());
         }
@@ -29,9 +32,6 @@ namespace DesktopUI.ViewModels
         {
             base.OnViewLoaded(view);
 
-            Image = _user.Image;
-            DisplayName = _user.DisplayName;
-
             _events.PublishOnUIThread(new MessageEvent { Message = _user.Username });
         }
 
@@ -39,7 +39,7 @@ namespace DesktopUI.ViewModels
 
         public string Image
         {
-            get => _image;
+            get => _image = _user.Image ?? "../Assets/user.png";
             set
             {
                 _image = value;
@@ -51,7 +51,7 @@ namespace DesktopUI.ViewModels
 
         public new string DisplayName
         {
-            get => _displayName;
+            get => _displayName = _user.DisplayName;
             set
             {
                 _displayName = value;
@@ -63,7 +63,7 @@ namespace DesktopUI.ViewModels
 
         public string SearchUserImage
         {
-            get => _searchUserImage;
+            get => _searchUserImage ?? "../Assets/user.png";
             set
             {
                 _searchUserImage = value;
@@ -113,11 +113,11 @@ namespace DesktopUI.ViewModels
 
             var result = await _profileEndpoint.LoadProfile(Search);
 
-            if (result.Username.Length > 0)
+            if (!string.IsNullOrEmpty(result.Username))
             {
                 IsUserFind = true;
                 SearchUserImage = result.Image;
-                SearchUserDisplayName = result.DisplayName;
+                SearchUserDisplayName = result.Username;
             }
 
             NotifyOfPropertyChange(() => FollowBtnContent);
@@ -148,12 +148,19 @@ namespace DesktopUI.ViewModels
             }
         }
 
-
         public async Task Follow()
         {
-            await _profileEndpoint.Follow(Search);
+            if (_profile.Following)
+            {
+                await _profileEndpoint.UnFollow(Search);
+            }
+            else
+            {
+                await _profileEndpoint.Follow(Search);
+            }
 
-
+            NotifyOfPropertyChange(() => FollowBtnContent);
+            NotifyOfPropertyChange(() => FollowBtnBorder);
         }
 
         public void ViewProfile()
@@ -166,6 +173,15 @@ namespace DesktopUI.ViewModels
         public void EditProfile()
         {
             _events.PublishOnUIThread(Navigation.Profile);
+
+            _events.PublishOnUIThread(new MessageEvent { Message = _user.Username });
+        }
+
+        public void Logout()
+        {
+            _user.ResetUserModel();
+            _userEndpoint.LogOffUser();
+            _events.PublishOnUIThread(Navigation.Login);
         }
     }
 }

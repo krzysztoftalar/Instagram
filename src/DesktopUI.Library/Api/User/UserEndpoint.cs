@@ -1,6 +1,7 @@
 ﻿using DesktopUI.Library.Helpers;
 using DesktopUI.Library.Models;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -23,11 +24,7 @@ namespace DesktopUI.Library.Api.User
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.PostAsJsonAsync("/api/user/register", user))
             {
-                if (response.IsSuccessStatusCode)
-                {
-
-                }
-                else
+                if (response.IsSuccessStatusCode == false)
                 {
                     throw new Exception(response.ReasonPhrase);
                 }
@@ -51,6 +48,11 @@ namespace DesktopUI.Library.Api.User
             }
         }
 
+        public void LogOffUser()
+        {
+            _apiHelper.ApiClient.DefaultRequestHeaders.Clear();
+        }
+
         public async Task<AuthenticatedUser> CurrentUser(string token)
         {
             _apiHelper.ApiClient.DefaultRequestHeaders.Clear();
@@ -67,6 +69,23 @@ namespace DesktopUI.Library.Api.User
                     _user.Username = result.Username;
                     _user.Image = result.Image;
                     _user.Token = result.Token;
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task<List<AuthenticatedUser>> UsersList(string displayname)
+        {
+            using (HttpResponseMessage response =
+                await _apiHelper.ApiClient.GetAsync($"/api/user/{displayname}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<List<AuthenticatedUser>>();
                     return result;
                 }
                 else

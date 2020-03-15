@@ -8,7 +8,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Followers.Commands
+namespace Application.Followers.Commands.Add
 {
     public class AddFollwersCommandHandler : IRequestHandler<AddFollwersCommand>
     {

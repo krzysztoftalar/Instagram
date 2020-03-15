@@ -8,7 +8,8 @@ namespace DesktopUI.Library.Models
         string Image { get; set; }
         string Username { get; set; }
         bool Following { get; set; }
-        int FollowingsCount { get; set; }
+        int FollowingCount { get; set; }
+        int FollowersCount { get; set; }
         ICollection<Photo> Photos { get; set; }
 
     }

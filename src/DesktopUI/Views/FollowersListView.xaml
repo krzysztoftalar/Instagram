@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="DesktopUI.Views.FollowersListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DesktopUI.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid  Background="#FF44325F">
+        <Grid Grid.Row="2" Grid.Column="1" >
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <StackPanel Margin="20 20">                       
+                        <ItemsControl x:Name="UserFollowing">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="20 0">
+                                        <Ellipse Height="100" VerticalAlignment="Top" Width="100" Margin="15" Stroke="White" StrokeThickness="1">
+                                            <Ellipse.Fill>                                             
+                                                <ImageBrush x:Name="Image" ImageSource="{Binding Image}" Stretch="UniformToFill"/>
+                                            </Ellipse.Fill>
+                                        </Ellipse>
+                                        <Button x:Name="ViewProfile" Content="{Binding DisplayName}" FontWeight="Bold" BorderBrush="White" Foreground="#FF2A6088" Width="150" FontSize="20" Margin="0 5" Background="White" FontFamily="Corbel" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>

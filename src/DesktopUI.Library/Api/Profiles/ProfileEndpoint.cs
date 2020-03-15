@@ -1,6 +1,7 @@
 ﻿using DesktopUI.Library.Helpers;
 using DesktopUI.Library.Models;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -12,11 +13,13 @@ namespace DesktopUI.Library.Api.Profiles
     {
         private readonly IApiHelper _apiHelper;
         private readonly IProfile _profile;
+        private readonly IAuthenticatedUser _user;
 
-        public ProfileEndpoint(IApiHelper apiHelper, IProfile profile)
+        public ProfileEndpoint(IApiHelper apiHelper, IProfile profile, IAuthenticatedUser user)
         {
             _apiHelper = apiHelper;
             _profile = profile;
+            _user = user;
         }
 
         public async Task UpoloadPhoto(string photo)
@@ -36,7 +39,12 @@ namespace DesktopUI.Library.Api.Profiles
                             using (HttpResponseMessage response =
                                 await _apiHelper.ApiClient.PostAsync("/api/photos", form))
                             {
-                                if (response.IsSuccessStatusCode == false)
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    var result = await response.Content.ReadAsAsync<Photo>();
+                                    _user.Image = result.Url;
+                                }
+                                else
                                 {
                                     throw new Exception(response.ReasonPhrase);
                                 }
@@ -60,7 +68,8 @@ namespace DesktopUI.Library.Api.Profiles
                     _profile.Image = result.Image;
                     _profile.Photos = result.Photos;
                     _profile.Following = result.Following;
-                    _profile.FollowingsCount = result.FollowingsCount;
+                    _profile.FollowingCount = result.FollowingCount;
+                    _profile.FollowersCount = result.FollowersCount;
                     return result;
                 }
                 else
@@ -73,12 +82,45 @@ namespace DesktopUI.Library.Api.Profiles
         public async Task Follow(string username)
         {
             using (HttpResponseMessage response =
-                await _apiHelper.ApiClient.PostAsJsonAsync($"/api/profiles/{username}/follow", new StringContent(string.Empty)))
+                await _apiHelper.ApiClient.PostAsJsonAsync($"/api/profiles/{username}/follow",
+                new StringContent(string.Empty)))
             {
                 if (response.IsSuccessStatusCode)
                 {
                     _profile.Following = true;
-                    _profile.FollowingsCount++;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task UnFollow(string username)
+        {
+            using (HttpResponseMessage response =
+                await _apiHelper.ApiClient.DeleteAsync($"/api/profiles/{username}/follow"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    _profile.Following = false;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task<List<Profile>> LoadFollowing(string username, string predicate)
+        {
+            using (HttpResponseMessage response =
+                await _apiHelper.ApiClient.GetAsync($"/api/profiles/{username}/follow?predicate={predicate}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<List<Profile>>();
+                    return result;
                 }
                 else
                 {

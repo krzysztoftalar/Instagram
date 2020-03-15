@@ -6,5 +6,6 @@
         string Image { get; set; }
         string Token { get; set; }
         string Username { get; set; }
+        void ResetUserModel();
     }
 }

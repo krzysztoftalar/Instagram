@@ -52,14 +52,14 @@
                     <TextBlock Text="FOLLOWERS" Margin="10 0" FontSize="16" FontWeight="Bold" Foreground="#FF2A6088" />
 
                     <!-- Followers -->
-                    <TextBlock x:Name="Followers" Text="{Binding FollowersCount}" HorizontalAlignment="Center" Margin="5 0 5 5" FontSize="16" Foreground="#FF2A6088"/>
+                    <TextBlock Text="{Binding FollowersCount}" HorizontalAlignment="Center" Margin="5 0 5 5" FontSize="16" Foreground="#FF2A6088"/>
 
                 </StackPanel>
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Text="FOLLOWING" Margin="10 0" FontSize="16" FontWeight="Bold" Foreground="#FF2A6088"/>
 
                     <!-- Following -->
-                    <TextBlock x:Name="Following" Text="{Binding FollowingCount}" HorizontalAlignment="Center" Margin="5 0 5 5" FontSize="16" Foreground="#FF2A6088"/>
+                    <TextBlock Text="{Binding FollowingCount}" HorizontalAlignment="Center" Margin="5 0 5 5" FontSize="16" Foreground="#FF2A6088"/>
 
                 </StackPanel>
             </StackPanel>
@@ -105,6 +105,22 @@
                             <StackPanel Orientation="Horizontal" Width="220">
                                 <materialDesign:PackIcon Kind="PhotoAlbum" Margin="5 0" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Left" />
                                 <TextBlock Margin="20 0" Text="Photos" FontSize="20" VerticalAlignment="Center" FontFamily="Consolas"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Height="60"  >
+                        <Button BorderBrush="#FF44325F" Height="60" Width="250" x:Name="LoadFollowers" Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0" >
+                            <StackPanel Orientation="Horizontal" Width="220">
+                                <materialDesign:PackIcon Kind="AccountArrowLeft" Margin="5 0" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                <TextBlock Margin="20 0" Text="Followers" FontSize="20" VerticalAlignment="Center" FontFamily="Consolas"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Height="60"  >
+                        <Button BorderBrush="#FF44325F" Height="60" Width="250" x:Name="LoadFollowing" Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0" >
+                            <StackPanel Orientation="Horizontal" Width="220">
+                                <materialDesign:PackIcon Kind="AccountArrowRight" Margin="5 0" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                <TextBlock Margin="20 0" Text="Following" FontSize="20" VerticalAlignment="Center" FontFamily="Consolas"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>

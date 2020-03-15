@@ -19,28 +19,6 @@ namespace DesktopUI.ViewModels
             _events.Subscribe(this);
         }
 
-        //protected override async void OnViewLoaded(object view)
-        //{
-        //    try
-        //    {
-        //        await _userEndpoint.CurrentUser(_user.Token);
-        //    }
-        //    catch
-        //    {
-
-        //    }
-        //}
-
-        //public bool IsLoggedIn
-        //{
-        //    get
-        //    {
-        //        bool output = string.IsNullOrWhiteSpace(_user.Token) == false;
-
-        //        return output;
-        //    }
-        //}
-
         public void Handle(Navigation message)
         {
             switch (message)
@@ -55,7 +33,6 @@ namespace DesktopUI.ViewModels
 
                 case Navigation.Main:
                     ActivateItem(IoC.Get<UserMainPageViewModel>());
-                    //NotifyOfPropertyChange(() => IsLoggedIn);
                     break;
 
                 case Navigation.Profile:

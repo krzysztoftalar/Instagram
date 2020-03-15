@@ -170,6 +170,7 @@
     <Compile Include="EventModels\Navigation.cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
     <Compile Include="ViewModels\AddPhotoViewModel.cs" />
+    <Compile Include="ViewModels\FollowersListViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\PhotosListViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
@@ -178,6 +179,9 @@
     <Compile Include="ViewModels\UserProfilePageViewModel.cs" />
     <Compile Include="Views\AddPhotoView.xaml.cs">
       <DependentUpon>AddPhotoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FollowersListView.xaml.cs">
+      <DependentUpon>FollowersListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
@@ -231,6 +235,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\AddPhotoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FollowersListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
