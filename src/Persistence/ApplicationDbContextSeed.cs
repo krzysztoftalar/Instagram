@@ -53,7 +53,7 @@ namespace Persistence
                     {
                         Id = "f",
                         DisplayName = "Tom",
-                        UserName = "tom1167",
+                        UserName = "tomek1167",
                         Email = "tomek@test.com"
                     },
                     new AppUser

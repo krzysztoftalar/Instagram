@@ -1,5 +1,5 @@
 ﻿using Caliburn.Micro;
-using DesktopUI.Library.Api.Profiles;
+using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Api.User;
 using DesktopUI.Library.Helpers;
 using DesktopUI.Library.Models;

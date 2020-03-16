@@ -25,6 +25,7 @@ namespace WebUI
                 {
                     var context = services.GetRequiredService<ApplicationDbContext>();
                     var userManager = services.GetRequiredService<UserManager<AppUser>>();
+
                     context.Database.Migrate();
                     await ApplicationDbContextSeed.SeedData(context, userManager);
 

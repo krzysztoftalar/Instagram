@@ -1,6 +1,6 @@
 ﻿using Caliburn.Micro;
 using DesktopUI.EventModels;
-using DesktopUI.Library.Api.Profiles;
+using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Models;
 
 namespace DesktopUI.ViewModels
@@ -55,7 +55,7 @@ namespace DesktopUI.ViewModels
 
         public void Handle(MessageEvent message)
         {
-            _predicate = message.Message;
+            _predicate = message.Predicate;
         }
     }
 }

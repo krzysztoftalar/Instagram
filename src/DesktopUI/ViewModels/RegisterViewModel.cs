@@ -78,8 +78,29 @@ namespace DesktopUI.ViewModels
             {
                 bool output = Username?.Length > 0 && DisplayName?.Length > 0 &&
                     Email?.Length > 0 && Password?.Length > 0;
-
                 return output;
+            }
+        }
+
+        public bool IsErrorVisible
+        {
+            get
+            {
+                bool output = ErrorMessage?.Length > 0;
+                return output;
+            }
+        }
+
+        private string _errorMessage;
+
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set
+            {
+                _errorMessage = value;
+                NotifyOfPropertyChange(() => ErrorMessage);
+                NotifyOfPropertyChange(() => IsErrorVisible);
             }
         }
 
@@ -104,7 +125,7 @@ namespace DesktopUI.ViewModels
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                ErrorMessage = ex.Message;
             }
         }
 

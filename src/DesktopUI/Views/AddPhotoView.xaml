@@ -7,34 +7,34 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="800" >
-    <Grid Background="#FF44325F">
-        <materialDesign:Card Width="350" Height="460" Margin="20">
+    <Grid Background="#FF44325F">        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="400" />
+        </Grid.ColumnDefinitions>
+
+        <materialDesign:Card Width="350" Height="350" Grid.Column="0" Margin="20">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="300" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="100" />
-                </Grid.RowDefinitions>
+                    <RowDefinition Height="350" />                                   
+                </Grid.RowDefinitions>               
 
-                <!-- Photo to Upload -->
-                <Image Source="{Binding ImagePath}" x:Name="Viewer" Margin="10 10" />
-
-                <!-- Add Photo Button -->
-                <Button x:Name="AddPhoto" BorderBrush="#FF2281D1" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Gray" Background="White" Content="Add Photo" Grid.Row="1" Width="220"/>
-
-                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10">
-
-                    <!-- Upload Photo Button -->
-                    <Button x:Name="UploadPhoto" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" Foreground="White" Background="Green">
-                        <materialDesign:PackIcon Kind="Check" />
-                    </Button>
-
-                    <!-- Cancel Photo Button -->
-                    <Button x:Name="Cancel" Width="100" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Foreground="White" Background="Black">
-                        <materialDesign:PackIcon Kind="Close" />
-                    </Button>
-                </StackPanel>
+                <!-- Photo -->
+                <Image Source="{Binding ImagePath}" Margin="10 10" />            
             </Grid>
         </materialDesign:Card>
+
+        <Grid Grid.Column="1">
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+                
+                <!-- Add Photo Button -->
+                <Button x:Name="AddPhoto" BorderBrush="#FF2281D1" Foreground="Gray" Background="White" Content="Add Photo" Grid.Row="1" Width="150"/>
+
+                <!-- Upload Photo Button -->
+                <Button x:Name="UploadPhoto" Width="150" Margin="20" Foreground="White" Background="Green">
+                    <materialDesign:PackIcon Kind="Check" />
+                </Button>
+            </StackPanel>           
+        </Grid> 
     </Grid>
 </UserControl>

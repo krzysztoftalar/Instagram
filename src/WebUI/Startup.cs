@@ -78,7 +78,8 @@ namespace WebUI
                 });
             });
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes
+                (Configuration.GetValue<string>("TokenKey:SecurityKey")));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -109,7 +110,7 @@ namespace WebUI
             app.UseMiddleware<ErrorHandlingMiddleware>();
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
             }
 
             //app.UseHttpsRedirection();

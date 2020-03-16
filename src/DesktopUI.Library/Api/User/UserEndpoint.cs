@@ -78,7 +78,7 @@ namespace DesktopUI.Library.Api.User
             }
         }
 
-        public async Task<List<AuthenticatedUser>> UsersList(string displayname)
+        public async Task<List<AuthenticatedUser>> SearchUsers(string displayname)
         {
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.GetAsync($"/api/user/{displayname}"))

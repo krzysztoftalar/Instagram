@@ -9,7 +9,7 @@
     <Grid Background="#FF44325F">
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
-            <RowDefinition Height="150" />
+            <RowDefinition Height="100" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -21,7 +21,7 @@
         <Grid Grid.Row="0" Background="White" Grid.ColumnSpan="2">
             <Image Source="../Assets/insta.jpg" HorizontalAlignment="Left" Margin="10 0"/>
             <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="15 15">
-                <StackPanel Width="150">                   
+                <StackPanel Width="150">
                     <Button cal:Message.Attach="[Event Click] = [Action EditProfile()]" Content="Account" />
                     <Separator/>
                     <Button cal:Message.Attach="[Event Click] = [Action Logout()]" Content="Logout" />
@@ -45,9 +45,6 @@
 
                         </Ellipse.Fill>
                     </Ellipse>
-
-                    <!-- Edit Profile Button-->
-                    <!--<Button x:Name="EditProfile" HorizontalAlignment="Center" Margin="10" Content="Edit Profile" Background="{x:Null}" BorderBrush="White"/>-->
                 </StackPanel>
             </StackPanel>
         </Grid>
@@ -83,70 +80,34 @@
             <!-- Search Users Button -->
             <Button x:Name="SearchUsers" VerticalAlignment="Top" Grid.Column="1" Style="{DynamicResource MaterialDesignToolForegroundButton}" Margin="0 35" Panel.ZIndex="0">
                 <materialDesign:PackIcon Kind="Send" Foreground="White" />
-            </Button>
-
-            <StackPanel Visibility="{Binding IsUserFind, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" Grid.Column="2" Orientation="Horizontal">
-                <StackPanel>
-                    <Ellipse  Height="70" VerticalAlignment="Top" Width="70" Margin="15" Stroke="White" StrokeThickness="3">
-                        <Ellipse.Fill>
-                            <ImageBrush x:Name="SearchUserImage" ImageSource="{Binding SearchUserImage}" Stretch="UniformToFill"/>
-                        </Ellipse.Fill>
-                    </Ellipse>
-
-                    <!-- Search User Display Name -->
-                    <TextBlock x:Name="SearchUserDisplayName" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Nirmala UI" Text="Name" FontSize="20" Foreground="White"/>
-
-                </StackPanel>
-                <StackPanel Orientation="Vertical">
-
-                    <!-- View Profile Button-->
-                    <Button x:Name="ViewProfile" Width="120" Margin="30" Content="View Profile" Background="{x:Null}" BorderBrush="White"/>
-
-                    <!-- Follow User Button-->
-                    <Button x:Name="Follow" Width="120" Content="{Binding FollowBtnContent}" Background="FloralWhite" Foreground="Black" BorderThickness="2" BorderBrush="{Binding FollowBtnBorder}"/>
-                </StackPanel>
-            </StackPanel>
+            </Button>           
         </Grid>
 
         <!-- Photos List -->
         <ContentControl x:Name="ActiveItem" Grid.Row="2" Grid.Column="0" />
 
         <!-- Search Users List -->
-        <!--<Grid Grid.Row="2" Grid.Column="1">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel>
-                    <StackPanel Margin="40 20 0 0">                    
-                        <ItemsControl x:Name="UsersList">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Margin="0 0 0 0" Height="100" Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <Ellipse Width="90" Height="90" StrokeThickness="0.5" Stroke="White" HorizontalAlignment="Left">
-                                            <Ellipse.Fill>
-                                                <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill"/>
-                                            </Ellipse.Fill>
-                                        </Ellipse>
+        <Grid Grid.Row="2" Grid.Column="1">
+            <ListBox x:Name="UsersList" SelectedItem="{Binding SelectedUser}" Margin="20 0 0 0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="80 0 0 0">
+                            <Ellipse Width="90" Height="90" StrokeThickness="0.5" Stroke="White" HorizontalAlignment="Left">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
 
-                                        -->
-        <!-- View Profile Button-->
-        <!--
-                                        <Button x:Name="ViewProfile" Content="{Binding DisplayName}" FontWeight="Bold" BorderBrush="White" Foreground="#FF2A6088" Width="150" FontSize="20" Margin="20" Background="White" FontFamily="Corbel" />
-
-                                        -->
-        <!-- Follow User Button-->
-        <!--<Button x:Name="Followa" BorderBrush="{Binding FollowBtnBorder}" Content="{Binding FollowBtnContent}" Width="120" Background="White" Foreground="Black" BorderThickness="2" Margin="10" FontFamily="Corbel" FontSize="20"/>-->
-        <!--
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
-                    </StackPanel>
-                </StackPanel>
-            </ScrollViewer>         
-        </Grid>-->
+                            <!-- View Profile -->
+                            <materialDesign:Chip Content="{Binding DisplayName}" IconBackground="{DynamicResource PrimaryHueDarkBrush}" IsEnabled="False" FontWeight="Bold" BorderBrush="White" Foreground="#FF2A6088" FontSize="20" Margin="20 0" Background="White" FontFamily="Corbel" IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                                <materialDesign:Chip.Icon>
+                                    <materialDesign:PackIcon Kind="Instagram"></materialDesign:PackIcon>
+                                </materialDesign:Chip.Icon>
+                            </materialDesign:Chip>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
     </Grid>
 </UserControl>

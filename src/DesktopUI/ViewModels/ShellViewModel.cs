@@ -1,20 +1,17 @@
 ﻿using Caliburn.Micro;
 using DesktopUI.EventModels;
-using DesktopUI.Library.Models;
 
 namespace DesktopUI.ViewModels
 {
     public class ShellViewModel : Conductor<object>, IHandle<Navigation>
     {
         private readonly IEventAggregator _events;
-        private readonly IAuthenticatedUser _user;
 
-        public ShellViewModel(IEventAggregator events, IAuthenticatedUser user)
+        public ShellViewModel(IEventAggregator events)
         {
             ActivateItem(IoC.Get<LoginViewModel>());
 
             _events = events;
-            _user = user;
 
             _events.Subscribe(this);
         }

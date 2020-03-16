@@ -1,35 +1,19 @@
 ﻿using Caliburn.Micro;
-using DesktopUI.Library.Api.Profiles;
+using DesktopUI.Library.Api.Profile;
 using Microsoft.Win32;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace DesktopUI.ViewModels
 {
     public class AddPhotoViewModel : Screen
     {
-        private readonly IEventAggregator _events;
         private readonly IProfileEndpoint _profile;
 
-        public AddPhotoViewModel(IEventAggregator events, IProfileEndpoint profile)
+        public AddPhotoViewModel(IProfileEndpoint profile)
         {
-            _events = events;
             _profile = profile;
-
-        }
-
-        private Image _viewer;
-
-        public Image Viewer
-        {
-            get { return _viewer; }
-            set
-            {
-                _viewer = value;
-                NotifyOfPropertyChange(() => Viewer);
-            }
         }
 
         private string _imagePath;

@@ -29,14 +29,18 @@ namespace Application.Followers.Commands.Delete
                 x.UserName == request.Username);
 
             if (target == null)
+            {
                 throw new RestException(HttpStatusCode.NotFound, new { User = "Not Found" });
+            }
 
             var following = await _context.Followings.SingleOrDefaultAsync(x =>
                 x.ObserverId == observer.Id && x.TargetId == target.Id);
 
             if (following == null)
+            {
                 throw new RestException(HttpStatusCode.BadRequest,
-                    new { User = "You are not following this user" });
+                   new { User = "You are not following this user" });
+            }               
 
             if (following != null)
             {

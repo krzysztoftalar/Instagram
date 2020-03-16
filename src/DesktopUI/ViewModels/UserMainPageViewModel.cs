@@ -1,10 +1,8 @@
 ﻿using Caliburn.Micro;
 using DesktopUI.EventModels;
-using DesktopUI.Library.Api.Profiles;
 using DesktopUI.Library.Api.User;
 using DesktopUI.Library.Models;
 using System.Threading.Tasks;
-using System.Windows.Media;
 
 namespace DesktopUI.ViewModels
 {
@@ -12,17 +10,13 @@ namespace DesktopUI.ViewModels
     {
         private readonly IEventAggregator _events;
         private readonly IAuthenticatedUser _user;
-        private readonly IProfileEndpoint _profileEndpoint;
-        private readonly IProfile _profile;
         private readonly IUserEndpoint _userEndpoint;
 
         public UserMainPageViewModel(IEventAggregator events, IAuthenticatedUser user,
-            IProfileEndpoint profileEndpoint, IProfile profile, IUserEndpoint userEndpoint)
+            IUserEndpoint userEndpoint)
         {
             _events = events;
             _user = user;
-            _profileEndpoint = profileEndpoint;
-            _profile = profile;
             _userEndpoint = userEndpoint;
 
             ActivateItem(IoC.Get<PhotosListViewModel>());
@@ -32,7 +26,7 @@ namespace DesktopUI.ViewModels
         {
             base.OnViewLoaded(view);
 
-            _events.PublishOnUIThread(new MessageEvent { Message = _user.Username });
+            _events.PublishOnUIThread(new MessageEvent { Username = _user.Username });
         }
 
         private string _image;
@@ -59,18 +53,6 @@ namespace DesktopUI.ViewModels
             }
         }
 
-        private string _searchUserImage;
-
-        public string SearchUserImage
-        {
-            get => _searchUserImage ?? "../Assets/user.png";
-            set
-            {
-                _searchUserImage = value;
-                NotifyOfPropertyChange(() => SearchUserImage);
-            }
-        }
-
         private string _search;
 
         public string Search
@@ -83,98 +65,49 @@ namespace DesktopUI.ViewModels
             }
         }
 
-        private bool _isUserFind;
+        private BindableCollection<AuthenticatedUser> _usersList;
 
-        public bool IsUserFind
+        public BindableCollection<AuthenticatedUser> UsersList
         {
-            get => _isUserFind;
+            get { return _usersList; }
             set
             {
-                _isUserFind = value;
-                NotifyOfPropertyChange(() => IsUserFind);
+                _usersList = value;
+                NotifyOfPropertyChange(() => UsersList);
             }
         }
 
-        private string _searchUserDisplayName;
+        private AuthenticatedUser _selectedUser;
 
-        public string SearchUserDisplayName
+        public AuthenticatedUser SelectedUser
         {
-            get => _searchUserDisplayName;
+            get { return _selectedUser; }
             set
             {
-                _searchUserDisplayName = value;
-                NotifyOfPropertyChange(() => SearchUserDisplayName);
+                _selectedUser = value;
+                NotifyOfPropertyChange(() => SelectedUser);
+                ViewProfile();
             }
         }
 
         public async Task SearchUsers()
         {
-            IsUserFind = false;
-
-            var result = await _profileEndpoint.LoadProfile(Search);
-
-            if (!string.IsNullOrEmpty(result.Username))
-            {
-                IsUserFind = true;
-                SearchUserImage = result.Image;
-                SearchUserDisplayName = result.Username;
-            }
-
-            NotifyOfPropertyChange(() => FollowBtnContent);
-            NotifyOfPropertyChange(() => FollowBtnBorder);
-        }
-
-        private string _followBtnContent;
-
-        public string FollowBtnContent
-        {
-            get { return _profile.Following ? "UNFOLLOW" : "FOLLOW"; }
-            set
-            {
-                _followBtnContent = value;
-                NotifyOfPropertyChange(() => FollowBtnContent);
-            }
-        }
-
-        private SolidColorBrush _followBtnBorder;
-
-        public SolidColorBrush FollowBtnBorder
-        {
-            get { return _profile.Following ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.Green); }
-            set
-            {
-                _followBtnBorder = value;
-                NotifyOfPropertyChange(() => FollowBtnBorder);
-            }
-        }
-
-        public async Task Follow()
-        {
-            if (_profile.Following)
-            {
-                await _profileEndpoint.UnFollow(Search);
-            }
-            else
-            {
-                await _profileEndpoint.Follow(Search);
-            }
-
-            NotifyOfPropertyChange(() => FollowBtnContent);
-            NotifyOfPropertyChange(() => FollowBtnBorder);
+            var result = await _userEndpoint.SearchUsers(Search);
+            UsersList = new BindableCollection<AuthenticatedUser>(result);
         }
 
         public void ViewProfile()
         {
             _events.PublishOnUIThread(Navigation.Profile);
 
-            _events.PublishOnUIThread(new MessageEvent { Message = SearchUserDisplayName });
+            _events.PublishOnUIThread(new MessageEvent { Username = SelectedUser.Username });
         }
 
         public void EditProfile()
         {
             _events.PublishOnUIThread(Navigation.Profile);
 
-            _events.PublishOnUIThread(new MessageEvent { Message = _user.Username });
+            _events.PublishOnUIThread(new MessageEvent { Username = _user.Username });
         }
 
         public void Logout()

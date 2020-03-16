@@ -31,32 +31,32 @@ namespace Application.Followers.Queries.List
             switch (request.Predicate)
             {
                 case "followers":
+                {
+                    userFollowings = await queryable
+                        .Where(x => x.Target.UserName == request.Username)
+                        .ToListAsync();
+
+                    foreach (var follower in userFollowings)
                     {
-                        userFollowings = await queryable
-                            .Where(x => x.Target.UserName == request.Username)
-                            .ToListAsync();
-
-                        foreach (var follower in userFollowings)
-                        {
-                            profiles.Add(await _profileReader.ReadProfile(follower.Observer.UserName));
-                        }
-
-                        break;
+                        profiles.Add(await _profileReader.ReadProfile(follower.Observer.UserName));
                     }
+
+                    break;
+                }
 
                 case "following":
+                {
+                    userFollowings = await queryable
+                        .Where(x => x.Observer.UserName == request.Username)
+                        .ToListAsync();
+
+                    foreach (var follower in userFollowings)
                     {
-                        userFollowings = await queryable
-                            .Where(x => x.Observer.UserName == request.Username)
-                            .ToListAsync();
-
-                        foreach (var follower in userFollowings)
-                        {
-                            profiles.Add(await _profileReader.ReadProfile(follower.Target.UserName));
-                        }
-
-                        break;
+                        profiles.Add(await _profileReader.ReadProfile(follower.Target.UserName));
                     }
+
+                    break;
+                }
             }
 
             return profiles;

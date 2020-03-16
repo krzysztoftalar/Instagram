@@ -27,7 +27,10 @@
 
             <Grid VerticalAlignment="Bottom" Margin="35 80" Height="280">
                 <Label Content="Welcom to Instagram" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="Gray" FontSize="18"/>
-                <StackPanel VerticalAlignment="Center" Margin="15">                  
+                <StackPanel VerticalAlignment="Top" Margin="15 50">
+
+                    <!-- Error Message -->
+                    <TextBlock x:Name="ErrorMessage" Foreground="Red" FontSize="18" TextWrapping="Wrap" Margin="0 5" />
 
                     <!-- Email -->
                     <TextBox x:Name="Email" Margin="0 5" materialDesign:HintAssist.Hint="Email" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>
@@ -42,7 +45,6 @@
 
             <!-- Register Button -->
             <Button x:Name="GoToRegister" Width="250" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Foreground="Gray" Background="White" Content="Don't Have an Account?"/>
-            
             <Image Stretch="Uniform" Source="../Assets/home.png" Width="100" Height="100" VerticalAlignment="Top" Margin="10"/>
         </Grid>
     </Grid>

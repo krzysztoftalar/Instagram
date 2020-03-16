@@ -1,20 +1,22 @@
 ﻿using Caliburn.Micro;
 using DesktopUI.EventModels;
-using DesktopUI.Library.Api.Profiles;
+using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Models;
 
 namespace DesktopUI.ViewModels
 {
     public class PhotosListViewModel : Screen, IHandle<MessageEvent>
     {
-        private readonly IProfileEndpoint _profile;
+        private readonly IProfileEndpoint _profileEndpoint;
         private readonly IEventAggregator _events;
+        private readonly IProfile _profile;
         private string Username;
 
-        public PhotosListViewModel(IProfileEndpoint profile, IEventAggregator events)
+        public PhotosListViewModel(IProfileEndpoint profileEndpoint, IEventAggregator events, IProfile profile)
         {
-            _profile = profile;
+            _profileEndpoint = profileEndpoint;
             _events = events;
+            _profile = profile;
 
             _events.Subscribe(this);
         }
@@ -23,7 +25,8 @@ namespace DesktopUI.ViewModels
         {
             base.OnViewLoaded(view);
 
-            var profile = await _profile.LoadProfile(Username);
+            var username = _profile.Username ?? Username; 
+            var profile = await _profileEndpoint.LoadProfile(username);
             UserPhotos = new BindableCollection<Photo>(profile.Photos);
         }
 
@@ -41,7 +44,7 @@ namespace DesktopUI.ViewModels
 
         public void Handle(MessageEvent message)
         {
-            Username = message.Message;
+            Username = message.Username;
         }
     }
 }

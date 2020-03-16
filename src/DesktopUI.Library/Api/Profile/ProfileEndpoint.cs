@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace DesktopUI.Library.Api.Profiles
+namespace DesktopUI.Library.Api.Profile
 {
     public class ProfileEndpoint : IProfileEndpoint
     {
@@ -55,14 +55,14 @@ namespace DesktopUI.Library.Api.Profiles
             }
         }
 
-        public async Task<Profile> LoadProfile(string username)
+        public async Task<Models.Profile> LoadProfile(string username)
         {
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.GetAsync($"/api/profiles/{username}"))
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsAsync<Profile>();
+                    var result = await response.Content.ReadAsAsync<Models.Profile>();
                     _profile.DisplayName = result.DisplayName;
                     _profile.Username = result.Username;
                     _profile.Image = result.Image;
@@ -88,6 +88,7 @@ namespace DesktopUI.Library.Api.Profiles
                 if (response.IsSuccessStatusCode)
                 {
                     _profile.Following = true;
+                    _profile.FollowersCount++;
                 }
                 else
                 {
@@ -104,6 +105,7 @@ namespace DesktopUI.Library.Api.Profiles
                 if (response.IsSuccessStatusCode)
                 {
                     _profile.Following = false;
+                    _profile.FollowersCount--;
                 }
                 else
                 {
@@ -112,14 +114,14 @@ namespace DesktopUI.Library.Api.Profiles
             }
         }
 
-        public async Task<List<Profile>> LoadFollowing(string username, string predicate)
+        public async Task<List<Models.Profile>> LoadFollowing(string username, string predicate)
         {
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.GetAsync($"/api/profiles/{username}/follow?predicate={predicate}"))
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsAsync<List<Profile>>();
+                    var result = await response.Content.ReadAsAsync<List<Models.Profile>>();
                     return result;
                 }
                 else

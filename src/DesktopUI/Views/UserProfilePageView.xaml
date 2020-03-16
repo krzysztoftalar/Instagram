@@ -34,6 +34,7 @@
     <Grid Background="#FF44325F">
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
+            <RowDefinition Height="100"/>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -53,28 +54,52 @@
 
                     <!-- Followers -->
                     <TextBlock Text="{Binding FollowersCount}" HorizontalAlignment="Center" Margin="5 0 5 5" FontSize="16" Foreground="#FF2A6088"/>
-
                 </StackPanel>
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Text="FOLLOWING" Margin="10 0" FontSize="16" FontWeight="Bold" Foreground="#FF2A6088"/>
 
                     <!-- Following -->
                     <TextBlock Text="{Binding FollowingCount}" HorizontalAlignment="Center" Margin="5 0 5 5" FontSize="16" Foreground="#FF2A6088"/>
-
                 </StackPanel>
             </StackPanel>
-        </Grid>      
-        
+        </Grid>
+
+        <!-- Avatar -->
+        <Grid Grid.Row="1" Grid.Column="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="40 -75" >
+                <StackPanel Orientation="Vertical" Margin="10" VerticalAlignment="Top">
+
+                    <!-- User Display Name -->
+                    <TextBlock x:Name="DisplayName" HorizontalAlignment="Center" FontFamily="Nirmala UI" Text="Name" FontSize="30" Margin="20" VerticalAlignment="Center" Foreground="#FF2A6088"/>
+
+                    <!-- Follow User Button-->
+                    <Button x:Name="Follow" Width="120" Content="{Binding FollowBtnContent}" Background="White" Foreground="#FF2A6088" BorderThickness="2" HorizontalAlignment="Center" BorderBrush="{Binding FollowBtnBorder}"
+                            Visibility="{Binding IsCurrentUser, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Right" Height="200">
+                    <Ellipse Height="150" Width="150" Stroke="White" StrokeThickness="3">
+                        <Ellipse.Fill>
+
+                            <!-- User Image -->
+                            <ImageBrush x:Name="Image" ImageSource="{Binding Image}" Stretch="UniformToFill"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
         <!-- Content Control -->
-        <ContentControl x:Name="ActiveItem" Grid.Row="1" Grid.Column="1" />
+        <ContentControl x:Name="ActiveItem" Grid.Row="2" Grid.Column="1" />
+
+        <Grid Grid.Row="1" Grid.Column="0" Background="White"/>
 
         <!-- Grid Menu -->
-        <Grid x:Name="GridMenu" Grid.Row="1" Width="70" HorizontalAlignment="Left" Background="#FF44325F">
+        <Grid x:Name="GridMenu" Grid.Row="2" Width="70" HorizontalAlignment="Left" Background="#FF44325F">
             <Grid.Effect>
                 <DropShadowEffect BlurRadius="2" ShadowDepth="1" Color="#FFAEAEAE"/>
             </Grid.Effect>
             <StackPanel>
-                <Grid Height="150" Background="White" RenderTransformOrigin="0.5,0.5">
+                <Grid Height="70" Background="White" RenderTransformOrigin="0.5,0.5">
                     <Grid.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -92,7 +117,7 @@
                 </Grid>
 
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-                    <StackPanel  Visibility="{Binding IsCurrentUser, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" Height="60" HorizontalAlignment="Left">
+                    <StackPanel Visibility="{Binding IsLogIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" Height="60" HorizontalAlignment="Left">
                         <Button BorderBrush="#FF44325F" Height="60" Width="250" x:Name="UploadPhoto" Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0" >
                             <StackPanel Orientation="Horizontal" Width="220">
                                 <materialDesign:PackIcon Kind="FileUploadOutline" Margin="5 0" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Left" />
@@ -124,7 +149,7 @@
                             </StackPanel>
                         </Button>
                     </StackPanel>
-                </StackPanel>         
+                </StackPanel>
             </StackPanel>
         </Grid>
     </Grid>
