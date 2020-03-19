@@ -175,6 +175,8 @@ namespace DesktopUI.ViewModels
         public void BackToMainPage()
         {
             _events.PublishOnUIThread(Navigation.Main);
+
+            _events.PublishOnUIThread(new MessageEvent { Username = _user.Username });
         }
 
         public void Handle(MessageEvent message)

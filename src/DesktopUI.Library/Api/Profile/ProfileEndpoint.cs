@@ -43,6 +43,7 @@ namespace DesktopUI.Library.Api.Profile
                                 {
                                     var result = await response.Content.ReadAsAsync<Photo>();
                                     _user.Image = result.Url;
+                                    _profile.Image = result.Url;
                                 }
                                 else
                                 {

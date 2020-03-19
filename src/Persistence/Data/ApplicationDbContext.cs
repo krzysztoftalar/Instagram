@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Persistence
+namespace Persistence.Data
 {
     public class ApplicationDbContext : IdentityDbContext<AppUser>, IApplicationDbContext
     {

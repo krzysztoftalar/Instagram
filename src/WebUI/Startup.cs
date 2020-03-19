@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Persistence;
+using Persistence.Data;
 using System.Text;
 
 namespace WebUI
@@ -42,7 +43,7 @@ namespace WebUI
                });
 
             services.AddApplication();
-            services.AddInfrastructure(Configuration);
+            services.AddInfrastructure();
             services.AddPersistence(Configuration);
 
             services.AddHealthChecks()
@@ -78,8 +79,9 @@ namespace WebUI
                 });
             });
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes
-                (Configuration.GetValue<string>("TokenKey:SecurityKey")));
+            var key = new SymmetricSecurityKey(Encoding.UTF8
+                .GetBytes(Configuration.GetValue<string>("TokenKey:SecurityKey")));
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {

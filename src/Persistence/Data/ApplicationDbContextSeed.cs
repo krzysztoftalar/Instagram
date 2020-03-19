@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
+using Persistence.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

@@ -21,21 +21,15 @@ namespace Application.User.Queries.Search
         {
             var users = await _context.Users
                 .Where(x => x.DisplayName == request.DisplayName)
+                .Select(x => new UserDto
+                {
+                    DisplayName = x.DisplayName,
+                    Username = x.UserName,
+                    Image = x.Photos.FirstOrDefault(x => x.IsMain).Url
+                })
                 .ToListAsync();
 
-            var usersList = new List<UserDto>();
-
-            foreach (var user in users)
-            {
-                usersList.Add(new UserDto
-                {
-                    Username = user.UserName,
-                    DisplayName = user.DisplayName,
-                    Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
-                });
-            }
-
-            return usersList;
+            return users;
         }
     }
 }

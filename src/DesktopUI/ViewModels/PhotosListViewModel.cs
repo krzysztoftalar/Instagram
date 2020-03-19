@@ -25,7 +25,7 @@ namespace DesktopUI.ViewModels
         {
             base.OnViewLoaded(view);
 
-            var username = _profile.Username ?? Username; 
+            var username = Username ?? _profile.Username; 
             var profile = await _profileEndpoint.LoadProfile(username);
             UserPhotos = new BindableCollection<Photo>(profile.Photos);
         }
