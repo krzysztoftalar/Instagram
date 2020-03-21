@@ -232,9 +232,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\bg-01.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="Views\AddPhotoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -20,7 +20,7 @@
                                                 <ImageBrush x:Name="Image" ImageSource="{Binding Image}" Stretch="UniformToFill"/>
                                             </Ellipse.Fill>
                                         </Ellipse>
-                                        <Button x:Name="ViewProfile" Content="{Binding DisplayName}" FontWeight="Bold" BorderBrush="White" Foreground="#FF2A6088" Width="150" FontSize="20" Margin="0 5" Background="White" FontFamily="Corbel" />
+                                        <Button x:Name="ViewProfile" Content="{Binding DisplayName}" FontWeight="Bold" BorderBrush="White" Foreground="#FF2A6088" FontSize="20" Margin="0 5" Background="White" FontFamily="Corbel" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

@@ -60,7 +60,7 @@ The project implements Dependency Injection and MVVM patterns._
 
 ### Installation
 
-1. Create an account on Cloudinary
+1. Create an account on Cloudinary.
 2. In solution WebUI in `appsettings.json` set your Cloudinary account details and database connection string.
 
 ```JSON
