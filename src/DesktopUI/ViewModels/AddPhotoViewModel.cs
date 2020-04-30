@@ -20,7 +20,7 @@ namespace DesktopUI.ViewModels
 
         public string ImagePath
         {
-            get { return _imagePath; }
+            get => _imagePath;
             set
             {
                 _imagePath = value;
@@ -30,9 +30,11 @@ namespace DesktopUI.ViewModels
 
         public void AddPhoto()
         {
-            OpenFileDialog open = new OpenFileDialog();
-            open.DefaultExt = (".png");
-            open.Filter = "Pictures (*.jpg;*.gif;*.png)|*.jpg;*.gif;*.png";
+            OpenFileDialog open = new OpenFileDialog
+            {
+                DefaultExt = (".png"),
+                Filter = "Pictures (*.jpg;*.gif;*.png)|*.jpg;*.gif;*.png"
+            };
 
             if (open.ShowDialog() == true)
             {
@@ -44,10 +46,10 @@ namespace DesktopUI.ViewModels
         {
             try
             {
-                await _profile.UpoloadPhoto(ImagePath);
+                await _profile.UploadPhoto(ImagePath);
 
                 MessageBox.Show("Image uploaded successfully", "Congratulations!",
-                   MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {

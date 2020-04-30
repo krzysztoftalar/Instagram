@@ -12,7 +12,7 @@ namespace DesktopUI.ViewModels
         private readonly IEventAggregator _events;
         private readonly IAuthenticatedUser _user;
         private readonly IProfileEndpoint _profileEndpoint;
-        private readonly IProfile _profile;
+        private IProfile _profile;
         private string _username;
 
         public UserProfilePageViewModel(IEventAggregator events, IAuthenticatedUser user,
@@ -88,7 +88,7 @@ namespace DesktopUI.ViewModels
 
         public string FollowBtnContent
         {
-            get { return _profile.Following ? "UNFOLLOW" : "FOLLOW"; }
+            get => _profile.Following ? "UNFOLLOW" : "FOLLOW";
             set
             {
                 _followBtnContent = value;
@@ -100,7 +100,7 @@ namespace DesktopUI.ViewModels
 
         public SolidColorBrush FollowBtnBorder
         {
-            get { return _profile.Following ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.Green); }
+            get => _profile.Following ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.Green);
             set
             {
                 _followBtnBorder = value;
@@ -116,7 +116,7 @@ namespace DesktopUI.ViewModels
             }
             else
             {
-                await _profileEndpoint.Follow(_profile.Username);              
+                await _profileEndpoint.Follow(_profile.Username);
             }
 
             NotifyOfPropertyChange(() => FollowBtnContent);
@@ -174,6 +174,8 @@ namespace DesktopUI.ViewModels
 
         public void BackToMainPage()
         {
+            _profile.Username = null;
+
             _events.PublishOnUIThread(Navigation.Main);
 
             _events.PublishOnUIThread(new MessageEvent { Username = _user.Username });
@@ -182,6 +184,8 @@ namespace DesktopUI.ViewModels
         public void Handle(MessageEvent message)
         {
             _username = message.Username;
+
+            NotifyOfPropertyChange(() => Image);
         }
     }
 }

@@ -5,15 +5,11 @@ namespace DesktopUI.ViewModels
 {
     public class ShellViewModel : Conductor<object>, IHandle<Navigation>
     {
-        private readonly IEventAggregator _events;
-
         public ShellViewModel(IEventAggregator events)
         {
             ActivateItem(IoC.Get<LoginViewModel>());
 
-            _events = events;
-
-            _events.Subscribe(this);
+            events.Subscribe(this);
         }
 
         public void Handle(Navigation message)

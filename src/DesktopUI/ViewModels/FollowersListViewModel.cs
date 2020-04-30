@@ -41,6 +41,26 @@ namespace DesktopUI.ViewModels
             }
         }
 
+        private Profile _selectedProfile;
+
+        public Profile SelectedProfile
+        {
+            get => _selectedProfile;
+            set
+            {
+                _selectedProfile = value;
+                NotifyOfPropertyChange(() => SelectedProfile);
+                ViewProfile();
+            }
+        }
+
+        public void ViewProfile()
+        {
+            _events.PublishOnUIThread(Navigation.Profile);
+
+            _events.PublishOnUIThread(new MessageEvent { Username = SelectedProfile.Username });
+        }
+
         private string _image;
 
         public string Image

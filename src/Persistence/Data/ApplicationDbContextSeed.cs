@@ -1,11 +1,10 @@
-﻿using Domain.Entities;
-using Microsoft.AspNetCore.Identity;
-using Persistence.Data;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 
-namespace Persistence
+namespace Persistence.Data
 {
     public class ApplicationDbContextSeed
     {

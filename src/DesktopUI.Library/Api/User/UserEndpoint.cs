@@ -78,10 +78,10 @@ namespace DesktopUI.Library.Api.User
             }
         }
 
-        public async Task<List<AuthenticatedUser>> SearchUsers(string displayname)
+        public async Task<List<AuthenticatedUser>> SearchUsers(string displayName)
         {
             using (HttpResponseMessage response =
-                await _apiHelper.ApiClient.GetAsync($"/api/user/{displayname}"))
+                await _apiHelper.ApiClient.GetAsync($"/api/user/{displayName}"))
             {
                 if (response.IsSuccessStatusCode)
                 {

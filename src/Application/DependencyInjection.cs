@@ -1,8 +1,8 @@
-﻿using Application.Profiles;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using Application.Services.Profiles;
 
 namespace Application
 {

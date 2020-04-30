@@ -81,7 +81,7 @@
                         <Ellipse.Fill>
 
                             <!-- User Image -->
-                            <ImageBrush x:Name="Image" ImageSource="{Binding Image}" Stretch="UniformToFill"/>
+                            <ImageBrush x:Name="Image" ImageSource="{Binding Image, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="UniformToFill"/>
                         </Ellipse.Fill>
                     </Ellipse>
                 </StackPanel>

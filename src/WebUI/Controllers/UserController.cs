@@ -1,13 +1,15 @@
 ﻿using API.Controllers;
 using Application.User;
 using Application.User.Commands.Register;
-using Application.User.Queries.CurrentUser;
-using Application.User.Queries.Login;
-using Application.User.Queries.Search;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Application.Services.User;
+using Application.Services.User.Commands.Register;
+using Application.Services.User.Queries.CurrentUser;
+using Application.Services.User.Queries.Login;
+using Application.Services.User.Queries.Search;
 
 namespace WebUI.Controllers
 {

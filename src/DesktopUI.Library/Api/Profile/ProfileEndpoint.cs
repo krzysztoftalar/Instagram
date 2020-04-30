@@ -22,7 +22,7 @@ namespace DesktopUI.Library.Api.Profile
             _user = user;
         }
 
-        public async Task UpoloadPhoto(string photo)
+        public async Task UploadPhoto(string photo)
         {
             using (var form = new MultipartFormDataContent())
             {
@@ -56,6 +56,40 @@ namespace DesktopUI.Library.Api.Profile
             }
         }
 
+        public async Task SetMainPhoto(Photo photo)
+        {
+            using (HttpResponseMessage response =
+                await _apiHelper.ApiClient.PostAsJsonAsync($"/api/photos/{photo.Id}/setMain",
+                    new StringContent(string.Empty)))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    _profile.Image = photo.Url;
+                    _user.Image = photo.Url;                   
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task DeletePhoto(Photo photo)
+        {
+            using (HttpResponseMessage response =
+                await _apiHelper.ApiClient.DeleteAsync($"/api/photos/{photo.Id}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                   
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
         public async Task<Models.Profile> LoadProfile(string username)
         {
             using (HttpResponseMessage response =
@@ -84,7 +118,7 @@ namespace DesktopUI.Library.Api.Profile
         {
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.PostAsJsonAsync($"/api/profiles/{username}/follow",
-                new StringContent(string.Empty)))
+                    new StringContent(string.Empty)))
             {
                 if (response.IsSuccessStatusCode)
                 {
@@ -133,4 +167,3 @@ namespace DesktopUI.Library.Api.Profile
         }
     }
 }
-

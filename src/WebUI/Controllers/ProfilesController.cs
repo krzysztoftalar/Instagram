@@ -1,8 +1,8 @@
 ﻿using API.Controllers;
-using Application.Profiles;
-using Application.Profiles.Queries.Details;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Application.Services.Profiles;
+using Application.Services.Profiles.Queries.Details;
 
 namespace WebUI.Controllers
 {

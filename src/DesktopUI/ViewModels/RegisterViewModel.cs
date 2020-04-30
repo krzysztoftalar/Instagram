@@ -32,15 +32,14 @@ namespace DesktopUI.ViewModels
             }
         }
 
-        private string _DisplayName;
+        private string _displayName;
 
-        //Caliburn ambiguous error, required "new" syntax
         public new string DisplayName
         {
-            get => _DisplayName;
+            get => _displayName;
             set
             {
-                _DisplayName = value;
+                _displayName = value;
                 NotifyOfPropertyChange(() => DisplayName);
                 NotifyOfPropertyChange(() => CanRegister);
             }

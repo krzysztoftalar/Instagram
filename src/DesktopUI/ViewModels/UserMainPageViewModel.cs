@@ -69,7 +69,7 @@ namespace DesktopUI.ViewModels
 
         public BindableCollection<AuthenticatedUser> UsersList
         {
-            get { return _usersList; }
+            get => _usersList;
             set
             {
                 _usersList = value;
@@ -81,7 +81,7 @@ namespace DesktopUI.ViewModels
 
         public AuthenticatedUser SelectedUser
         {
-            get { return _selectedUser; }
+            get => _selectedUser;
             set
             {
                 _selectedUser = value;
