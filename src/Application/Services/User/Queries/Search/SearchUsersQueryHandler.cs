@@ -3,33 +3,31 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Interfaces;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services.User.Queries.Search
 {
-    public class SearchUsersQueryHandler : IRequestHandler<SearchUsersQuery, List<UserDto>>
+    public class SearchUsersQueryHandler : IRequestHandler<SearchUsersQuery, List<SearchUserDto>>
     {
         private readonly IApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public SearchUsersQueryHandler(IApplicationDbContext context)
+        public SearchUsersQueryHandler(IApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        public async Task<List<UserDto>> Handle(SearchUsersQuery request, CancellationToken cancellationToken)
+        public async Task<List<SearchUserDto>> Handle(SearchUsersQuery request, CancellationToken cancellationToken)
         {
-            var users = await _context.Users
+            return await _context.Users
                 .Where(x => x.DisplayName == request.DisplayName)
-                .Select(x => new UserDto
-                {
-                    DisplayName = x.DisplayName,
-                    Username = x.UserName,
-                    Image = x.Photos.FirstOrDefault(y => y.IsMain).Url
-                })
+                .Include(x => x.Photos)
+                .ProjectTo<SearchUserDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken: cancellationToken);
-
-            return users;
         }
     }
 }

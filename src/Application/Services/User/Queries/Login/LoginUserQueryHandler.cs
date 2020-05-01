@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.Services.User.Queries.Login
 {
-    public class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, UserDto>
+    public class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, LoginUserDto>
     {
         private readonly IJwtGenerator _jwtGenerator;
         private readonly UserManager<AppUser> _userManager;
@@ -24,23 +24,24 @@ namespace Application.Services.User.Queries.Login
             _jwtGenerator = jwtGenerator;
         }
 
-        public async Task<UserDto> Handle(LoginUserQuery request, CancellationToken cancellationToken)
+        public async Task<LoginUserDto> Handle(LoginUserQuery request, CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByEmailAsync(request.Email);
 
             if (user == null)
+            {
                 throw new RestException(HttpStatusCode.Unauthorized);
+            }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
             if (result.Succeeded)
             {
-                return new UserDto
+                return new LoginUserDto
                 {
                     DisplayName = user.DisplayName,
-                    Token = _jwtGenerator.CreateToken(user),
                     Username = user.UserName,
-                    Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+                    Token = _jwtGenerator.CreateToken(user)
                 };
             }
 

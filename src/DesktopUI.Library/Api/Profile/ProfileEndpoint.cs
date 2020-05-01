@@ -42,8 +42,12 @@ namespace DesktopUI.Library.Api.Profile
                                 if (response.IsSuccessStatusCode)
                                 {
                                     var result = await response.Content.ReadAsAsync<Photo>();
-                                    _user.Image = result.Url;
-                                    _profile.Image = result.Url;
+
+                                    if (result.IsMain)
+                                    {
+                                        _user.Image = result.Url;
+                                        _profile.Image = result.Url;
+                                    }
                                 }
                                 else
                                 {
@@ -65,7 +69,7 @@ namespace DesktopUI.Library.Api.Profile
                 if (response.IsSuccessStatusCode)
                 {
                     _profile.Image = photo.Url;
-                    _user.Image = photo.Url;                   
+                    _user.Image = photo.Url;
                 }
                 else
                 {
@@ -79,14 +83,11 @@ namespace DesktopUI.Library.Api.Profile
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.DeleteAsync($"/api/photos/{photo.Id}"))
             {
-                if (response.IsSuccessStatusCode)
-                {
-                   
-                }
-                else
+                if (response.IsSuccessStatusCode == false)
                 {
                     throw new Exception(response.ReasonPhrase);
-                }
+                }             
+                
             }
         }
 
@@ -100,12 +101,31 @@ namespace DesktopUI.Library.Api.Profile
                     var result = await response.Content.ReadAsAsync<Models.Profile>();
                     _profile.DisplayName = result.DisplayName;
                     _profile.Username = result.Username;
+                    _profile.Bio = result.Bio;
                     _profile.Image = result.Image;
                     _profile.Photos = result.Photos;
                     _profile.Following = result.Following;
                     _profile.FollowingCount = result.FollowingCount;
                     _profile.FollowersCount = result.FollowersCount;
                     return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task EditProfile(ProfileFormValues profile)
+        {
+            using (HttpResponseMessage response =
+                await _apiHelper.ApiClient.PutAsJsonAsync($"/api/profiles", profile))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    _profile.DisplayName = profile.DisplayName;
+                    _user.DisplayName = profile.DisplayName;
+                    _profile.Bio = profile.Bio;
                 }
                 else
                 {

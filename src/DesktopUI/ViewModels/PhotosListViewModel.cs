@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using DesktopUI.EventModels;
 using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Models;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DesktopUI.ViewModels
 {
@@ -16,9 +15,10 @@ namespace DesktopUI.ViewModels
         private readonly IProfile _profile;
         private readonly IAuthenticatedUser _user;
         private string _username;
+        private bool _isEditMode;
 
         public PhotosListViewModel(IProfileEndpoint profileEndpoint, IEventAggregator events, IProfile profile,
-             IAuthenticatedUser user)
+            IAuthenticatedUser user)
         {
             _profileEndpoint = profileEndpoint;
             _events = events;
@@ -73,18 +73,24 @@ namespace DesktopUI.ViewModels
         {
             await _profileEndpoint.DeletePhoto(SelectedPhoto);
 
-            var result = UserPhotos.Where(x => x.Id != SelectedPhoto.Id);
-            UserPhotos = new ObservableCollection<Photo>(result);
+            if (SelectedPhoto.IsMain)
+            {
+                _profile.Image = null;
+                _user.Image = null;
+            }
 
+            var updatePhotos = UserPhotos.Where(x => x.Id != SelectedPhoto.Id);
+            UserPhotos = new ObservableCollection<Photo>(updatePhotos);
             NotifyOfPropertyChange(() => UserPhotos);
+
+            _events.PublishOnUIThread(new MessageEvent());
         }
 
-
-        public bool IsEditMode
+        public bool IsLogIn
         {
             get
             {
-                bool output = _user.Username == _profile.Username;
+                var output = _user.Username == _profile.Username && _isEditMode;
 
                 return output;
             }
@@ -95,16 +101,17 @@ namespace DesktopUI.ViewModels
         public bool IsSelectedUser
         {
             get => _isSelectedUser = SelectedPhoto != null;
-            set {
+            set
+            {
                 _isSelectedUser = value;
-                NotifyOfPropertyChange(() => IsSelectedUser);               
+                NotifyOfPropertyChange(() => IsSelectedUser);
             }
         }
-
 
         public void Handle(MessageEvent message)
         {
             _username = message.Username;
+            _isEditMode = message.IsEditMode;
         }
     }
 }

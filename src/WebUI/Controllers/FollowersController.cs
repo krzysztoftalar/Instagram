@@ -1,12 +1,10 @@
-﻿using API.Controllers;
+﻿using Application.Services.Followers.Commands.Add;
+using Application.Services.Followers.Commands.Delete;
+using Application.Services.Followers.Queries.List;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Application.Services.Followers.Commands.Add;
-using Application.Services.Followers.Commands.Delete;
-using Application.Services.Followers.Queries.List;
-using Application.Services.Profiles;
 
 namespace WebUI.Controllers
 {
@@ -26,7 +24,7 @@ namespace WebUI.Controllers
         }
 
         [HttpGet("{username}/follow")]
-        public async Task<ActionResult<List<Profile>>> List(string username, string predicate)
+        public async Task<ActionResult<List<ProfileDto>>> List(string username, string predicate)
         {
             return await Mediator.Send(new FollowersListQuery { Username = username, Predicate = predicate });
         }

@@ -1,5 +1,4 @@
 ﻿using Application.Interfaces;
-using Application.Services.Profiles;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -10,35 +9,38 @@ using System.Threading.Tasks;
 
 namespace Application.Services.Followers.Queries.List
 {
-    public class FollowersListQueryHandler : IRequestHandler<FollowersListQuery, List<Profile>>
+    public class FollowersListQueryHandler : IRequestHandler<FollowersListQuery, List<ProfileDto>>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IProfileReader _profileReader;
 
-        public FollowersListQueryHandler(IApplicationDbContext context, IProfileReader profileReader)
+        public FollowersListQueryHandler(IApplicationDbContext context)
         {
             _context = context;
-            _profileReader = profileReader;
         }
 
-        public async Task<List<Profile>> Handle(FollowersListQuery request, CancellationToken cancellationToken)
+        public async Task<List<ProfileDto>> Handle(FollowersListQuery request, CancellationToken cancellationToken)
         {
-            var queryable = _context.Followings.AsQueryable();
-
             var userFollowings = new List<UserFollowing>();
-            var profiles = new List<Profile>();
+            var profiles = new List<ProfileDto>();
 
             switch (request.Predicate)
             {
                 case "followers":
                     {
-                        userFollowings = await queryable
+                        userFollowings = await _context.Followings
+                            .Include(x => x.Observer).ThenInclude(x => x.Photos)
+                            .Include(x => x.Target).ThenInclude(x => x.Photos)
                             .Where(x => x.Target.UserName == request.Username)
                             .ToListAsync(cancellationToken: cancellationToken);
 
                         foreach (var follower in userFollowings)
                         {
-                            profiles.Add(await _profileReader.ReadProfile(follower.Observer.UserName));
+                            profiles.Add(new ProfileDto
+                            {
+                                DisplayName = follower.Observer.DisplayName,
+                                UserName = follower.Observer.UserName,
+                                Image = follower.Observer.Photos.FirstOrDefault(x => x.IsMain)?.Url
+                            });
                         }
 
                         break;
@@ -46,13 +48,20 @@ namespace Application.Services.Followers.Queries.List
 
                 case "following":
                     {
-                        userFollowings = await queryable
+                        userFollowings = await _context.Followings
+                            .Include(x => x.Observer).ThenInclude(x => x.Photos)
+                            .Include(x => x.Target).ThenInclude(x => x.Photos)
                             .Where(x => x.Observer.UserName == request.Username)
                             .ToListAsync(cancellationToken: cancellationToken);
 
                         foreach (var follower in userFollowings)
                         {
-                            profiles.Add(await _profileReader.ReadProfile(follower.Target.UserName));
+                            profiles.Add(new ProfileDto
+                            {
+                                DisplayName = follower.Target.DisplayName,
+                                UserName = follower.Target.UserName,
+                                Image = follower.Target.Photos.FirstOrDefault(x => x.IsMain)?.Url
+                            });
                         }
 
                         break;

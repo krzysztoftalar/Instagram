@@ -8,17 +8,17 @@ namespace Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<UserFollowing> builder)
         {
-            builder.HasKey(k => new { k.ObserverId, k.TargetId });
+            builder.HasKey(u => new {u.ObserverId, u.TargetId});
 
-            builder.HasOne(o => o.Observer)
-                .WithMany(f => f.Followings)
-                .HasForeignKey(o => o.ObserverId)
+            builder.HasOne(u => u.Observer)
+                .WithMany(a => a.Followings)
+                .HasForeignKey(u => u.ObserverId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(o => o.Target)
-              .WithMany(f => f.Followers)
-              .HasForeignKey(o => o.TargetId)
-              .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(u => u.Target)
+                .WithMany(a => a.Followers)
+                .HasForeignKey(u => u.TargetId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

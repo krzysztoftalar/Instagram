@@ -2,7 +2,7 @@
 
 namespace Application.Services.User.Queries.CurrentUser
 {
-    public class CurrentUserQuery : IRequest<UserDto>
+    public class CurrentUserQuery : IRequest<CurrentUserDto>
     {
     }
 }

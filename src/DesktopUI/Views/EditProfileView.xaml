@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="DesktopUI.Views.EditProfileView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DesktopUI.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="#FF44325F">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="20">
+                <materialDesign:Chip Content="Display Name" Visibility="{Binding IsLogIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" Margin="20" IconBackground="{DynamicResource PrimaryHueDarkBrush}" IsEnabled="False" BorderBrush="White" Foreground="White" FontSize="20" IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                    <materialDesign:Chip.Icon>
+                        <materialDesign:PackIcon Kind="Instagram"></materialDesign:PackIcon>
+                    </materialDesign:Chip.Icon>
+                </materialDesign:Chip>
+
+                <!-- Edit Display Name -->
+                <TextBox IsReadOnly="{Binding IsEditMode}" x:Name="DisplayName" Text="{Binding DisplayName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Stretch" AcceptsReturn="True"
+                     Visibility="{Binding TextBoxDisplayName, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" VerticalScrollBarVisibility="Auto" Width="300" HorizontalAlignment="Left" Background="White" FontSize="20" Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"/>
+
+                <materialDesign:Chip Content="Biography" Margin="20" IconBackground="{DynamicResource PrimaryHueDarkBrush}" IsEnabled="False" BorderBrush="White" Foreground="White" FontSize="20" IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                    <materialDesign:Chip.Icon>
+                        <materialDesign:PackIcon Kind="Instagram"></materialDesign:PackIcon>
+                    </materialDesign:Chip.Icon>
+                </materialDesign:Chip>
+
+                <!-- Edit Bio -->
+                <TextBox IsReadOnly="{Binding IsEditMode, Mode=TwoWay}" Text="{Binding Bio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}" Height="200" AcceptsReturn="True" TextWrapping="Wrap" 
+                    Visibility="{Binding TextBoxBio, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" VerticalScrollBarVisibility="Auto" materialDesign:HintAssist.Hint="" Background="White" FontSize="20"/>
+
+                <StackPanel Orientation="Horizontal" Visibility="{Binding IsLogIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+
+                    <!-- Submit Button -->
+                    <Button x:Name="Submit" Content="Submit" BorderThickness="0" FontSize="18" Width="150" Margin="20 40" Height="40" Foreground="White" HorizontalAlignment="Left" Background="Green" />
+
+                    <!-- Toggle Edit Mode Button -->
+                    <Button x:Name="ToggleEditMode" Content="Edit" BorderThickness="0" FontSize="18" Width="150" Height="40" Foreground="White" HorizontalAlignment="Left" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

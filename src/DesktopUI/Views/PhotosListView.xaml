@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <StackPanel Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel Visibility="{Binding IsLogIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
 
                 <!-- Set Main Photo Button -->
                 <Button x:Name="SetMainPhoto" IsEnabled="{Binding IsSelectedUser}" Width="150" Margin="20" ToolTip="Set as the main photo" BorderThickness="0" Foreground="White" Background="Green">

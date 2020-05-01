@@ -13,8 +13,7 @@ namespace Persistence
             IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-            {
-                options.UseLazyLoadingProxies();
+            {       
                 options.UseSqlServer(configuration.GetConnectionString("EFInstagramData"));
             });
 

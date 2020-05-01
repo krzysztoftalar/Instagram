@@ -1,6 +1,4 @@
-﻿using API.Controllers;
-using Domain.Entities;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Application.Services.Photos.Commands.Add;
 using Application.Services.Photos.Commands.Delete;
@@ -12,7 +10,7 @@ namespace WebUI.Controllers
     public class PhotosController : BaseController
     {
         [HttpPost]
-        public async Task<ActionResult<Photo>> Add([FromForm] AddPhotoCommand command)
+        public async Task<ActionResult<PhotoDto>> Add([FromForm] AddPhotoCommand command)
         {
             return await Mediator.Send(command);
         }

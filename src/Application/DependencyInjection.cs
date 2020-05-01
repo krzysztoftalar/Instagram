@@ -2,7 +2,6 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using Application.Services.Profiles;
 
 namespace Application
 {
@@ -12,8 +11,7 @@ namespace Application
         {
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddScoped<IProfileReader, ProfileReader>();
-
+      
             return services;
         }
     }

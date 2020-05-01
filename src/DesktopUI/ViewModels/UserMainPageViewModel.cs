@@ -9,14 +9,16 @@ namespace DesktopUI.ViewModels
     public class UserMainPageViewModel : Conductor<object>
     {
         private readonly IEventAggregator _events;
-        private readonly IAuthenticatedUser _user;
+        private IAuthenticatedUser _user;
+        private IProfile _profile;
         private readonly IUserEndpoint _userEndpoint;
 
-        public UserMainPageViewModel(IEventAggregator events, IAuthenticatedUser user,
+        public UserMainPageViewModel(IEventAggregator events, IAuthenticatedUser user, IProfile profile,
             IUserEndpoint userEndpoint)
         {
             _events = events;
             _user = user;
+            _profile = profile;
             _userEndpoint = userEndpoint;
 
             ActivateItem(IoC.Get<PhotosListViewModel>());
@@ -112,7 +114,9 @@ namespace DesktopUI.ViewModels
 
         public void Logout()
         {
-            _user.ResetUserModel();
+            _profile = new Profile();
+            _user = new AuthenticatedUser();
+
             _userEndpoint.LogOffUser();
             _events.PublishOnUIThread(Navigation.Login);
         }

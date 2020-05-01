@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using Application.Services.User.Queries.CurrentUser;
+using MediatR;
 
 namespace Application.Services.User.Commands.Register
 {
-    public class RegisterUserCommand : IRequest<UserDto>
+    public class RegisterUserCommand : IRequest<RegisterUserDto>
     {
         public string DisplayName { get; set; }
         public string Username { get; set; }

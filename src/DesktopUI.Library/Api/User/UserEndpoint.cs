@@ -22,7 +22,7 @@ namespace DesktopUI.Library.Api.User
         public async Task Register(UserFormValues user)
         {
             using (HttpResponseMessage response =
-                await _apiHelper.ApiClient.PostAsJsonAsync("/api/user/register", user))
+                await _apiHelper.ApiClient.PostAsJsonAsync("/api/users/register", user))
             {
                 if (response.IsSuccessStatusCode == false)
                 {
@@ -34,7 +34,7 @@ namespace DesktopUI.Library.Api.User
         public async Task<AuthenticatedUser> Login(UserFormValues user)
         {
             using (HttpResponseMessage response =
-                await _apiHelper.ApiClient.PostAsJsonAsync("/api/user/login", user))
+                await _apiHelper.ApiClient.PostAsJsonAsync("/api/users/login", user))
             {
                 if (response.IsSuccessStatusCode)
                 {
@@ -60,7 +60,7 @@ namespace DesktopUI.Library.Api.User
             _apiHelper.ApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _apiHelper.ApiClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("/api/user"))
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("/api/users"))
             {
                 if (response.IsSuccessStatusCode)
                 {
@@ -81,7 +81,7 @@ namespace DesktopUI.Library.Api.User
         public async Task<List<AuthenticatedUser>> SearchUsers(string displayName)
         {
             using (HttpResponseMessage response =
-                await _apiHelper.ApiClient.GetAsync($"/api/user/{displayName}"))
+                await _apiHelper.ApiClient.GetAsync($"/api/users/{displayName}"))
             {
                 if (response.IsSuccessStatusCode)
                 {

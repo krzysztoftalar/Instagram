@@ -1,39 +1,45 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
 
 namespace Application.Services.Photos.Commands.Add
 {
-    public class AddPhotoCommandHandler : IRequestHandler<AddPhotoCommand, Photo>
+    public class AddPhotoCommandHandler : IRequestHandler<AddPhotoCommand, PhotoDto>
     {
         private readonly IApplicationDbContext _context;
         private readonly IPhotoAccessor _photoAccessor;
         private readonly IUserAccessor _userAccessor;
+        private readonly IMapper _mapper;
 
         public AddPhotoCommandHandler(IApplicationDbContext context, IPhotoAccessor photoAccessor,
-            IUserAccessor userAccessor)
+            IUserAccessor userAccessor, IMapper mapper)
         {
             _context = context;
             _photoAccessor = photoAccessor;
             _userAccessor = userAccessor;
+            _mapper = mapper;
         }
-        
-        public async Task<Photo> Handle(AddPhotoCommand request, CancellationToken cancellationToken)
+
+        public async Task<PhotoDto> Handle(AddPhotoCommand request, CancellationToken cancellationToken)
         {
             var photoUploadResult = _photoAccessor.AddPhoto(request.File);
 
-            var user = await _context.Users.SingleOrDefaultAsync(x =>
-                x.UserName == _userAccessor.GetCurrentUsername(), cancellationToken: cancellationToken);
+            var user = await _context.Users
+                .Include(x => x.Photos)
+                .SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername(),
+                    cancellationToken: cancellationToken);
 
             var photo = new Photo
             {
                 Id = photoUploadResult.PublicId,
-                Url = photoUploadResult.Url
+                Url = photoUploadResult.Url,
+                AppUserId = user.Id
             };
 
             if (!user.Photos.Any(x => x.IsMain))
@@ -41,11 +47,11 @@ namespace Application.Services.Photos.Commands.Add
                 photo.IsMain = true;
             }
 
-            user.Photos.Add(photo);
+            await _context.Photos.AddAsync(photo, cancellationToken);
 
             var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
-            if (success) return photo;
+            if (success) return _mapper.Map<PhotoDto>(photo);
 
             throw new Exception("Problem saving changes");
         }

@@ -2,7 +2,7 @@
 
 namespace Application.Services.Profiles.Queries.Details
 {
-    public class ProfileDetailsQuery : IRequest<Profile>
+    public class ProfileDetailsQuery : IRequest<ProfileDto>
     {
         public string Username { get; set; }
     }

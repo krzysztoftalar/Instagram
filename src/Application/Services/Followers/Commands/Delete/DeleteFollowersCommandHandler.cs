@@ -38,8 +38,7 @@ namespace Application.Services.Followers.Commands.Delete
 
             if (following == null)
             {
-                throw new RestException(HttpStatusCode.BadRequest,
-                   new { User = "You are not following this user" });
+                throw new RestException(HttpStatusCode.BadRequest, new { User = "You are not following this user" });
             }
 
             _context.Followings.Remove(following);

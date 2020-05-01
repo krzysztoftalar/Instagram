@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using DesktopUI.EventModels;
 using DesktopUI.Library.Api.Profile;
 using Microsoft.Win32;
 using System;
@@ -10,10 +11,12 @@ namespace DesktopUI.ViewModels
     public class AddPhotoViewModel : Screen
     {
         private readonly IProfileEndpoint _profile;
+        private readonly IEventAggregator _events;
 
-        public AddPhotoViewModel(IProfileEndpoint profile)
+        public AddPhotoViewModel(IProfileEndpoint profile, IEventAggregator events)
         {
             _profile = profile;
+            _events = events;
         }
 
         private string _imagePath;
@@ -50,6 +53,8 @@ namespace DesktopUI.ViewModels
 
                 MessageBox.Show("Image uploaded successfully", "Congratulations!",
                     MessageBoxButton.OK, MessageBoxImage.Information);
+
+                _events.PublishOnUIThread(new MessageEvent());
             }
             catch (Exception ex)
             {

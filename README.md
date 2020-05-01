@@ -14,11 +14,11 @@
 
 _The application was created for [Programming IV](https://www.wbmii.ath.bielsko.pl) classes.
 The project implements Dependency Injection and MVVM patterns._
-
+śś
 <br/>
 
 <p align="center">
-  <img src="./src/DesktopUI/Assets/screen3.png" width="70%">
+  <img src="./src/DesktopUI/Assets/screen3.png" width="70%" alt="">
 </p>
 
 <p align="center">
@@ -39,15 +39,15 @@ The project implements Dependency Injection and MVVM patterns._
 
 ## Built With
 
-- [.NET Core](https://docs.microsoft.com/en-us/dotnet/) 3.1.0
-- [WPF](https://docs.microsoft.com/en-us/dotnet/framework/wpf/) .NET Framework 4.8
-- [ASP.NET Web API](https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-3.1)
-- [Entity Framework](https://docs.microsoft.com/en-us/ef/)
-- [MediatR](https://github.com/jbogard/MediatR/wiki)
-- [Caliburn.Micro](https://caliburnmicro.com/)
-- [Swagger](https://swagger.io/)
-- [Cloudinary](https://cloudinary.com/)
-- [Material Design](http://materialdesigninxaml.net/)
+| Server                                                                                       | Client                                        |
+| -------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| [.NET Core](https://docs.microsoft.com/en-us/dotnet/) 3.1.0                                  | [WPF](https://docs.microsoft.com/en-us/dotnet/framework/wpf/) .NET Framework 4.8 |
+| [ASP.NET Web API](https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-3.1) | [Caliburn.Micro](https://caliburnmicro.com/) |
+| [Entity Framework](https://docs.microsoft.com/en-us/ef/)                                     | [Material Design](http://materialdesigninxaml.net/) |
+| [MediatR](https://github.com/jbogard/MediatR/wiki)                                           |
+| [AutoMapper](https://automapper.org/)                                                        |
+| [Swagger](https://swagger.io/)                                                               |
+| [Cloudinary](https://cloudinary.com/)                                                        |
 
 ## Getting Started
 

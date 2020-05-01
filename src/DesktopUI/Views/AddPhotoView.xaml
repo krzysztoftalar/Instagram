@@ -7,7 +7,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="800" >
-    <Grid Background="#FF44325F">        
+    <Grid Background="#FF44325F">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="400" />
@@ -16,25 +16,25 @@
         <materialDesign:Card Width="350" Height="350" Grid.Column="0" Margin="20">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="350" />                                   
-                </Grid.RowDefinitions>               
+                    <RowDefinition Height="350" />
+                </Grid.RowDefinitions>
 
                 <!-- Photo -->
-                <Image Source="{Binding ImagePath}" Margin="10 10" />            
+                <Image Source="{Binding ImagePath}" Margin="10 10" />
             </Grid>
         </materialDesign:Card>
 
         <Grid Grid.Column="1">
             <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
-                
+
                 <!-- Add Photo Button -->
-                <Button x:Name="AddPhoto" BorderBrush="#FF2281D1" Foreground="Gray" Background="White" Content="Add Photo" Grid.Row="1" Width="150"/>
+                <Button x:Name="AddPhoto" BorderThickness="0" Foreground="Gray" Background="White" FontSize="18" Content="Add Photo" Grid.Row="1" Width="150"/>
 
                 <!-- Upload Photo Button -->
-                <Button x:Name="UploadPhoto" Width="150" Margin="20" Foreground="White" Background="Green">
+                <Button x:Name="UploadPhoto" ToolTip="Upload the photo" BorderThickness="0" Width="150" Margin="20" Foreground="White" Background="Green">
                     <materialDesign:PackIcon Kind="Check" />
                 </Button>
-            </StackPanel>           
-        </Grid> 
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

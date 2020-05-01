@@ -23,20 +23,24 @@ namespace Application.Services.Photos.Commands.SetMain
 
         public async Task<Unit> Handle(SetMainCommand request, CancellationToken cancellationToken)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(x =>
-                x.UserName == _userAccessor.GetCurrentUsername(), cancellationToken: cancellationToken);
+            var user = await _context.Users
+                .Include(x => x.Photos)
+                .SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername(),
+                    cancellationToken: cancellationToken);
 
             var photo = user.Photos.FirstOrDefault(x => x.Id == request.Id);
 
             if (photo == null)
-                throw new RestException(HttpStatusCode.NotFound, new { Photo = "Not Found" });
+            {
+                throw new RestException(HttpStatusCode.NotFound, new {Photo = "Not Found"});
+            }
 
             var currentMainPhoto = user.Photos.FirstOrDefault(x => x.IsMain);
 
             if (currentMainPhoto != null)
             {
                 currentMainPhoto.IsMain = false;
-            }               
+            }
 
             photo.IsMain = true;
 

@@ -1,6 +1,7 @@
-using API.Middleware;
 using Application;
-using Application.User.Commands.Register;
+using Application.Services.Profiles.Commands.Edit;
+using Application.Services.User.Commands.Register;
+using Application.Services.User.Queries.Login;
 using FluentValidation.AspNetCore;
 using Infrastructure.Photos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -10,15 +11,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using Persistence;
 using Persistence.Data;
 using System.Text;
-using Application.Services.User.Commands.Register;
-using Application.Services.User.Queries.Login;
 using WebUI.Configuration;
+using WebUI.Middleware;
 
 namespace WebUI
 {
@@ -42,6 +40,7 @@ namespace WebUI
                 {
                     opt.RegisterValidatorsFromAssemblyContaining<LoginUserQueryValidator>();
                     opt.RegisterValidatorsFromAssemblyContaining<RegisterUserCommandValidator>();
+                    opt.RegisterValidatorsFromAssemblyContaining<EditProfileCommandValidator>();
                 });
 
             services.AddApplication();
@@ -84,7 +83,7 @@ namespace WebUI
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<ErrorHandlingMiddleware>();
-           
+
             app.UseRouting();
             app.UseCors("CorsPolicy");
 

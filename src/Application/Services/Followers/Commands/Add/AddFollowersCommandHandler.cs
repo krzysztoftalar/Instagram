@@ -39,8 +39,7 @@ namespace Application.Services.Followers.Commands.Add
 
             if (following != null)
             {
-                throw new RestException(HttpStatusCode.BadRequest,
-                    new { User = "You are already following this user" });
+                throw new RestException(HttpStatusCode.BadRequest, new { User = "You are already following this user" });
             }
 
             following = new UserFollowing

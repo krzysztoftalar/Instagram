@@ -65,12 +65,12 @@
         </Grid>
 
         <!-- Avatar -->
-        <Grid Grid.Row="1" Grid.Column="1">
+        <Grid Grid.Row="1" Grid.Column="1" Grid.RowSpan="2">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="40 -75" >
                 <StackPanel Orientation="Vertical" Margin="10" VerticalAlignment="Top">
 
                     <!-- User Display Name -->
-                    <TextBlock x:Name="DisplayName" HorizontalAlignment="Center" FontFamily="Nirmala UI" Text="Name" FontSize="30" Margin="20" VerticalAlignment="Center" Foreground="#FF2A6088"/>
+                    <TextBlock IsEnabled="True" x:Name="DisplayName" HorizontalAlignment="Center" FontFamily="Nirmala UI" Text="Name" FontSize="30" Margin="20" VerticalAlignment="Center" Foreground="#FF2A6088"/>
 
                     <!-- Follow User Button-->
                     <Button x:Name="Follow" Width="120" Content="{Binding FollowBtnContent}" Background="White" Foreground="#FF2A6088" BorderThickness="2" HorizontalAlignment="Center" BorderBrush="{Binding FollowBtnBorder}"
@@ -117,6 +117,14 @@
                 </Grid>
 
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                    <StackPanel Height="60" HorizontalAlignment="Left">
+                        <Button BorderBrush="#FF44325F" Height="60" Width="250" x:Name="EditProfile" Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0" >
+                            <StackPanel Orientation="Horizontal" Width="220">
+                                <materialDesign:PackIcon Kind="InformationVariant" Margin="5 0" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                <TextBlock Margin="20 0" Text="Information" FontSize="20" FontFamily="Consolas"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
                     <StackPanel Visibility="{Binding IsLogIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" Height="60" HorizontalAlignment="Left">
                         <Button BorderBrush="#FF44325F" Height="60" Width="250" x:Name="UploadPhoto" Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0" >
                             <StackPanel Orientation="Horizontal" Width="220">
@@ -124,7 +132,7 @@
                                 <TextBlock Margin="20 0" Text="Upload Photo" FontSize="20" FontFamily="Consolas"/>
                             </StackPanel>
                         </Button>
-                    </StackPanel>
+                    </StackPanel>                  
                     <StackPanel Orientation="Horizontal" Height="60"  >
                         <Button BorderBrush="#FF44325F" Height="60" Width="250" x:Name="PhotosList" Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0" >
                             <StackPanel Orientation="Horizontal" Width="220">
