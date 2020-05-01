@@ -14,7 +14,7 @@
 
 _The application was created for [Programming IV](https://www.wbmii.ath.bielsko.pl) classes.
 The project implements Dependency Injection and MVVM patterns._
-śś
+
 <br/>
 
 <p align="center">
