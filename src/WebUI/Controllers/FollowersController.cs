@@ -24,7 +24,7 @@ namespace WebUI.Controllers
         }
 
         [HttpGet("{username}/follow")]
-        public async Task<ActionResult<List<ProfileDto>>> List(string username, string predicate)
+        public async Task<ActionResult<List<FollowersProfileDto>>> List(string username, string predicate)
         {
             return await Mediator.Send(new FollowersListQuery { Username = username, Predicate = predicate });
         }

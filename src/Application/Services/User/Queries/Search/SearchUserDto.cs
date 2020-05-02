@@ -5,7 +5,7 @@ using Domain.Entities;
 
 namespace Application.Services.User.Queries.Search
 {
-    public class SearchUserDto : IMapFrom<Photo>
+    public class SearchUserDto : IMapFrom<AppUser>
     {
         public string DisplayName { get; set; }
         public string Username { get; set; }

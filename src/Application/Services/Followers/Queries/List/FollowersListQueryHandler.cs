@@ -1,15 +1,14 @@
-﻿using Application.Interfaces;
-using Domain.Entities;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Interfaces;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services.Followers.Queries.List
 {
-    public class FollowersListQueryHandler : IRequestHandler<FollowersListQuery, List<ProfileDto>>
+    public class FollowersListQueryHandler : IRequestHandler<FollowersListQuery, List<FollowersProfileDto>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -18,54 +17,45 @@ namespace Application.Services.Followers.Queries.List
             _context = context;
         }
 
-        public async Task<List<ProfileDto>> Handle(FollowersListQuery request, CancellationToken cancellationToken)
+        public async Task<List<FollowersProfileDto>> Handle(FollowersListQuery request, CancellationToken cancellationToken)
         {
-            var userFollowings = new List<UserFollowing>();
-            var profiles = new List<ProfileDto>();
+            var profiles = new List<FollowersProfileDto>();
 
             switch (request.Predicate)
             {
                 case "followers":
-                    {
-                        userFollowings = await _context.Followings
-                            .Include(x => x.Observer).ThenInclude(x => x.Photos)
-                            .Include(x => x.Target).ThenInclude(x => x.Photos)
-                            .Where(x => x.Target.UserName == request.Username)
-                            .ToListAsync(cancellationToken: cancellationToken);
-
-                        foreach (var follower in userFollowings)
+                {
+                    profiles = await _context.Followings
+                        .Where(x => x.Target.UserName == request.Username)
+                        .Include(x => x.Observer)
+                        .ThenInclude(x => x.Photos)
+                        .Select(x => new FollowersProfileDto
                         {
-                            profiles.Add(new ProfileDto
-                            {
-                                DisplayName = follower.Observer.DisplayName,
-                                UserName = follower.Observer.UserName,
-                                Image = follower.Observer.Photos.FirstOrDefault(x => x.IsMain)?.Url
-                            });
-                        }
+                            DisplayName = x.Observer.DisplayName,
+                            UserName = x.Observer.UserName,
+                            Image = x.Observer.Photos.FirstOrDefault(y => y.IsMain).Url
+                        })
+                        .ToListAsync(cancellationToken);
 
-                        break;
-                    }
+                    break;
+                }
 
                 case "following":
-                    {
-                        userFollowings = await _context.Followings
-                            .Include(x => x.Observer).ThenInclude(x => x.Photos)
-                            .Include(x => x.Target).ThenInclude(x => x.Photos)
-                            .Where(x => x.Observer.UserName == request.Username)
-                            .ToListAsync(cancellationToken: cancellationToken);
-
-                        foreach (var follower in userFollowings)
+                {
+                    profiles = await _context.Followings
+                        .Where(x => x.Observer.UserName == request.Username)
+                        .Include(x => x.Target)
+                        .ThenInclude(x => x.Photos)
+                        .Select(x => new FollowersProfileDto
                         {
-                            profiles.Add(new ProfileDto
-                            {
-                                DisplayName = follower.Target.DisplayName,
-                                UserName = follower.Target.UserName,
-                                Image = follower.Target.Photos.FirstOrDefault(x => x.IsMain)?.Url
-                            });
-                        }
+                            DisplayName = x.Target.DisplayName,
+                            UserName = x.Target.UserName,
+                            Image = x.Target.Photos.FirstOrDefault(y => y.IsMain).Url
+                        })
+                        .ToListAsync(cancellationToken);
 
-                        break;
-                    }
+                    break;
+                }
             }
 
             return profiles;

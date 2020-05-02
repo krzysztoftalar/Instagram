@@ -5,6 +5,7 @@ using DesktopUI.Library.Models;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
+using DesktopUI.Validators;
 
 namespace DesktopUI.ViewModels
 {
@@ -105,26 +106,33 @@ namespace DesktopUI.ViewModels
 
         public async Task Register()
         {
-            var user = new UserFormValues
+            if (Password.IsValidPassword(ref _errorMessage) && Email.IsValidEmail(ref _errorMessage))
             {
-                Username = Username,
-                DisplayName = DisplayName,
-                Email = Email,
-                Password = Password
-            };
+                var user = new UserFormValues
+                {
+                    Username = Username,
+                    DisplayName = DisplayName,
+                    Email = Email,
+                    Password = Password
+                };
 
-            try
-            {
-                await _userEndpoint.Register(user);
+                try
+                {
+                    await _userEndpoint.Register(user);
 
-                MessageBox.Show("You have been successfully registered.", "Congratulations!",
-                     MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("You have been successfully registered.", "Congratulations!",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
 
-                _events.PublishOnUIThread(Navigation.Login);
+                    _events.PublishOnUIThread(Navigation.Login);
+                }
+                catch (Exception ex)
+                {
+                    ErrorMessage = ex.Message;
+                }
             }
-            catch (Exception ex)
+            else
             {
-                ErrorMessage = ex.Message;
+                ErrorMessage = _errorMessage;                
             }
         }
 

@@ -30,7 +30,7 @@
                 <StackPanel VerticalAlignment="Top" Margin="15 50">
 
                     <!-- Error Message -->
-                    <TextBlock x:Name="ErrorMessage" Foreground="Red" FontSize="18" TextWrapping="Wrap" Margin="0 5" />
+                    <TextBlock x:Name="ErrorMessage" Foreground="Red" FontSize="15" TextWrapping="Wrap" Margin="0 5"  Visibility="{Binding IsErrorVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
 
                     <!-- Email -->
                     <TextBox x:Name="Email" Margin="0 5" materialDesign:HintAssist.Hint="Email" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>

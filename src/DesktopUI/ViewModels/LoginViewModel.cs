@@ -3,7 +3,10 @@ using DesktopUI.EventModels;
 using DesktopUI.Library.Api.User;
 using DesktopUI.Library.Models;
 using System;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using DesktopUI.Validators;
 
 namespace DesktopUI.ViewModels
 {

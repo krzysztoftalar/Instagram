@@ -170,6 +170,7 @@
     <Compile Include="EventModels\MessageEvent.cs" />
     <Compile Include="EventModels\Navigation.cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
+    <Compile Include="Validators\ValidatorExtensions.cs" />
     <Compile Include="ViewModels\AddPhotoViewModel.cs" />
     <Compile Include="ViewModels\EditProfileViewModel.cs" />
     <Compile Include="ViewModels\FollowersListViewModel.cs" />

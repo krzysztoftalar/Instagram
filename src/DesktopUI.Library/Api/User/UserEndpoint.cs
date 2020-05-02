@@ -1,4 +1,5 @@
-﻿using DesktopUI.Library.Helpers;
+﻿using DesktopUI.Library.Api.ApiResponse;
+using DesktopUI.Library.Helpers;
 using DesktopUI.Library.Models;
 using System;
 using System.Collections.Generic;
@@ -24,9 +25,9 @@ namespace DesktopUI.Library.Api.User
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.PostAsJsonAsync("/api/users/register", user))
             {
-                if (response.IsSuccessStatusCode == false)
+                if (!response.IsSuccessStatusCode)
                 {
-                    throw new Exception(response.ReasonPhrase);
+                    throw new Exception(response.ApiException());
                 }
             }
         }
@@ -57,7 +58,8 @@ namespace DesktopUI.Library.Api.User
         {
             _apiHelper.ApiClient.DefaultRequestHeaders.Clear();
             _apiHelper.ApiClient.DefaultRequestHeaders.Accept.Clear();
-            _apiHelper.ApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _apiHelper.ApiClient.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
             _apiHelper.ApiClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
             using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("/api/users"))
