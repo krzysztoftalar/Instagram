@@ -96,6 +96,11 @@ namespace DesktopUI.ViewModels
         {
             var result = await _userEndpoint.SearchUsers(Search);
             UsersList = new BindableCollection<AuthenticatedUser>(result);
+
+            foreach (var user in UsersList)
+            {
+                user.Image = user.Image ?? "../Assets/user.png";
+            }
         }
 
         public void ViewProfile()

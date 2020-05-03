@@ -13,7 +13,7 @@ namespace DesktopUI.Library.Api.Profile
         Task<Models.Profile> LoadProfile(string username);
         Task EditProfile(ProfileFormValues profile);
 
-        Task<List<Models.Profile>> LoadFollowing(string username, string predicate);
+        Task<FollowersEnvelope> LoadFollowing(string username, string predicate, int? skip, int? limit);
         Task Follow(string username);
         Task UnFollow(string username);
     }

@@ -67,16 +67,6 @@ namespace WebUI
                     };
                 });
 
-            services.AddCors(options =>
-                options.AddPolicy("CorsPolicy",
-                    policy =>
-                    {
-                        policy
-                            .AllowAnyHeader()
-                            .AllowAnyMethod()
-                            .AllowCredentials();
-                    }));
-
             services.Configure<CloudinarySettings>(Configuration.GetSection("Cloudinary"));
         }
 
@@ -85,7 +75,6 @@ namespace WebUI
             app.UseMiddleware<ErrorHandlingMiddleware>();
 
             app.UseRouting();
-            app.UseCors("CorsPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();

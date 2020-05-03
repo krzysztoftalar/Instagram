@@ -10,6 +10,6 @@ namespace DesktopUI.Library.Api.User
         Task<AuthenticatedUser> Login(UserFormValues user);
         void LogOffUser();
         Task<AuthenticatedUser> CurrentUser(string token);
-        Task<List<AuthenticatedUser>> SearchUsers(string displayname);
+        Task<List<AuthenticatedUser>> SearchUsers(string displayName);
     }
 }

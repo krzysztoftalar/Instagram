@@ -27,6 +27,7 @@ namespace Application.Services.User.Queries.Search
                 .Where(x => x.DisplayName == request.DisplayName)
                 .Include(x => x.Photos)
                 .ProjectTo<SearchUserDto>(_mapper.ConfigurationProvider)
+                .AsNoTracking()
                 .ToListAsync(cancellationToken: cancellationToken);
         }
     }

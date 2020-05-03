@@ -31,9 +31,11 @@ namespace Application.Services.Photos.Commands.Add
             var photoUploadResult = _photoAccessor.AddPhoto(request.File);
 
             var user = await _context.Users
+                .Where(x => x.UserName == _userAccessor.GetCurrentUsername())
                 .Include(x => x.Photos)
-                .SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername(),
-                    cancellationToken: cancellationToken);
+                .AsNoTracking()
+                .Select(x => new {Id = x.Id, MainPhoto = x.Photos.FirstOrDefault(y => y.IsMain)})
+                .FirstAsync(cancellationToken);
 
             var photo = new Photo
             {
@@ -42,7 +44,7 @@ namespace Application.Services.Photos.Commands.Add
                 AppUserId = user.Id
             };
 
-            if (!user.Photos.Any(x => x.IsMain))
+            if (user.MainPhoto == null)
             {
                 photo.IsMain = true;
             }

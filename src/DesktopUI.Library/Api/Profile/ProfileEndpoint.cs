@@ -86,8 +86,7 @@ namespace DesktopUI.Library.Api.Profile
                 if (response.IsSuccessStatusCode == false)
                 {
                     throw new Exception(response.ReasonPhrase);
-                }             
-                
+                }
             }
         }
 
@@ -169,14 +168,15 @@ namespace DesktopUI.Library.Api.Profile
             }
         }
 
-        public async Task<List<Models.Profile>> LoadFollowing(string username, string predicate)
+        public async Task<FollowersEnvelope> LoadFollowing(string username, string predicate, int? skip, int? limit)
         {
             using (HttpResponseMessage response =
-                await _apiHelper.ApiClient.GetAsync($"/api/profiles/{username}/follow?predicate={predicate}"))
+                await _apiHelper.ApiClient
+                    .GetAsync($"/api/profiles/{username}/follow?predicate={predicate}&skip={skip}&limit={limit}"))
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsAsync<List<Models.Profile>>();
+                    var result = await response.Content.ReadAsAsync<FollowersEnvelope>();
                     return result;
                 }
                 else

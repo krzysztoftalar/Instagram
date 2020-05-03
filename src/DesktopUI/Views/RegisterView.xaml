@@ -30,7 +30,7 @@
                 <StackPanel VerticalAlignment="Center" Margin="15">
 
                     <!-- Error Message -->
-                    <TextBlock x:Name="ErrorMessage" Foreground="Red" FontSize="11" TextWrapping="Wrap" Margin="0 5" />
+                    <TextBlock x:Name="ErrorMessage" Foreground="Red" FontSize="13" TextWrapping="Wrap" Margin="0 5" />
 
                     <!-- Username -->
                     <TextBox Margin="0 5" x:Name="Username" materialDesign:HintAssist.Hint="Username" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>

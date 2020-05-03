@@ -2,6 +2,7 @@
 using DesktopUI.EventModels;
 using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Models;
+using System.Threading.Tasks;
 
 namespace DesktopUI.ViewModels
 {
@@ -10,7 +11,12 @@ namespace DesktopUI.ViewModels
         private readonly IProfileEndpoint _profileEndpoint;
         private readonly IProfile _profile;
         private readonly IEventAggregator _events;
+        
         private string _predicate;
+        private int _limit = 10;
+        private int _pageNumber = 1;
+        private int _itemsCount;
+        private int Skip => _limit * (_pageNumber - 1);
 
         public FollowersListViewModel(IProfileEndpoint profileEndpoint, IProfile profile, IEventAggregator events)
         {
@@ -25,8 +31,26 @@ namespace DesktopUI.ViewModels
         {
             base.OnViewLoaded(view);
 
-            var profiles = await _profileEndpoint.LoadFollowing(_profile.Username, _predicate);
-            UserFollowing = new BindableCollection<Profile>(profiles);
+            await LoadFollowing(Skip, _limit);
+
+            NotifyOfPropertyChange(() => IsPrevPage);
+            NotifyOfPropertyChange(() => IsNextPage);
+        }
+
+        private async Task LoadFollowing(int skip, int limit)
+        {
+            var followers = await _profileEndpoint.LoadFollowing(_profile.Username, _predicate, skip, limit);
+            UserFollowing = new BindableCollection<Profile>(followers.Followers);
+
+            foreach (var profile in UserFollowing)
+            {
+                profile.Image = profile.Image ?? "../Assets/user.png";
+            }
+
+            _itemsCount = followers.FollowersCount;
+
+            NotifyOfPropertyChange(() => IsPrevPage);
+            NotifyOfPropertyChange(() => IsNextPage);
         }
 
         private BindableCollection<Profile> _userFollowing;
@@ -50,6 +74,7 @@ namespace DesktopUI.ViewModels
             {
                 _selectedProfile = value;
                 NotifyOfPropertyChange(() => SelectedProfile);
+                
                 ViewProfile();
             }
         }
@@ -58,18 +83,67 @@ namespace DesktopUI.ViewModels
         {
             _events.PublishOnUIThread(Navigation.Profile);
 
-            _events.PublishOnUIThread(new MessageEvent { Username = SelectedProfile.Username });
+            _events.PublishOnUIThread(new MessageEvent {Username = SelectedProfile.Username});
         }
 
-        private string _image;
-
-        public string Image
+        public async Task PrevPage()
         {
-            get => _image;
+            _pageNumber--;
+
+            await LoadFollowing(Skip, _limit);
+
+            NotifyOfPropertyChange(() => IsPrevPage);
+            NotifyOfPropertyChange(() => IsNextPage);
+        }
+
+        public async Task NextPage()
+        {
+            _pageNumber++;
+
+            await LoadFollowing(Skip, _limit);
+
+            NotifyOfPropertyChange(() => IsPrevPage);
+            NotifyOfPropertyChange(() => IsNextPage);
+        }
+
+        private bool _isPrevPage;
+
+        public bool IsPrevPage
+        {
+            get => _isPrevPage = _pageNumber > 1;
             set
             {
-                _image = value;
-                NotifyOfPropertyChange(() => Image);
+                _isPrevPage = value;
+                NotifyOfPropertyChange(() => IsPrevPage);
+            }
+        }
+
+        private bool _isNextPage;
+
+        public bool IsNextPage
+        {
+            get => _isNextPage = _itemsCount > Skip + _limit;
+            set
+            {
+                _isNextPage = value;
+                NotifyOfPropertyChange(() => IsNextPage);
+            }
+        }
+
+        private int _selectedCount;
+
+        public int SelectedCount
+        {
+            get => _selectedCount;
+            set
+            {
+                _selectedCount = value;
+                NotifyOfPropertyChange(() => SelectedCount);
+                
+                _pageNumber = 1;
+                _limit = SelectedCount;
+
+                LoadFollowing(Skip, _limit).ConfigureAwait(false);
             }
         }
 

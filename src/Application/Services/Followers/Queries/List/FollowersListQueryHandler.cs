@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Interfaces;
@@ -8,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services.Followers.Queries.List
 {
-    public class FollowersListQueryHandler : IRequestHandler<FollowersListQuery, List<FollowersProfileDto>>
+    public class FollowersListQueryHandler : IRequestHandler<FollowersListQuery, FollowersEnvelope>
     {
         private readonly IApplicationDbContext _context;
 
@@ -17,48 +16,64 @@ namespace Application.Services.Followers.Queries.List
             _context = context;
         }
 
-        public async Task<List<FollowersProfileDto>> Handle(FollowersListQuery request, CancellationToken cancellationToken)
+        public async Task<FollowersEnvelope> Handle(FollowersListQuery request, CancellationToken cancellationToken)
         {
-            var profiles = new List<FollowersProfileDto>();
+            var followers = default(FollowersEnvelope);
 
             switch (request.Predicate)
             {
                 case "followers":
                 {
-                    profiles = await _context.Followings
+                    var queryable = _context.Followings
                         .Where(x => x.Target.UserName == request.Username)
                         .Include(x => x.Observer)
                         .ThenInclude(x => x.Photos)
-                        .Select(x => new FollowersProfileDto
+                        .Select(x => new FollowerDto
                         {
                             DisplayName = x.Observer.DisplayName,
                             UserName = x.Observer.UserName,
                             Image = x.Observer.Photos.FirstOrDefault(y => y.IsMain).Url
-                        })
-                        .ToListAsync(cancellationToken);
+                        }).AsQueryable();
+
+                    followers = new FollowersEnvelope
+                    {
+                        Followers = await queryable
+                            .Skip(request.Skip ?? 0)
+                            .Take(request.Limit ?? 10)
+                            .ToListAsync(cancellationToken),
+                        FollowersCount = queryable.Count()
+                    };
 
                     break;
                 }
 
                 case "following":
                 {
-                    profiles = await _context.Followings
+                    var queryable = _context.Followings
                         .Where(x => x.Observer.UserName == request.Username)
                         .Include(x => x.Target)
                         .ThenInclude(x => x.Photos)
-                        .Select(x => new FollowersProfileDto
+                        .Select(x => new FollowerDto
                         {
                             DisplayName = x.Target.DisplayName,
                             UserName = x.Target.UserName,
                             Image = x.Target.Photos.FirstOrDefault(y => y.IsMain).Url
-                        })
-                        .ToListAsync(cancellationToken);
+                        }).AsQueryable();
+
+                    followers = new FollowersEnvelope
+                    {
+                        Followers = await queryable
+                            .Skip(request.Skip ?? 0)
+                            .Take(request.Limit ?? 10)
+                            .ToListAsync(cancellationToken),
+                        FollowersCount = queryable.Count()
+                    };
 
                     break;
                 }
             }
 
-            return profiles;
+            return followers;
         }
     }
 }

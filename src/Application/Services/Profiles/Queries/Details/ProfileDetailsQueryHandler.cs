@@ -29,6 +29,7 @@ namespace Application.Services.Profiles.Queries.Details
                 .Include(x => x.Photos)
                 .Include(x => x.Followers)
                 .Include(x => x.Followings)
+                
                 .SingleOrDefaultAsync(x => x.UserName == request.Username, cancellationToken: cancellationToken);
 
             if (user == null)
