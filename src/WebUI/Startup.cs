@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using Persistence;
 using Persistence.Data;
 using System.Text;
+using Infrastructure;
 using WebUI.Configuration;
 using WebUI.Middleware;
 

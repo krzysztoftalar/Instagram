@@ -40,7 +40,8 @@ namespace Persistence.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    DisplayName = table.Column<string>(nullable: true)
+                    DisplayName = table.Column<string>(maxLength: 50, nullable: false),
+                    Bio = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -182,9 +183,9 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    Url = table.Column<string>(nullable: true),
+                    Url = table.Column<string>(maxLength: 100, nullable: false),
                     IsMain = table.Column<bool>(nullable: false),
-                    AppUserId = table.Column<string>(nullable: true)
+                    AppUserId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -194,7 +195,7 @@ namespace Persistence.Migrations
                         column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

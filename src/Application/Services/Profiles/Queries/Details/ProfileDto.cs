@@ -1,9 +1,12 @@
-﻿using Application.Mappings;
+﻿using System.Linq;
+using Application.Mappings;
+using Domain.Entities;
 
 namespace Application.Services.Profiles.Queries.Details
 {
-    public class ProfileDto : IMapFrom<Profile>
+    public class ProfileDto : IMapFrom<AppUser>
     {
+        public string Id { get; set; }
         public string DisplayName { get; set; }
         public string Username { get; set; }
         public string Bio { get; set; }
@@ -14,7 +17,16 @@ namespace Application.Services.Profiles.Queries.Details
 
         public void Mapping(AutoMapper.Profile profile)
         {
-            profile.CreateMap<Profile, ProfileDto>();
+            profile.CreateMap<AppUser, ProfileDto>()
+                .ForMember(d =>
+                    d.Image, opt =>
+                    opt.MapFrom(src => src.Photos.FirstOrDefault(x => x.IsMain).Url))
+                .ForMember(d =>
+                    d.FollowingCount, opt =>
+                    opt.MapFrom(src => src.Followings.Count()))
+                .ForMember(d =>
+                    d.FollowersCount, opt =>
+                    opt.MapFrom(src => src.Followers.Count()));
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Errors;
 using Application.Interfaces;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,13 +26,15 @@ namespace Application.Services.Profiles.Queries.Details
 
         public async Task<ProfileDto> Handle(ProfileDetailsQuery request, CancellationToken cancellationToken)
         {
-            var user = await _context.Users
+            var profile = await _context.Users
+                .Where(x => x.UserName == request.Username)
                 .Include(x => x.Photos)
                 .Include(x => x.Followers)
                 .Include(x => x.Followings)
-                .SingleOrDefaultAsync(x => x.UserName == request.Username, cancellationToken: cancellationToken);
+                .ProjectTo<ProfileDto>(_mapper.ConfigurationProvider)
+                .SingleAsync(cancellationToken);
 
-            if (user == null)
+            if (profile == null)
             {
                 throw new RestException(HttpStatusCode.NotFound, new {User = "Not Found"});
             }
@@ -41,22 +44,12 @@ namespace Application.Services.Profiles.Queries.Details
                 .SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername(),
                     cancellationToken: cancellationToken);
 
-            var profile = new Profile
-            {
-                DisplayName = user.DisplayName,
-                Username = user.UserName,
-                Bio = user.Bio,
-                Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
-                FollowingCount = user.Followings.Count(),
-                FollowersCount = user.Followers.Count()
-            };
-
-            if (currentUser.Followings.Any(x => x.TargetId == user.Id))
+            if (currentUser.Followings.Any(x => x.TargetId == profile.Id))
             {
                 profile.Following = true;
             }
 
-            return _mapper.Map<ProfileDto>(profile);
+            return profile;
         }
     }
 }

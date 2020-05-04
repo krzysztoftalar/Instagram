@@ -48,7 +48,7 @@ namespace Application.Services.Followers.Commands.Add
                 Target = target
             };
 
-            _context.Followings.Add(following);
+            await _context.Followings.AddAsync(following, cancellationToken);
 
             var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 

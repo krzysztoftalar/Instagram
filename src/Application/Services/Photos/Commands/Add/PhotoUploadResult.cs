@@ -1,4 +1,4 @@
-﻿namespace Application.Services.Photos
+﻿namespace Application.Services.Photos.Commands.Add
 {
     public class PhotoUploadResult
     {

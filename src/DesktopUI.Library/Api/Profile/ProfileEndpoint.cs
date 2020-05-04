@@ -82,7 +82,7 @@ namespace DesktopUI.Library.Api.Profile
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.DeleteAsync($"/api/photos/{photo.Id}"))
             {
-                if (response.IsSuccessStatusCode == false)
+                if (!response.IsSuccessStatusCode)
                 {
                     throw new Exception(response.ReasonPhrase);
                 }
@@ -96,8 +96,7 @@ namespace DesktopUI.Library.Api.Profile
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsAsync<PhotosEnvelope>();
-                    return result;
+                    return await response.Content.ReadAsAsync<PhotosEnvelope>();
                 }
                 else
                 {
@@ -191,8 +190,7 @@ namespace DesktopUI.Library.Api.Profile
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsAsync<FollowersEnvelope>();
-                    return result;
+                    return await response.Content.ReadAsAsync<FollowersEnvelope>();
                 }
                 else
                 {

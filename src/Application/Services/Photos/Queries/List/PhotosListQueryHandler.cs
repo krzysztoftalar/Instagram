@@ -2,6 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Interfaces;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,10 +12,12 @@ namespace Application.Services.Photos.Queries.List
     public class PhotosListQueryHandler : IRequestHandler<PhotosListQuery, PhotosEnvelope>
     {
         private readonly IApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public PhotosListQueryHandler(IApplicationDbContext context)
+        public PhotosListQueryHandler(IApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<PhotosEnvelope> Handle(PhotosListQuery request, CancellationToken cancellationToken)
@@ -21,13 +25,9 @@ namespace Application.Services.Photos.Queries.List
             var queryable = _context.Users
                 .Include(x => x.Photos)
                 .Where(x => x.UserName == request.Username)
-                .SelectMany(x => x.Photos.Select(y => new PhotoDto
-                    {
-                        Id = y.Id,
-                        Url = y.Url,
-                        IsMain = y.IsMain
-                    })
-                    .AsQueryable());
+                .SelectMany(x => x.Photos)
+                .ProjectTo<PhotoDto>(_mapper.ConfigurationProvider)
+                .AsQueryable();
 
             return new PhotosEnvelope
             {

@@ -39,8 +39,7 @@ namespace DesktopUI.Library.Api.User
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsAsync<AuthenticatedUser>();
-                    return result;
+                    return await response.Content.ReadAsAsync<AuthenticatedUser>();
                 }
                 else
                 {
@@ -87,8 +86,7 @@ namespace DesktopUI.Library.Api.User
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsAsync<List<AuthenticatedUser>>();
-                    return result;
+                    return await response.Content.ReadAsAsync<List<AuthenticatedUser>>();
                 }
                 else
                 {

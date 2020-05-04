@@ -10,8 +10,8 @@ using Persistence.Data;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200501111349_Fix2")]
-    partial class Fix2
+    [Migration("20200504144406_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -101,7 +101,7 @@ namespace Persistence.Migrations
 
                     b.Property<string>("AppUserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsMain")
                         .HasColumnType("bit");
@@ -112,6 +112,8 @@ namespace Persistence.Migrations
                         .HasMaxLength(100);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("Photos");
                 });
@@ -266,7 +268,7 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.Entities.AppUser", "AppUser")
                         .WithMany("Photos")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

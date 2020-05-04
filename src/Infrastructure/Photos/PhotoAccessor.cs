@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System;
 using Application.Services.Photos;
+using Application.Services.Photos.Commands.Add;
 
 namespace Infrastructure.Photos
 {

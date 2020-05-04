@@ -1,8 +1,8 @@
-﻿using System;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using DesktopUI.EventModels;
 using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Models;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -54,8 +54,6 @@ namespace DesktopUI.ViewModels
                 UserPhotos.Add(photo);
             }
 
-            NotifyOfPropertyChange(() => UserPhotos);
-
             _itemsCount = photos.PhotosCount;
         }
 
@@ -64,7 +62,7 @@ namespace DesktopUI.ViewModels
             if (_pageNumber + 1 < TotalPages)
             {
                 _pageNumber++;
-                
+
                 _loadingNext = true;
                 NotifyOfPropertyChange(() => LoadingNext);
 
@@ -83,7 +81,7 @@ namespace DesktopUI.ViewModels
             set
             {
                 _loadingNext = value;
-                NotifyOfPropertyChange(() => UserPhotos);
+                NotifyOfPropertyChange(() => LoadingNext);
             }
         }
 

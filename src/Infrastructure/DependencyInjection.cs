@@ -3,7 +3,7 @@ using Infrastructure.Photos;
 using Infrastructure.Security;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Application
+namespace Infrastructure
 {
     public static class DependencyInjection
     {

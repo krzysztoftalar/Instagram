@@ -1,4 +1,5 @@
 ﻿using Application.Services.Photos;
+using Application.Services.Photos.Commands.Add;
 using Microsoft.AspNetCore.Http;
 
 namespace Application.Interfaces
