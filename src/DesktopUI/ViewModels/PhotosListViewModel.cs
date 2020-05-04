@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using Caliburn.Micro;
 using DesktopUI.EventModels;
 using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Models;
@@ -14,8 +15,13 @@ namespace DesktopUI.ViewModels
         private readonly IEventAggregator _events;
         private readonly IProfile _profile;
         private readonly IAuthenticatedUser _user;
-        private string _username;
         private bool _isEditMode;
+
+        private int _limit = 4;
+        private int _pageNumber;
+        private int _itemsCount;
+        private int Skip => _pageNumber * _limit;
+        private int TotalPages => (int)Math.Ceiling((double)_itemsCount / _limit);
 
         public PhotosListViewModel(IProfileEndpoint profileEndpoint, IEventAggregator events, IProfile profile,
             IAuthenticatedUser user)
@@ -32,9 +38,53 @@ namespace DesktopUI.ViewModels
         {
             base.OnViewLoaded(view);
 
-            var username = _username ?? _profile.Username;
-            var profile = await _profileEndpoint.LoadProfile(username);
-            UserPhotos = new ObservableCollection<Photo>(profile.Photos);
+            UserPhotos = new ObservableCollection<Photo>();
+
+            await LoadPhotos(Skip, _limit);
+        }
+
+        public async Task LoadPhotos(int skip, int limit)
+        {
+            var username = _isEditMode ? _profile.Username : _user.Username;
+
+            var photos = await _profileEndpoint.LoadPhotos(username, skip, limit);
+
+            foreach (var photo in photos.Photos)
+            {
+                UserPhotos.Add(photo);
+            }
+
+            NotifyOfPropertyChange(() => UserPhotos);
+
+            _itemsCount = photos.PhotosCount;
+        }
+
+        public async Task HandleGetNext()
+        {
+            if (_pageNumber + 1 < TotalPages)
+            {
+                _pageNumber++;
+                
+                _loadingNext = true;
+                NotifyOfPropertyChange(() => LoadingNext);
+
+                await LoadPhotos(Skip, _limit);
+
+                _loadingNext = false;
+                NotifyOfPropertyChange(() => LoadingNext);
+            }
+        }
+
+        private bool _loadingNext;
+
+        public bool LoadingNext
+        {
+            get => _loadingNext;
+            set
+            {
+                _loadingNext = value;
+                NotifyOfPropertyChange(() => UserPhotos);
+            }
         }
 
         private ObservableCollection<Photo> _userPhotos;
@@ -110,8 +160,9 @@ namespace DesktopUI.ViewModels
 
         public void Handle(MessageEvent message)
         {
-            _username = message.Username;
             _isEditMode = message.IsEditMode;
+
+            HandleGetNext().ConfigureAwait(false);
         }
     }
 }

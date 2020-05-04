@@ -28,7 +28,7 @@
             </StackPanel>
         </Grid>
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+        <ScrollViewer ScrollChanged="ScrollViewer_ScrollChanged" VerticalScrollBarVisibility="Auto" Grid.Row="1">
             <StackPanel>
                 <ListView x:Name="UserPhotos" SelectedItem="{Binding SelectedPhoto}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="20 0 0 0">
                     <ListView.ItemTemplate>
@@ -46,6 +46,7 @@
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
                 </ListView>
+                <ProgressBar Visibility="{Binding LoadingNext, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" Style="{StaticResource MaterialDesignCircularProgressBar}" Value="35" IsIndeterminate="True" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

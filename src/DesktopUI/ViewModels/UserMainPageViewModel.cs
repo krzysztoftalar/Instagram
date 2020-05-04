@@ -24,13 +24,6 @@ namespace DesktopUI.ViewModels
             ActivateItem(IoC.Get<PhotosListViewModel>());
         }
 
-        protected override void OnViewLoaded(object view)
-        {
-            base.OnViewLoaded(view);
-
-            _events.PublishOnUIThread(new MessageEvent { Username = _user.Username });
-        }
-
         private string _image;
 
         public string Image

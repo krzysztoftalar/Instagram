@@ -29,7 +29,6 @@ namespace Application.Services.Profiles.Queries.Details
                 .Include(x => x.Photos)
                 .Include(x => x.Followers)
                 .Include(x => x.Followings)
-                
                 .SingleOrDefaultAsync(x => x.UserName == request.Username, cancellationToken: cancellationToken);
 
             if (user == null)
@@ -48,7 +47,6 @@ namespace Application.Services.Profiles.Queries.Details
                 Username = user.UserName,
                 Bio = user.Bio,
                 Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
-                Photos = user.Photos,
                 FollowingCount = user.Followings.Count(),
                 FollowersCount = user.Followers.Count()
             };

@@ -1,7 +1,6 @@
 ﻿using DesktopUI.Library.Helpers;
 using DesktopUI.Library.Models;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -90,6 +89,23 @@ namespace DesktopUI.Library.Api.Profile
             }
         }
 
+        public async Task<PhotosEnvelope> LoadPhotos(string username, int? skip, int? limit)
+        {
+            using (HttpResponseMessage response =
+                await _apiHelper.ApiClient.GetAsync($"/api/photos/{username}?skip={skip}&limit={limit}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<PhotosEnvelope>();
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
         public async Task<Models.Profile> LoadProfile(string username)
         {
             using (HttpResponseMessage response =
@@ -102,7 +118,6 @@ namespace DesktopUI.Library.Api.Profile
                     _profile.Username = result.Username;
                     _profile.Bio = result.Bio;
                     _profile.Image = result.Image;
-                    _profile.Photos = result.Photos;
                     _profile.Following = result.Following;
                     _profile.FollowingCount = result.FollowingCount;
                     _profile.FollowersCount = result.FollowersCount;

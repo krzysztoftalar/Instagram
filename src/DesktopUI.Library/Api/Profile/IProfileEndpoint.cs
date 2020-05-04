@@ -9,6 +9,7 @@ namespace DesktopUI.Library.Api.Profile
         Task UploadPhoto(string photo);
         Task SetMainPhoto(Photo photo);
         Task DeletePhoto(Photo photo);
+        Task<PhotosEnvelope> LoadPhotos(string username, int? skip, int? limit);
 
         Task<Models.Profile> LoadProfile(string username);
         Task EditProfile(ProfileFormValues profile);

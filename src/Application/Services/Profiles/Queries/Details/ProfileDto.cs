@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Application.Mappings;
+﻿using Application.Mappings;
 
 namespace Application.Services.Profiles.Queries.Details
 {
@@ -12,14 +11,10 @@ namespace Application.Services.Profiles.Queries.Details
         public bool Following { get; set; }
         public int FollowingCount { get; set; }
         public int FollowersCount { get; set; }
-        public ICollection<PhotoDto> Photos { get; set; }
 
         public void Mapping(AutoMapper.Profile profile)
         {
-            profile.CreateMap<Profile, ProfileDto>()
-                .ForMember(d =>
-                    d.Photos, opt =>
-                    opt.MapFrom(src => src.Photos));
+            profile.CreateMap<Profile, ProfileDto>();
         }
     }
 }

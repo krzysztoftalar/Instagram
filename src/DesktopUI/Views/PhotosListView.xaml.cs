@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using Caliburn.Micro;
+using DesktopUI.EventModels;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DesktopUI.Views
 {
@@ -23,6 +12,21 @@ namespace DesktopUI.Views
         public PhotosListView()
         {
             InitializeComponent();
+
+            events = IoC.Get<IEventAggregator>();
+        }
+
+        public IEventAggregator events;  
+
+        private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            if (e.VerticalChange > 0)
+            {
+                if (e.VerticalOffset + e.ViewportHeight == e.ExtentHeight)
+                {
+                    events.PublishOnUIThread(new MessageEvent());                   
+                }
+            }
         }
     }
 }
