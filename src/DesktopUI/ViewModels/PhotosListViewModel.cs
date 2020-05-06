@@ -21,7 +21,7 @@ namespace DesktopUI.ViewModels
         private int _pageNumber;
         private int _itemsCount;
         private int Skip => _pageNumber * _limit;
-        private int TotalPages => (int)Math.Ceiling((double)_itemsCount / _limit);
+        private int TotalPages => (int) Math.Ceiling((double) _itemsCount / _limit);
 
         public PhotosListViewModel(IProfileEndpoint profileEndpoint, IEventAggregator events, IProfile profile,
             IAuthenticatedUser user)

@@ -24,10 +24,10 @@ namespace Application.Services.User.Queries.Search
         public async Task<List<SearchUserDto>> Handle(SearchUsersQuery request, CancellationToken cancellationToken)
         {
             return await _context.Users
+                .AsNoTracking()
                 .Where(x => x.DisplayName == request.DisplayName)
                 .Include(x => x.Photos)
                 .ProjectTo<SearchUserDto>(_mapper.ConfigurationProvider)
-                .AsNoTracking()
                 .ToListAsync(cancellationToken: cancellationToken);
         }
     }

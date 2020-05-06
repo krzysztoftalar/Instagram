@@ -25,13 +25,7 @@ namespace WebUI.Controllers
         [HttpGet("{username}/follow")]
         public async Task<ActionResult<FollowersEnvelope>> List(string username, string predicate, int? skip, int? limit)
         {
-            return await Mediator.Send(new FollowersListQuery
-            {
-                Username = username,
-                Predicate = predicate,
-                Skip = skip,
-                Limit = limit
-            });
+            return await Mediator.Send(new FollowersListQuery.Query(username, predicate, skip, limit));
         }
     }
 }

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services.Followers.Queries.List
 {
-    public class FollowersListQueryHandler : IRequestHandler<FollowersListQuery, FollowersEnvelope>
+    public class FollowersListQueryHandler : IRequestHandler<FollowersListQuery.Query, FollowersEnvelope>
     {
         private readonly IApplicationDbContext _context;
 
@@ -16,7 +16,7 @@ namespace Application.Services.Followers.Queries.List
             _context = context;
         }
 
-        public async Task<FollowersEnvelope> Handle(FollowersListQuery request, CancellationToken cancellationToken)
+        public async Task<FollowersEnvelope> Handle(FollowersListQuery.Query request, CancellationToken cancellationToken)
         {
             var followers = default(FollowersEnvelope);
 
