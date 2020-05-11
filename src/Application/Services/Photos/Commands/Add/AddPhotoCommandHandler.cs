@@ -31,10 +31,10 @@ namespace Application.Services.Photos.Commands.Add
             var photoUploadResult = _photoAccessor.AddPhoto(request.File);
 
             var user = await _context.Users
-                .AsNoTracking()
-                .Where(x => x.UserName == _userAccessor.GetCurrentUsername())
                 .Include(x => x.Photos)
+                .Where(x => x.UserName == _userAccessor.GetCurrentUsername())
                 .Select(x => new {Id = x.Id, MainPhoto = x.Photos.FirstOrDefault(y => y.IsMain)})
+                .AsNoTracking()
                 .FirstAsync(cancellationToken);
 
             var photo = new Photo

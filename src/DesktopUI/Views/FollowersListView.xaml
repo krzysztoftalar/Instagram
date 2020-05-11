@@ -14,7 +14,9 @@
 
         <Grid Grid.Row="0">
             <StackPanel Orientation="Horizontal" Margin="50 10" VerticalAlignment="Top" HorizontalAlignment="Right">
-                <Label Margin="10" Content="Items:" FontSize="20" Foreground="white" VerticalAlignment="Center" />
+                <Label Margin="10" Content="Show" FontSize="20" Foreground="white" VerticalAlignment="Center" />
+                
+                <!-- Items per page -->
                 <ComboBox SelectedValue="{Binding SelectedCount}" SelectedValuePath="Content" FontSize="20" Foreground="white">
                     <ComboBoxItem Content="10" />
                     <ComboBoxItem Content="20" />

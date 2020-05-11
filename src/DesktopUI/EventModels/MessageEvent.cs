@@ -8,5 +8,6 @@
         public string DisplayName { get; set; }
         public string Bio { get; set; }
         public bool IsEditMode { get; set; }
+        public bool HandleGetNext { get; set; }
     }
 }

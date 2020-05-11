@@ -126,13 +126,19 @@ namespace DesktopUI.ViewModels
 
             await _profileEndpoint.EditProfile(profile);
 
+            MessageBox.Show("Profile edited successfully", "Congratulations!",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+
             _events.PublishOnUIThread(new MessageEvent());
         }
 
         public void Handle(MessageEvent message)
         {
-            DisplayName = message.DisplayName;
-            Bio = message.Bio;
+            if (message.DisplayName != null)
+            {
+                DisplayName = message.DisplayName;
+                Bio = message.Bio;
+            }
         }
     }
 }

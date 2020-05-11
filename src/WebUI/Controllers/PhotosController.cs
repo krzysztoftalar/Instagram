@@ -20,7 +20,7 @@ namespace WebUI.Controllers
         [HttpPost("{id}/setMain")]
         public async Task<ActionResult<Unit>> SetMain(string id)
         {
-            return await Mediator.Send(new SetMainCommand {Id = id});
+            return await Mediator.Send(new SetMainPhotoCommand {Id = id});
         }
 
         [HttpDelete("{id}")]

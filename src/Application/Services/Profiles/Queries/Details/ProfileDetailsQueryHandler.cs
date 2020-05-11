@@ -27,10 +27,10 @@ namespace Application.Services.Profiles.Queries.Details
         public async Task<ProfileDto> Handle(ProfileDetailsQuery request, CancellationToken cancellationToken)
         {
             var profile = await _context.Users
-                .Where(x => x.UserName == request.Username)
                 .Include(x => x.Photos)
                 .Include(x => x.Followers)
                 .Include(x => x.Followings)
+                .Where(x => x.UserName == request.Username)
                 .ProjectTo<ProfileDto>(_mapper.ConfigurationProvider)
                 .SingleAsync(cancellationToken);
 

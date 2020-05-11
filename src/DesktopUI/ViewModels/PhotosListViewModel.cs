@@ -4,7 +4,6 @@ using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Models;
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DesktopUI.ViewModels
@@ -15,13 +14,13 @@ namespace DesktopUI.ViewModels
         private readonly IEventAggregator _events;
         private readonly IProfile _profile;
         private readonly IAuthenticatedUser _user;
-        private bool _isEditMode;
+        private bool _isEditMode;      
 
         private int _limit = 4;
         private int _pageNumber;
         private int _itemsCount;
         private int Skip => _pageNumber * _limit;
-        private int TotalPages => (int) Math.Ceiling((double) _itemsCount / _limit);
+        private int TotalPages => (int)Math.Ceiling((double)_itemsCount / _limit);
 
         public PhotosListViewModel(IProfileEndpoint profileEndpoint, IEventAggregator events, IProfile profile,
             IAuthenticatedUser user)
@@ -127,9 +126,7 @@ namespace DesktopUI.ViewModels
                 _user.Image = null;
             }
 
-            var updatePhotos = UserPhotos.Where(x => x.Id != SelectedPhoto.Id);
-            UserPhotos = new ObservableCollection<Photo>(updatePhotos);
-            NotifyOfPropertyChange(() => UserPhotos);
+            UserPhotos.Remove(SelectedPhoto);
 
             _events.PublishOnUIThread(new MessageEvent());
         }
@@ -160,7 +157,10 @@ namespace DesktopUI.ViewModels
         {
             _isEditMode = message.IsEditMode;
 
-            HandleGetNext().ConfigureAwait(false);
+            if (message.HandleGetNext)
+            {
+                HandleGetNext().ConfigureAwait(false);
+            }
         }
     }
 }

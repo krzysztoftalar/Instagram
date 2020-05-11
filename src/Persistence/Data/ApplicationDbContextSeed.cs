@@ -19,7 +19,7 @@ namespace Persistence.Data
 
                 await context.SaveChangesAsync();
 
-                context.Followings.AddRange(GetPreconfiguredFollowers());
+                await context.Followings.AddRangeAsync(GetPreconfiguredFollowers());
 
                 await context.SaveChangesAsync();
             }

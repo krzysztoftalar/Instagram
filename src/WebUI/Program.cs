@@ -28,7 +28,6 @@ namespace WebUI
 
                     context.Database.Migrate();
                     await ApplicationDbContextSeed.SeedData(context, userManager);
-
                 }
                 catch (Exception ex)
                 {

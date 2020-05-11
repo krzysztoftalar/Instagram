@@ -50,7 +50,7 @@ namespace DesktopUI.Validators
 
             if (!isEmail.IsMatch(email))
             {
-                errorMessage = "Please enter a valid email address";
+                errorMessage = "Please enter a valid email address.";
                 return false;
             }
             else

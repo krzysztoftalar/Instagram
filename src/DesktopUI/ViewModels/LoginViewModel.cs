@@ -96,6 +96,11 @@ namespace DesktopUI.ViewModels
             catch (Exception ex)
             {
                 ErrorMessage = ex.Message;
+
+                if (ex.Message == "Unauthorized")
+                {
+                    ErrorMessage = "Incorrect email address or password, please try again.";
+                }               
             }
         }
 

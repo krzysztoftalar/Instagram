@@ -31,10 +31,7 @@ namespace DesktopUI.ViewModels
         {
             base.OnViewLoaded(view);
 
-            await LoadFollowing(Skip, _limit);
-
-            NotifyOfPropertyChange(() => IsPrevPage);
-            NotifyOfPropertyChange(() => IsNextPage);
+            await LoadFollowing(Skip, _limit);          
         }
 
         private async Task LoadFollowing(int skip, int limit)

@@ -157,42 +157,37 @@ namespace DesktopUI.ViewModels
         {
             ActivateItem(IoC.Get<EditProfileViewModel>());
 
-            _events.PublishOnUIThread(new MessageEvent
-            {
-                DisplayName = _profile.DisplayName,
-                Bio = _profile.Bio
-            });
+            _events.PublishOnUIThread(new MessageEvent {DisplayName = _profile.DisplayName, Bio = _profile.Bio});
         }
 
         public void PhotosList()
         {
             ActivateItem(IoC.Get<PhotosListViewModel>());
 
-            _events.PublishOnUIThread(new MessageEvent { IsEditMode = true });
+            _events.PublishOnUIThread(new MessageEvent {IsEditMode = true});
         }
 
         public void LoadFollowing()
         {
             ActivateItem(IoC.Get<FollowersListViewModel>());
 
-            _events.PublishOnUIThread(new MessageEvent { Predicate = "following" });
+            _events.PublishOnUIThread(new MessageEvent {Predicate = "following"});
         }
 
         public void LoadFollowers()
         {
             ActivateItem(IoC.Get<FollowersListViewModel>());
 
-            _events.PublishOnUIThread(new MessageEvent { Predicate = "followers" });
+            _events.PublishOnUIThread(new MessageEvent {Predicate = "followers"});
         }
 
         public void BackToMainPage()
         {
             _profile.Username = null;
-            
+
             _events.PublishOnUIThread(Navigation.Main);
 
-            _events.PublishOnUIThread(new MessageEvent { Username = _user.Username });
-            _events.PublishOnUIThread(new MessageEvent { IsEditMode = false });
+            _events.PublishOnUIThread(new MessageEvent {Username = _user.Username, IsEditMode = false});
         }
 
         public void Handle(MessageEvent message)

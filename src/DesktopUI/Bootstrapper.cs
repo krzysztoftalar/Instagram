@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using DesktopUI.Helpers;
 using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Api.User;
 using DesktopUI.Library.Helpers;
@@ -9,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using DesktopUI.Helpers;
 
 namespace DesktopUI
 {

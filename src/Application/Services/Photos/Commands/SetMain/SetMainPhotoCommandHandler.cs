@@ -10,18 +10,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services.Photos.Commands.SetMain
 {
-    public class SetMainCommandHandler : IRequestHandler<SetMainCommand>
+    public class SetMainPhotoCommandHandler : IRequestHandler<SetMainPhotoCommand>
     {
         private readonly IApplicationDbContext _context;
         private readonly IUserAccessor _userAccessor;
 
-        public SetMainCommandHandler(IApplicationDbContext context, IUserAccessor userAccessor)
+        public SetMainPhotoCommandHandler(IApplicationDbContext context, IUserAccessor userAccessor)
         {
             _context = context;
             _userAccessor = userAccessor;
         }
 
-        public async Task<Unit> Handle(SetMainCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(SetMainPhotoCommand request, CancellationToken cancellationToken)
         {
             var user = await _context.Users
                 .Include(x => x.Photos)

@@ -91,6 +91,7 @@
         <!-- Content Control -->
         <ContentControl x:Name="ActiveItem" Grid.Row="2" Grid.Column="1" />
 
+        <!-- Empty Grid -->
         <Grid Grid.Row="1" Grid.Column="0" Background="White"/>
 
         <!-- Grid Menu -->

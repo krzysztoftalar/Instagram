@@ -16,7 +16,7 @@ namespace DesktopUI.Views
             _events = IoC.Get<IEventAggregator>();
         }
 
-        private readonly IEventAggregator _events;  
+        private readonly IEventAggregator _events;
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
@@ -24,7 +24,7 @@ namespace DesktopUI.Views
             {
                 if (e.VerticalOffset + e.ViewportHeight == e.ExtentHeight)
                 {
-                    _events.PublishOnUIThread(new MessageEvent());                   
+                    _events.PublishOnUIThread(new MessageEvent { HandleGetNext = true });
                 }
             }
         }

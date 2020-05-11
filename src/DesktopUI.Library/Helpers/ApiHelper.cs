@@ -7,9 +7,7 @@ namespace DesktopUI.Library.Helpers
 {
     public class ApiHelper : IApiHelper
     {
-        private HttpClient _apiClient;
-
-        public HttpClient ApiClient => _apiClient;
+        public HttpClient ApiClient { get; private set; }
 
         public ApiHelper()
         {
@@ -20,9 +18,9 @@ namespace DesktopUI.Library.Helpers
         {
             string api = ConfigurationManager.AppSettings["Api"];
 
-            _apiClient = new HttpClient {BaseAddress = new Uri(api)};
-            _apiClient.DefaultRequestHeaders.Accept.Clear();
-            _apiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            ApiClient = new HttpClient {BaseAddress = new Uri(api)};
+            ApiClient.DefaultRequestHeaders.Accept.Clear();
+            ApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
     }
 }

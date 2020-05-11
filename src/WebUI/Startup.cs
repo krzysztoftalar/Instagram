@@ -3,20 +3,16 @@ using Application.Services.Profiles.Commands.Edit;
 using Application.Services.User.Commands.Register;
 using Application.Services.User.Queries.Login;
 using FluentValidation.AspNetCore;
+using Infrastructure;
 using Infrastructure.Photos;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using Persistence;
-using Persistence.Data;
-using System.Text;
-using Infrastructure;
-using WebUI.Configuration;
+using WebUI.Configurations;
 using WebUI.Middleware;
 
 namespace WebUI
@@ -49,24 +45,7 @@ namespace WebUI
             services.AddPersistence(Configuration);
 
             services.AddSwaggerDocumentation();
-
-            services.AddHealthChecks()
-                .AddDbContextCheck<ApplicationDbContext>();
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8
-                .GetBytes(Configuration.GetValue<string>("TokenKey:SecurityKey")));
-
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = key,
-                        ValidateAudience = false,
-                        ValidateIssuer = false
-                    };
-                });
+            services.AddJwtIdentity(Configuration.GetSection("JwtConfiguration"));
 
             services.Configure<CloudinarySettings>(Configuration.GetSection("Cloudinary"));
         }
