@@ -37,6 +37,8 @@ namespace Application.Services.Photos.Commands.SetMain
 
             var currentMainPhoto = user.Photos.FirstOrDefault(x => x.IsMain);
 
+            if (currentMainPhoto == photo) return Unit.Value;
+
             if (currentMainPhoto != null)
             {
                 currentMainPhoto.IsMain = false;

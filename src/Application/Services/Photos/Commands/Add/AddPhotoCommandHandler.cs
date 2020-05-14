@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using AutoMapper;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +7,6 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 
 namespace Application.Services.Photos.Commands.Add
 {
@@ -33,7 +33,7 @@ namespace Application.Services.Photos.Commands.Add
             var user = await _context.Users
                 .Include(x => x.Photos)
                 .Where(x => x.UserName == _userAccessor.GetCurrentUsername())
-                .Select(x => new {Id = x.Id, MainPhoto = x.Photos.FirstOrDefault(y => y.IsMain)})
+                .Select(x => new { UserId = x.Id, MainPhoto = x.Photos.FirstOrDefault(y => y.IsMain) })
                 .AsNoTracking()
                 .FirstAsync(cancellationToken);
 
@@ -41,7 +41,7 @@ namespace Application.Services.Photos.Commands.Add
             {
                 Id = photoUploadResult.PublicId,
                 Url = photoUploadResult.Url,
-                AppUserId = user.Id
+                AppUserId = user.UserId
             };
 
             if (user.MainPhoto == null)
