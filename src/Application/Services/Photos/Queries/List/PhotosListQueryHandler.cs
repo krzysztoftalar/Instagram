@@ -1,11 +1,12 @@
-﻿using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Application.Helpers;
 using Application.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Application.Services.Photos.Queries.List
 {
@@ -23,19 +24,18 @@ namespace Application.Services.Photos.Queries.List
         public async Task<PhotosEnvelope> Handle(PhotosListQuery request, CancellationToken cancellationToken)
         {
             var queryable = _context.Users
-                .Include(x => x.Photos)
-                .Where(x => x.UserName == request.Username)
-                .SelectMany(x => x.Photos)
-                .ProjectTo<PhotoDto>(_mapper.ConfigurationProvider)
-                .AsQueryable();
+              .Include(x => x.Photos)
+              .Where(x => x.UserName == request.Username)
+              .SelectMany(x => x.Photos)
+              .ProjectTo<PhotoDto>(_mapper.ConfigurationProvider)
+              .AsQueryable();
+
+            var photos = await PagedList<PhotoDto>.CreateAsync(queryable, request.Skip, request.Limit);
 
             return new PhotosEnvelope
             {
-                Photos = await queryable
-                    .Skip(request.Skip ?? 0)
-                    .Take(request.Limit ?? 10)
-                    .ToListAsync(cancellationToken),
-                PhotosCount = await queryable.CountAsync(cancellationToken)
+                Photos = photos,
+                PhotosCount = photos.TotalCount
             };
         }
     }
