@@ -1,11 +1,10 @@
 ﻿using Application.Interfaces;
+using Application.Services.Photos.Commands.Add;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System;
-using Application.Services.Photos;
-using Application.Services.Photos.Commands.Add;
 
 namespace Infrastructure.Photos
 {
@@ -50,7 +49,7 @@ namespace Infrastructure.Photos
                 Url = uploadResult.SecureUri.AbsoluteUri
             };
         }
-        
+
         public string DeletePhoto(string publicId)
         {
             var deleteParams = new DeletionParams(publicId);

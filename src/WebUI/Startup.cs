@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Persistence;
 using WebUI.Configurations;
 using WebUI.Middleware;
+using WebUI.SignalR;
 
 namespace WebUI
 {
@@ -43,6 +44,7 @@ namespace WebUI
             services.AddApplication();
             services.AddInfrastructure();
             services.AddPersistence(Configuration);
+            services.AddSignalR();
 
             services.AddSwaggerDocumentation();
             services.AddJwtIdentity(Configuration.GetSection("JwtConfiguration"));
@@ -61,7 +63,11 @@ namespace WebUI
 
             app.UseSwaggerDocumentation();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chat");
+            });
         }
     }
 }

@@ -31,6 +31,10 @@ namespace DesktopUI.ViewModels
                 case Navigation.Profile:
                     ActivateItem(IoC.Get<UserProfilePageViewModel>());
                     break;
+
+                case Navigation.Chat:
+                    ActivateItem(IoC.Get<ChatPageViewModel>());
+                    break;
             }
         }
     }

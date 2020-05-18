@@ -26,7 +26,7 @@ namespace WebUI
                     var context = services.GetRequiredService<ApplicationDbContext>();
                     var userManager = services.GetRequiredService<UserManager<AppUser>>();
 
-                    context.Database.Migrate();
+                    await context.Database.MigrateAsync();
                     await ApplicationDbContextSeed.SeedData(context, userManager);
                 }
                 catch (Exception ex)
@@ -36,7 +36,7 @@ namespace WebUI
                 }
             }
 
-            host.Run();
+            await host.RunAsync();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

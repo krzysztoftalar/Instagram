@@ -2,7 +2,9 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace WebUI.Configurations
 {
@@ -20,7 +22,24 @@ namespace WebUI.Configurations
                       ValidateIssuerSigningKey = true,
                       IssuerSigningKey = key,
                       ValidateAudience = false,
-                      ValidateIssuer = false
+                      ValidateIssuer = false,
+                      ValidateLifetime = true,
+                      ClockSkew = TimeSpan.Zero
+                  };
+                  options.Events = new JwtBearerEvents
+                  {
+                      OnMessageReceived = context =>
+                      {
+                          var accessToken = context.Request.Query["access_token"];
+                          var path = context.HttpContext.Request.Path;
+                          if (!string.IsNullOrEmpty(accessToken)
+                            && (path.StartsWithSegments("/chat")))
+                          {
+                              context.Token = accessToken;
+                          }
+
+                          return Task.CompletedTask;
+                      }
                   };
               });
 

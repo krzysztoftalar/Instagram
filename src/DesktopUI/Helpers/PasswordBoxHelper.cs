@@ -14,8 +14,7 @@ namespace DesktopUI.Helpers
 
         public static string GetBoundPassword(DependencyObject d)
         {
-            var box = d as PasswordBox;
-            if (box != null)
+            if (d is PasswordBox box)
             {
                 box.PasswordChanged -= PasswordChanged;
                 box.PasswordChanged += PasswordChanged;
@@ -34,9 +33,7 @@ namespace DesktopUI.Helpers
 
         private static void OnBoundPasswordChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var box = d as PasswordBox;
-
-            if (box == null)
+            if (!(d is PasswordBox box))
                 return;
 
             box.Password = GetBoundPassword(d);

@@ -10,6 +10,8 @@ namespace Application.Interfaces
         DbSet<AppUser> Users { get; set; }
         DbSet<Photo> Photos { get; set; }
         DbSet<UserFollowing> Followings { get; set; }
+        DbSet<Comment> Comments { get; set; }
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
     }
 }

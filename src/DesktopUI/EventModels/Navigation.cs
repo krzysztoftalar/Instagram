@@ -5,6 +5,7 @@
         Register,
         Login,
         Profile,
-        Main
+        Main,
+        Chat
     }
 }

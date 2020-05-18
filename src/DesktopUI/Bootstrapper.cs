@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using DesktopUI.Helpers;
+using DesktopUI.Library.Api.Comment;
 using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Api.User;
 using DesktopUI.Library.Helpers;
@@ -31,14 +32,18 @@ namespace DesktopUI
         {
             _container.Instance(_container)
                 .PerRequest<IUserEndpoint, UserEndpoint>()
-                .PerRequest<IProfileEndpoint, ProfileEndpoint>();
+                .PerRequest<IProfileEndpoint, ProfileEndpoint>()
+                .PerRequest<ICommentEndpoint, CommentEndpoint>();
 
             _container
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
                 .Singleton<IApiHelper, ApiHelper>()
+                .Singleton<IChatHelper, ChatHelper>()
                 .Singleton<IAuthenticatedUser, AuthenticatedUser>()
-                .Singleton<IProfile, Profile>();
+                .Singleton<IProfile, Profile>()
+                .Singleton<IPhoto, Photo>();
+
 
             GetType().Assembly.GetTypes()
                 .Where(type => type.IsClass)

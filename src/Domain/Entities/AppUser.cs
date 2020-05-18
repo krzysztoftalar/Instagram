@@ -16,5 +16,6 @@ namespace Domain.Entities
         public virtual ICollection<Photo> Photos { get; set; }
         public virtual ICollection<UserFollowing> Followings { get; set; }
         public virtual ICollection<UserFollowing> Followers { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

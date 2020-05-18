@@ -22,7 +22,7 @@ namespace DesktopUI.ViewModels
 
         public string Email
         {
-            get => _email;
+            get => _email = "bob@test.com";
             set
             {
                 _email = value;
@@ -35,7 +35,7 @@ namespace DesktopUI.ViewModels
 
         public string Password
         {
-            get => _password;
+            get => _password = "Pa$$w0rd";
             set
             {
                 _password = value;
@@ -100,7 +100,7 @@ namespace DesktopUI.ViewModels
                 if (ex.Message == "Unauthorized")
                 {
                     ErrorMessage = "Incorrect email address or password, please try again.";
-                }               
+                }
             }
         }
 

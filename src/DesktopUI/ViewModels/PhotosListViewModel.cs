@@ -8,13 +8,16 @@ using System.Threading.Tasks;
 
 namespace DesktopUI.ViewModels
 {
-    public class PhotosListViewModel : Screen, IHandle<MessageEvent>
+    public class PhotosListViewModel : Screen, IHandle<MessageEvent>, IHandle<ModeEvent>
     {
         private readonly IProfileEndpoint _profileEndpoint;
         private readonly IEventAggregator _events;
         private readonly IProfile _profile;
         private readonly IAuthenticatedUser _user;
-        private bool _isEditMode;      
+        private IPhoto _photo;
+
+        private bool _isEditMode;
+        private bool _fromProfilePage;
 
         private int _limit = 4;
         private int _pageNumber;
@@ -23,12 +26,13 @@ namespace DesktopUI.ViewModels
         private int TotalPages => (int)Math.Ceiling((double)_itemsCount / _limit);
 
         public PhotosListViewModel(IProfileEndpoint profileEndpoint, IEventAggregator events, IProfile profile,
-            IAuthenticatedUser user)
+            IAuthenticatedUser user, IPhoto photo)
         {
             _profileEndpoint = profileEndpoint;
             _events = events;
             _profile = profile;
             _user = user;
+            _photo = photo;
 
             events.Subscribe(this);
         }
@@ -106,6 +110,18 @@ namespace DesktopUI.ViewModels
                 _selectedPhoto = value;
                 NotifyOfPropertyChange(() => SelectedPhoto);
                 NotifyOfPropertyChange(() => IsSelectedUser);
+
+                if (SelectedPhoto != null)
+                {
+                    _photo.Id = SelectedPhoto.Id;
+                    _photo.Url = SelectedPhoto.Url;
+                }
+
+                if (!IsLogIn)
+                {
+                    _events.PublishOnUIThread(Navigation.Chat);
+                    _events.PublishOnUIThread(new MessageEvent { FromProfilePage = _fromProfilePage });
+                }
             }
         }
 
@@ -136,7 +152,6 @@ namespace DesktopUI.ViewModels
             get
             {
                 var output = _user.Username == _profile.Username && _isEditMode;
-
                 return output;
             }
         }
@@ -155,12 +170,17 @@ namespace DesktopUI.ViewModels
 
         public void Handle(MessageEvent message)
         {
-            _isEditMode = message.IsEditMode;
+            _fromProfilePage = message.FromProfilePage;
 
             if (message.HandleGetNext)
             {
                 HandleGetNext().ConfigureAwait(false);
             }
+        }
+
+        public void Handle(ModeEvent message)
+        {
+            _isEditMode = message.IsEditMode;
         }
     }
 }

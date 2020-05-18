@@ -1,11 +1,11 @@
-﻿using System;
-using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
-using Application.Errors;
+﻿using Application.Errors;
 using Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Application.Services.Photos.Commands.Delete
 {
@@ -26,11 +26,12 @@ namespace Application.Services.Photos.Commands.Delete
         public async Task<Unit> Handle(DeletePhotoCommand request, CancellationToken cancellationToken)
         {
             var photo = await _context.Photos
+                
                 .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 
             if (photo == null)
             {
-                throw new RestException(HttpStatusCode.NotFound, new {Photo = "Not Found"});
+                throw new RestException(HttpStatusCode.NotFound, new { Photo = "Not Found" });
             }
 
             var result = _photoAccessor.DeletePhoto(request.Id);
