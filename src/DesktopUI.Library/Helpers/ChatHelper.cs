@@ -10,7 +10,6 @@ namespace DesktopUI.Library.Helpers
     public class ChatHelper : IChatHelper
     {
         private readonly IAuthenticatedUser _user;
-
         public HubConnection Connection { get; private set; }
         public event EventHandler<Comment> GetReceive;
 
@@ -29,10 +28,7 @@ namespace DesktopUI.Library.Helpers
                   options.AccessTokenProvider = () => Task.FromResult(_user.Token);
               })
               .WithAutomaticReconnect()
-              .ConfigureLogging(logging =>
-              {
-                  logging.AddConsole();
-              })
+              .ConfigureLogging(logging => { logging.AddConsole(); })
               .Build();
 
             Connection.Closed += async (error) =>

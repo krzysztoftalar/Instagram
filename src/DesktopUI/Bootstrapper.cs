@@ -43,8 +43,7 @@ namespace DesktopUI
                 .Singleton<IAuthenticatedUser, AuthenticatedUser>()
                 .Singleton<IProfile, Profile>()
                 .Singleton<IPhoto, Photo>();
-
-
+               
             GetType().Assembly.GetTypes()
                 .Where(type => type.IsClass)
                 .Where(type => type.Name.EndsWith("ViewModel"))

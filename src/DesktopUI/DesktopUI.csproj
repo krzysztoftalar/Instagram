@@ -234,6 +234,7 @@
     <Compile Include="EventModels\MessageEvent.cs" />
     <Compile Include="EventModels\ModeEvent.cs" />
     <Compile Include="EventModels\Navigation.cs" />
+    <Compile Include="Helpers\PaginationHelper.cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
     <Compile Include="Validators\ValidatorExtensions.cs" />
     <Compile Include="ViewModels\AddPhotoViewModel.cs" />

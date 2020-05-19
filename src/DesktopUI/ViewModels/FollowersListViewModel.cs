@@ -3,6 +3,7 @@ using DesktopUI.EventModels;
 using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Models;
 using System.Threading.Tasks;
+using DesktopUI.Helpers;
 
 namespace DesktopUI.ViewModels
 {
@@ -11,18 +12,16 @@ namespace DesktopUI.ViewModels
         private readonly IProfileEndpoint _profileEndpoint;
         private readonly IProfile _profile;
         private readonly IEventAggregator _events;
-        
+        private readonly PaginationHelper _pagination;
         private string _predicate;
-        private int _limit = 10;
-        private int _pageNumber = 1;
-        private int _itemsCount;
-        private int Skip => _limit * (_pageNumber - 1);
-
+        
         public FollowersListViewModel(IProfileEndpoint profileEndpoint, IProfile profile, IEventAggregator events)
         {
             _profileEndpoint = profileEndpoint;
             _profile = profile;
             _events = events;
+
+            _pagination = new PaginationHelper();
 
             _events.Subscribe(this);
         }
@@ -31,7 +30,7 @@ namespace DesktopUI.ViewModels
         {
             base.OnViewLoaded(view);
 
-            await LoadFollowing(Skip, _limit);          
+            await LoadFollowing(_pagination.Skip, _pagination.Limit);
         }
 
         private async Task LoadFollowing(int skip, int limit)
@@ -44,7 +43,7 @@ namespace DesktopUI.ViewModels
                 profile.Image = profile.Image ?? "../Assets/user.png";
             }
 
-            _itemsCount = followers.FollowersCount;
+            _pagination.ItemsCount = followers.FollowersCount;
 
             NotifyOfPropertyChange(() => IsPrevPage);
             NotifyOfPropertyChange(() => IsNextPage);
@@ -71,7 +70,7 @@ namespace DesktopUI.ViewModels
             {
                 _selectedProfile = value;
                 NotifyOfPropertyChange(() => SelectedProfile);
-                
+
                 ViewProfile();
             }
         }
@@ -85,9 +84,9 @@ namespace DesktopUI.ViewModels
 
         public async Task PrevPage()
         {
-            _pageNumber--;
+            _pagination.PageNumber--;
 
-            await LoadFollowing(Skip, _limit);
+            await LoadFollowing(_pagination.Skip, _pagination.Limit);
 
             NotifyOfPropertyChange(() => IsPrevPage);
             NotifyOfPropertyChange(() => IsNextPage);
@@ -95,9 +94,9 @@ namespace DesktopUI.ViewModels
 
         public async Task NextPage()
         {
-            _pageNumber++;
+            _pagination.PageNumber++;
 
-            await LoadFollowing(Skip, _limit);
+            await LoadFollowing(_pagination.Skip, _pagination.Limit);
 
             NotifyOfPropertyChange(() => IsPrevPage);
             NotifyOfPropertyChange(() => IsNextPage);
@@ -107,7 +106,7 @@ namespace DesktopUI.ViewModels
 
         public bool IsPrevPage
         {
-            get => _isPrevPage = _pageNumber > 1;
+            get => _isPrevPage = _pagination.PageNumber > 0;
             set
             {
                 _isPrevPage = value;
@@ -119,7 +118,7 @@ namespace DesktopUI.ViewModels
 
         public bool IsNextPage
         {
-            get => _isNextPage = _itemsCount > Skip + _limit;
+            get => _isNextPage = _pagination.PageNumber + 1 < _pagination.TotalPages;
             set
             {
                 _isNextPage = value;
@@ -136,11 +135,11 @@ namespace DesktopUI.ViewModels
             {
                 _selectedCount = value;
                 NotifyOfPropertyChange(() => SelectedCount);
-                
-                _pageNumber = 1;
-                _limit = SelectedCount;
 
-                LoadFollowing(Skip, _limit).ConfigureAwait(false);
+                _pagination.PageNumber = 0;
+                _pagination.Limit = SelectedCount;
+
+                LoadFollowing(_pagination.Skip, _pagination.Limit).ConfigureAwait(false);
             }
         }
 

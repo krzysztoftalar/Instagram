@@ -30,6 +30,11 @@ namespace Application.Services.Photos.Commands.Add
         {
             var photoUploadResult = _photoAccessor.AddPhoto(request.File);
 
+            if (photoUploadResult == null)
+            {
+                throw new Exception("Problem uploading the foto");
+            }
+
             var user = await _context.Users
                 .Include(x => x.Photos)
                 .Where(x => x.UserName == _userAccessor.GetCurrentUsername())

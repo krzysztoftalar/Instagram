@@ -5,7 +5,9 @@ using DesktopUI.Library.Helpers;
 using DesktopUI.Library.Models;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
+using DesktopUI.Helpers;
 
 namespace DesktopUI.ViewModels
 {
@@ -17,15 +19,9 @@ namespace DesktopUI.ViewModels
         private readonly ICommentEndpoint _commentEndpoint;
         private readonly IAuthenticatedUser _user;
         private readonly IPhoto _photo;
-
+        private readonly PaginationHelper _pagination;
         private bool _fromProfilePage;
-
-        private int _limit = 10;
-        private int _pageNumber;
-        private int _itemsCount;
-        private int Skip => _pageNumber * _limit;
-        private int TotalPages => (int)Math.Ceiling((double)_itemsCount / _limit);
-
+        
         public ChatPageViewModel(IChatHelper chat, IEventAggregator events, IProfile profile,
             ICommentEndpoint commentEndpoint, IAuthenticatedUser user, IPhoto photo)
         {
@@ -35,6 +31,8 @@ namespace DesktopUI.ViewModels
             _commentEndpoint = commentEndpoint;
             _user = user;
             _photo = photo;
+        
+            _pagination = new PaginationHelper();
 
             _chat.GetReceive += OnGetReceive;
 
@@ -48,7 +46,7 @@ namespace DesktopUI.ViewModels
 
             await _chat.CreateHubConnection(_photo.Id);
 
-            await LoadComments(Skip, _limit);
+            await LoadComments(_pagination.Skip, _pagination.Limit);
         }
 
         private void OnGetReceive(object sender, Comment comment)
@@ -77,19 +75,19 @@ namespace DesktopUI.ViewModels
                 Comments.Insert(0, comment);
             }
 
-            _itemsCount = comments.CommentsCount;
+            _pagination.ItemsCount = comments.CommentsCount;
         }
 
         public async Task HandleGetNext()
         {
-            if (_pageNumber + 1 < TotalPages)
+            if (_pagination.PageNumber + 1 < _pagination.TotalPages)
             {
-                _pageNumber++;
+                _pagination.PageNumber++;
 
                 _loadingNext = true;
                 NotifyOfPropertyChange(() => LoadingNext);
 
-                await LoadComments(Skip, _limit);
+                await LoadComments(_pagination.Skip, _pagination.Limit);
 
                 _loadingNext = false;
                 NotifyOfPropertyChange(() => LoadingNext);
