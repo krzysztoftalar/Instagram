@@ -24,7 +24,7 @@ namespace DesktopUI.Views
             {
                 if (e.VerticalOffset + e.ViewportHeight == e.ExtentHeight)
                 {
-                    _events.PublishOnUIThread(new MessageEvent { HandleGetNext = true });
+                    _events.PublishOnUIThread(new MessageEvent { HandleGetNextPhotos = true });
                 }
             }
         }

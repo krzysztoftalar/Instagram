@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Configuration;
 using System.Threading.Tasks;
+using DesktopUI.Library.Models.DbModels;
 
 namespace DesktopUI.Library.Helpers
 {

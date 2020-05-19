@@ -4,6 +4,7 @@ using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Models;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using DesktopUI.Library.Models.DbModels;
 
 namespace DesktopUI.ViewModels
 {

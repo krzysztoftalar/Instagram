@@ -5,6 +5,7 @@ using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using DesktopUI.Library.Models.DbModels;
 
 namespace DesktopUI.Library.Api.Profile
 {
@@ -105,14 +106,14 @@ namespace DesktopUI.Library.Api.Profile
             }
         }
 
-        public async Task<Models.Profile> LoadProfile(string username)
+        public async Task<Models.DbModels.Profile> LoadProfile(string username)
         {
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.GetAsync($"/api/profiles/{username}"))
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsAsync<Models.Profile>();
+                    var result = await response.Content.ReadAsAsync<Models.DbModels.Profile>();
                     _profile.DisplayName = result.DisplayName;
                     _profile.Username = result.Username;
                     _profile.Bio = result.Bio;

@@ -1,9 +1,9 @@
 ﻿using Caliburn.Micro;
 using DesktopUI.EventModels;
-using DesktopUI.Library.Api.Profile;
-using DesktopUI.Library.Models;
-using System.Threading.Tasks;
 using DesktopUI.Helpers;
+using DesktopUI.Library.Api.Profile;
+using DesktopUI.Library.Models.DbModels;
+using System.Threading.Tasks;
 
 namespace DesktopUI.ViewModels
 {
@@ -14,7 +14,7 @@ namespace DesktopUI.ViewModels
         private readonly IEventAggregator _events;
         private readonly PaginationHelper _pagination;
         private string _predicate;
-        
+
         public FollowersListViewModel(IProfileEndpoint profileEndpoint, IProfile profile, IEventAggregator events)
         {
             _profileEndpoint = profileEndpoint;
@@ -79,7 +79,7 @@ namespace DesktopUI.ViewModels
         {
             _events.PublishOnUIThread(Navigation.Profile);
 
-            _events.PublishOnUIThread(new MessageEvent {Username = SelectedProfile.Username});
+            _events.PublishOnUIThread(new MessageEvent { Username = SelectedProfile.Username });
         }
 
         public async Task PrevPage()

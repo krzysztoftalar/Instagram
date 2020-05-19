@@ -18,7 +18,7 @@ namespace DesktopUI.Library.Api.Comment
             _apiHelper = apiHelper;
         }
 
-        public async Task AddComment(Models.Comment comment)
+        public async Task AddComment(Models.DbModels.Comment comment)
         {
             try
             {

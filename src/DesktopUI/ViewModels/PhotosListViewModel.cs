@@ -1,11 +1,11 @@
 ﻿using Caliburn.Micro;
 using DesktopUI.EventModels;
+using DesktopUI.Helpers;
 using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Models;
-using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using DesktopUI.Helpers;
+using DesktopUI.Library.Models.DbModels;
 
 namespace DesktopUI.ViewModels
 {
@@ -19,7 +19,7 @@ namespace DesktopUI.ViewModels
         private readonly PaginationHelper _pagination;
         private bool _isEditMode;
         private bool _fromProfilePage;
-        
+
         public PhotosListViewModel(IProfileEndpoint profileEndpoint, IEventAggregator events, IProfile profile,
             IAuthenticatedUser user, IPhoto photo)
         {
@@ -28,7 +28,7 @@ namespace DesktopUI.ViewModels
             _profile = profile;
             _user = user;
             _photo = photo;
-           
+
             _pagination = new PaginationHelper();
 
             events.Subscribe(this);
@@ -170,7 +170,7 @@ namespace DesktopUI.ViewModels
         {
             _fromProfilePage = message.FromProfilePage;
 
-            if (message.HandleGetNext)
+            if (message.HandleGetNextPhotos)
             {
                 HandleGetNext().ConfigureAwait(false);
             }

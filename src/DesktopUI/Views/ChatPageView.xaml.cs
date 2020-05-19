@@ -28,7 +28,7 @@ namespace DesktopUI.Views
             {
                 if (CommentsScrollViewer.VerticalOffset == 0)
                 {
-                    _events.PublishOnUIThread(new MessageEvent { HandleGetNext = true });
+                    _events.PublishOnUIThread(new MessageEvent { HandleGetNextComments = true });
                 }
             }
         }

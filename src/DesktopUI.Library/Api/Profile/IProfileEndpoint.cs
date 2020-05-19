@@ -1,5 +1,5 @@
 ﻿using DesktopUI.Library.Models;
-using System.Collections.Generic;
+using DesktopUI.Library.Models.DbModels;
 using System.Threading.Tasks;
 
 namespace DesktopUI.Library.Api.Profile
@@ -11,7 +11,7 @@ namespace DesktopUI.Library.Api.Profile
         Task DeletePhoto(Photo photo);
         Task<PhotosEnvelope> LoadPhotos(string username, int? skip, int? limit);
 
-        Task<Models.Profile> LoadProfile(string username);
+        Task<Models.DbModels.Profile> LoadProfile(string username);
         Task EditProfile(ProfileFormValues profile);
 
         Task<FollowersEnvelope> LoadFollowing(string username, string predicate, int? skip, int? limit);

@@ -1,27 +1,25 @@
 ﻿using Caliburn.Micro;
 using DesktopUI.EventModels;
+using DesktopUI.Helpers;
 using DesktopUI.Library.Api.Comment;
 using DesktopUI.Library.Helpers;
-using DesktopUI.Library.Models;
-using System;
+using DesktopUI.Library.Models.DbModels;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
-using DesktopUI.Helpers;
 
 namespace DesktopUI.ViewModels
 {
     public class ChatPageViewModel : Screen, IHandle<MessageEvent>
     {
         private readonly IChatHelper _chat;
-        private readonly IEventAggregator _events;
-        private readonly IProfile _profile;
         private readonly ICommentEndpoint _commentEndpoint;
-        private readonly IAuthenticatedUser _user;
+        private readonly IEventAggregator _events;
         private readonly IPhoto _photo;
+        private readonly IProfile _profile;
+        private readonly IAuthenticatedUser _user;
         private readonly PaginationHelper _pagination;
         private bool _fromProfilePage;
-        
+
         public ChatPageViewModel(IChatHelper chat, IEventAggregator events, IProfile profile,
             ICommentEndpoint commentEndpoint, IAuthenticatedUser user, IPhoto photo)
         {
@@ -31,13 +29,14 @@ namespace DesktopUI.ViewModels
             _commentEndpoint = commentEndpoint;
             _user = user;
             _photo = photo;
-        
+
             _pagination = new PaginationHelper();
 
             _chat.GetReceive += OnGetReceive;
 
             _events.Subscribe(this);
         }
+
         protected override async void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
@@ -62,6 +61,7 @@ namespace DesktopUI.ViewModels
         {
             comment.IsLoggedInComment = comment.Username == _user.Username;
             comment.Image = comment.Image ?? "../Assets/user.png";
+            comment.Date = comment.CreatedAt.ToString("dd-MM-yyyy");
         }
 
         public async Task LoadComments(int? skip, int limit)
@@ -77,6 +77,7 @@ namespace DesktopUI.ViewModels
 
             _pagination.ItemsCount = comments.CommentsCount;
         }
+
 
         public async Task HandleGetNext()
         {
@@ -130,17 +131,6 @@ namespace DesktopUI.ViewModels
             }
         }
 
-        public async Task Send()
-        {
-            var comment = new Comment
-            {
-                PhotoId = _photo.Id,
-                Body = Message
-            };
-
-            await _commentEndpoint.AddComment(comment);
-        }
-
         private string _displayName;
 
         public new string DisplayName
@@ -165,6 +155,20 @@ namespace DesktopUI.ViewModels
             }
         }
 
+        public async Task Send()
+        {
+            var comment = new Comment
+            {
+                PhotoId = _photo.Id,
+                Body = Message
+            };
+
+            if (!string.IsNullOrWhiteSpace(Message))
+            {
+                await _commentEndpoint.AddComment(comment);
+            }
+        }
+
         public async Task BackToMainPage()
         {
             await _chat.StopHubConnection(_photo.Id);
@@ -178,7 +182,7 @@ namespace DesktopUI.ViewModels
 
             NotifyOfPropertyChange(() => DisplayName);
 
-            if (message.HandleGetNext)
+            if (message.HandleGetNextComments)
             {
                 HandleGetNext().ConfigureAwait(false);
             }

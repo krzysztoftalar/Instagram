@@ -3,6 +3,7 @@ using DesktopUI.EventModels;
 using DesktopUI.Library.Api.User;
 using DesktopUI.Library.Models;
 using System.Threading.Tasks;
+using DesktopUI.Library.Models.DbModels;
 
 namespace DesktopUI.ViewModels
 {

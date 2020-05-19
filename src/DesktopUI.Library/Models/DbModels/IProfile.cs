@@ -1,4 +1,4 @@
-﻿namespace DesktopUI.Library.Models
+﻿namespace DesktopUI.Library.Models.DbModels
 {
     public interface IProfile
     {
