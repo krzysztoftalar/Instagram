@@ -21,7 +21,7 @@ namespace DesktopUI.ViewModels
         private bool _fromProfilePage;
 
         public ChatPageViewModel(IChatHelper chat, IEventAggregator events, IProfile profile,
-            ICommentEndpoint commentEndpoint, IAuthenticatedUser user, IPhoto photo)
+            ICommentEndpoint commentEndpoint, IAuthenticatedUser user, IPhoto photo, IMessage messageEvent)
         {
             _chat = chat;
             _events = events;
@@ -33,8 +33,15 @@ namespace DesktopUI.ViewModels
             _pagination = new PaginationHelper();
 
             _chat.GetReceive += OnGetReceive;
+            messageEvent.ProfilePage += OnProfilePage;
 
             _events.Subscribe(this);
+        }
+
+        private void OnProfilePage(object sender, bool e)
+        {
+            _fromProfilePage = e;
+            NotifyOfPropertyChange(() => DisplayName);
         }
 
         protected override async void OnViewLoaded(object view)
@@ -85,13 +92,11 @@ namespace DesktopUI.ViewModels
             {
                 _pagination.PageNumber++;
 
-                _loadingNext = true;
-                NotifyOfPropertyChange(() => LoadingNext);
+                LoadingNext = true;
 
                 await LoadComments(_pagination.Skip, _pagination.Limit);
 
-                _loadingNext = false;
-                NotifyOfPropertyChange(() => LoadingNext);
+                LoadingNext = false;
             }
         }
 
@@ -166,6 +171,8 @@ namespace DesktopUI.ViewModels
             if (!string.IsNullOrWhiteSpace(Message))
             {
                 await _commentEndpoint.AddComment(comment);
+
+                Message = "";
             }
         }
 
@@ -173,13 +180,11 @@ namespace DesktopUI.ViewModels
         {
             await _chat.StopHubConnection(_photo.Id);
 
-            _events.PublishOnUIThread(Navigation.Main);
+            await _events.PublishOnUIThreadAsync(Navigation.Main);
         }
 
         public void Handle(MessageEvent message)
         {
-            _fromProfilePage = message.FromProfilePage;
-
             NotifyOfPropertyChange(() => DisplayName);
 
             if (message.HandleGetNextComments)

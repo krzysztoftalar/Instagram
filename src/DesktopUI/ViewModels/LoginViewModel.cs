@@ -22,7 +22,7 @@ namespace DesktopUI.ViewModels
 
         public string Email
         {
-            get => _email = "bob@test.com";
+            get => _email;
             set
             {
                 _email = value;
@@ -35,7 +35,7 @@ namespace DesktopUI.ViewModels
 
         public string Password
         {
-            get => _password = "Pa$$w0rd";
+            get => _password;
             set
             {
                 _password = value;
@@ -44,23 +44,9 @@ namespace DesktopUI.ViewModels
             }
         }
 
-        public bool CanLogin
-        {
-            get
-            {
-                bool output = Email?.Length > 0 && Password?.Length > 0;
-                return output;
-            }
-        }
+        public bool CanLogin => Email?.Length > 0 && Password?.Length > 0;
 
-        public bool IsErrorVisible
-        {
-            get
-            {
-                bool output = ErrorMessage?.Length > 0;
-                return output;
-            }
-        }
+        public bool IsErrorVisible => ErrorMessage?.Length > 0;
 
         private string _errorMessage;
 
@@ -91,7 +77,7 @@ namespace DesktopUI.ViewModels
 
                 await _userEndpoint.CurrentUser(result.Token);
 
-                _events.PublishOnUIThread(Navigation.Main);
+                await _events.PublishOnUIThreadAsync(Navigation.Main);
             }
             catch (Exception ex)
             {

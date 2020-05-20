@@ -42,10 +42,8 @@ namespace DesktopUI.Library.Api.Comment
                 {
                     return await response.Content.ReadAsAsync<CommentsEnvelope>();
                 }
-                else
-                {
-                    throw new Exception(response.ReasonPhrase);
-                }
+
+                throw new Exception(response.ReasonPhrase);
             }
         }
     }

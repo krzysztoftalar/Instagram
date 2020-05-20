@@ -1,12 +1,12 @@
 ﻿using DesktopUI.Library.Api.ApiResponse;
 using DesktopUI.Library.Helpers;
 using DesktopUI.Library.Models;
+using DesktopUI.Library.Models.DbModels;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using DesktopUI.Library.Models.DbModels;
 
 namespace DesktopUI.Library.Api.User
 {
@@ -42,10 +42,8 @@ namespace DesktopUI.Library.Api.User
                 {
                     return await response.Content.ReadAsAsync<AuthenticatedUser>();
                 }
-                else
-                {
-                    throw new Exception(response.ReasonPhrase);
-                }
+
+                throw new Exception(response.ReasonPhrase);
             }
         }
 
@@ -73,10 +71,8 @@ namespace DesktopUI.Library.Api.User
                     _user.Token = result.Token;
                     return result;
                 }
-                else
-                {
-                    throw new Exception(response.ReasonPhrase);
-                }
+
+                throw new Exception(response.ReasonPhrase);
             }
         }
 
@@ -89,10 +85,8 @@ namespace DesktopUI.Library.Api.User
                 {
                     return await response.Content.ReadAsAsync<List<AuthenticatedUser>>();
                 }
-                else
-                {
-                    throw new Exception(response.ReasonPhrase);
-                }
+
+                throw new Exception(response.ReasonPhrase);
             }
         }
     }

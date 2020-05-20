@@ -231,7 +231,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="EventModels\CommentEvent.cs" />
+    <Compile Include="EventModels\IMessage.cs" />
     <Compile Include="EventModels\MessageEvent.cs" />
+    <Compile Include="EventModels\Message.cs" />
     <Compile Include="EventModels\ModeEvent.cs" />
     <Compile Include="EventModels\Navigation.cs" />
     <Compile Include="Helpers\PaginationHelper.cs" />

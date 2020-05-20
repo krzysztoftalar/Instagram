@@ -1,10 +1,9 @@
-﻿using DesktopUI.Library.Models;
+﻿using DesktopUI.Library.Models.DbModels;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Configuration;
 using System.Threading.Tasks;
-using DesktopUI.Library.Models.DbModels;
 
 namespace DesktopUI.Library.Helpers
 {
@@ -31,12 +30,6 @@ namespace DesktopUI.Library.Helpers
               .WithAutomaticReconnect()
               .ConfigureLogging(logging => { logging.AddConsole(); })
               .Build();
-
-            Connection.Closed += async (error) =>
-            {
-                await Task.Delay(new Random().Next(0, 5) * 1000);
-                await Connection.StartAsync();
-            };
 
             Connection.On<Comment>("ReceiveComment", (comment) =>
             {

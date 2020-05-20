@@ -1,11 +1,11 @@
 ﻿using DesktopUI.Library.Helpers;
 using DesktopUI.Library.Models;
+using DesktopUI.Library.Models.DbModels;
 using System;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using DesktopUI.Library.Models.DbModels;
 
 namespace DesktopUI.Library.Api.Profile
 {
@@ -22,7 +22,7 @@ namespace DesktopUI.Library.Api.Profile
             _user = user;
         }
 
-        public async Task UploadPhoto(string photo)
+        public async Task<bool> UploadPhoto(string photo)
         {
             using (var form = new MultipartFormDataContent())
             {
@@ -48,11 +48,11 @@ namespace DesktopUI.Library.Api.Profile
                                         _user.Image = result.Url;
                                         _profile.Image = result.Url;
                                     }
+
+                                    return true;
                                 }
-                                else
-                                {
-                                    throw new Exception(response.ReasonPhrase);
-                                }
+
+                                throw new Exception(response.ReasonPhrase);
                             }
                         }
                     }
@@ -60,7 +60,7 @@ namespace DesktopUI.Library.Api.Profile
             }
         }
 
-        public async Task SetMainPhoto(Photo photo)
+        public async Task<bool> SetMainPhoto(Photo photo)
         {
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.PostAsJsonAsync($"/api/photos/{photo.Id}/setMain",
@@ -70,23 +70,30 @@ namespace DesktopUI.Library.Api.Profile
                 {
                     _profile.Image = photo.Url;
                     _user.Image = photo.Url;
+                    return true;
                 }
-                else
-                {
-                    throw new Exception(response.ReasonPhrase);
-                }
+
+                throw new Exception(response.ReasonPhrase);
             }
         }
 
-        public async Task DeletePhoto(Photo photo)
+        public async Task<bool> DeletePhoto(Photo photo)
         {
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.DeleteAsync($"/api/photos/{photo.Id}"))
             {
-                if (!response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
-                    throw new Exception(response.ReasonPhrase);
+                    if (photo.IsMain)
+                    {
+                        _profile.Image = null;
+                        _user.Image = null;
+                    }
+
+                    return true;
                 }
+
+                throw new Exception(response.ReasonPhrase);
             }
         }
 
@@ -99,10 +106,8 @@ namespace DesktopUI.Library.Api.Profile
                 {
                     return await response.Content.ReadAsAsync<PhotosEnvelope>();
                 }
-                else
-                {
-                    throw new Exception(response.ReasonPhrase);
-                }
+
+                throw new Exception(response.ReasonPhrase);
             }
         }
 
@@ -123,14 +128,12 @@ namespace DesktopUI.Library.Api.Profile
                     _profile.FollowersCount = result.FollowersCount;
                     return result;
                 }
-                else
-                {
-                    throw new Exception(response.ReasonPhrase);
-                }
+
+                throw new Exception(response.ReasonPhrase);
             }
         }
 
-        public async Task EditProfile(ProfileFormValues profile)
+        public async Task<bool> EditProfile(ProfileFormValues profile)
         {
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.PutAsJsonAsync($"/api/profiles", profile))
@@ -140,11 +143,10 @@ namespace DesktopUI.Library.Api.Profile
                     _profile.DisplayName = profile.DisplayName;
                     _user.DisplayName = profile.DisplayName;
                     _profile.Bio = profile.Bio;
+                    return true;
                 }
-                else
-                {
-                    throw new Exception(response.ReasonPhrase);
-                }
+
+                throw new Exception(response.ReasonPhrase);
             }
         }
 
@@ -193,10 +195,8 @@ namespace DesktopUI.Library.Api.Profile
                 {
                     return await response.Content.ReadAsAsync<FollowersEnvelope>();
                 }
-                else
-                {
-                    throw new Exception(response.ReasonPhrase);
-                }
+
+                throw new Exception(response.ReasonPhrase);
             }
         }
     }

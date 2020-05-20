@@ -2,10 +2,9 @@
 using DesktopUI.EventModels;
 using DesktopUI.Helpers;
 using DesktopUI.Library.Api.Profile;
-using DesktopUI.Library.Models;
+using DesktopUI.Library.Models.DbModels;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using DesktopUI.Library.Models.DbModels;
 
 namespace DesktopUI.ViewModels
 {
@@ -16,22 +15,31 @@ namespace DesktopUI.ViewModels
         private readonly IProfile _profile;
         private readonly IAuthenticatedUser _user;
         private readonly IPhoto _photo;
+        private readonly IMessage _messageEvent;
         private readonly PaginationHelper _pagination;
         private bool _isEditMode;
         private bool _fromProfilePage;
 
         public PhotosListViewModel(IProfileEndpoint profileEndpoint, IEventAggregator events, IProfile profile,
-            IAuthenticatedUser user, IPhoto photo)
+            IAuthenticatedUser user, IPhoto photo, IMessage messageEvent)
         {
             _profileEndpoint = profileEndpoint;
             _events = events;
             _profile = profile;
             _user = user;
             _photo = photo;
+            _messageEvent = messageEvent;
 
             _pagination = new PaginationHelper();
 
+            _messageEvent.ProfilePage += OnProfilePage;
+
             events.Subscribe(this);
+        }
+
+        private void OnProfilePage(object sender, bool e)
+        {
+            _fromProfilePage = e;
         }
 
         protected override async void OnViewLoaded(object view)
@@ -64,13 +72,11 @@ namespace DesktopUI.ViewModels
             {
                 _pagination.PageNumber++;
 
-                _loadingNext = true;
-                NotifyOfPropertyChange(() => LoadingNext);
+                LoadingNext = true;
 
                 await LoadPhotos(_pagination.Skip, _pagination.Limit);
 
-                _loadingNext = false;
-                NotifyOfPropertyChange(() => LoadingNext);
+                LoadingNext = false;
             }
         }
 
@@ -107,9 +113,9 @@ namespace DesktopUI.ViewModels
             {
                 _selectedPhoto = value;
                 NotifyOfPropertyChange(() => SelectedPhoto);
-                NotifyOfPropertyChange(() => IsSelectedUser);
+                NotifyOfPropertyChange(() => IsPhotoSelected);
 
-                if (SelectedPhoto != null)
+                if (IsPhotoSelected)
                 {
                     _photo.Id = SelectedPhoto.Id;
                     _photo.Url = SelectedPhoto.Url;
@@ -118,58 +124,47 @@ namespace DesktopUI.ViewModels
                 if (!IsLogIn)
                 {
                     _events.PublishOnUIThread(Navigation.Chat);
-                    _events.PublishOnUIThread(new MessageEvent { FromProfilePage = _fromProfilePage });
+                    _messageEvent.OnProfilePage(_fromProfilePage);
                 }
             }
         }
 
         public async Task SetMainPhoto()
         {
-            await _profileEndpoint.SetMainPhoto(SelectedPhoto);
+            if (await _profileEndpoint.SetMainPhoto(SelectedPhoto))
+            {
+                SelectedPhoto.IsMain = true;
 
-            _events.PublishOnUIThread(new MessageEvent());
+                await _events.PublishOnUIThreadAsync(new MessageEvent());
+            }
         }
 
         public async Task DeletePhoto()
         {
-            await _profileEndpoint.DeletePhoto(SelectedPhoto);
-
-            if (SelectedPhoto.IsMain)
+            if (await _profileEndpoint.DeletePhoto(SelectedPhoto))
             {
-                _profile.Image = null;
-                _user.Image = null;
-            }
+                UserPhotos.Remove(SelectedPhoto);
 
-            UserPhotos.Remove(SelectedPhoto);
-
-            _events.PublishOnUIThread(new MessageEvent());
-        }
-
-        public bool IsLogIn
-        {
-            get
-            {
-                var output = _user.Username == _profile.Username && _isEditMode;
-                return output;
+                await _events.PublishOnUIThreadAsync(new MessageEvent());
             }
         }
 
-        private bool _isSelectedUser;
+        public bool IsLogIn => _user.Username == _profile.Username && _isEditMode;
 
-        public bool IsSelectedUser
+        private bool _isPhotoSelected;
+
+        public bool IsPhotoSelected
         {
-            get => _isSelectedUser = SelectedPhoto != null;
+            get => _isPhotoSelected = SelectedPhoto != null;
             set
             {
-                _isSelectedUser = value;
-                NotifyOfPropertyChange(() => IsSelectedUser);
+                _isPhotoSelected = value;
+                NotifyOfPropertyChange(() => IsPhotoSelected);
             }
         }
 
         public void Handle(MessageEvent message)
         {
-            _fromProfilePage = message.FromProfilePage;
-
             if (message.HandleGetNextPhotos)
             {
                 HandleGetNext().ConfigureAwait(false);

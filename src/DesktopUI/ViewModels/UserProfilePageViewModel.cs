@@ -1,10 +1,9 @@
 ﻿using Caliburn.Micro;
 using DesktopUI.EventModels;
 using DesktopUI.Library.Api.Profile;
-using DesktopUI.Library.Models;
+using DesktopUI.Library.Models.DbModels;
 using System.Threading.Tasks;
 using System.Windows.Media;
-using DesktopUI.Library.Models.DbModels;
 
 namespace DesktopUI.ViewModels
 {
@@ -14,15 +13,17 @@ namespace DesktopUI.ViewModels
         private readonly IAuthenticatedUser _user;
         private readonly IProfileEndpoint _profileEndpoint;
         private readonly IProfile _profile;
+        private readonly IMessage _messageEvent;
         private string _username;
 
         public UserProfilePageViewModel(IEventAggregator events, IAuthenticatedUser user,
-            IProfileEndpoint profileEndpoint, IProfile profile)
+            IProfileEndpoint profileEndpoint, IProfile profile, IMessage messageEvent)
         {
             _events = events;
             _user = user;
             _profileEndpoint = profileEndpoint;
             _profile = profile;
+            _messageEvent = messageEvent;
 
             _events.Subscribe(this);
         }
@@ -31,9 +32,9 @@ namespace DesktopUI.ViewModels
         {
             base.OnViewLoaded(view);
 
-            var result = await _profileEndpoint.LoadProfile(_username);
-            FollowersCount = result.FollowersCount.ToString();
-            FollowingCount = result.FollowingCount.ToString();
+            var profile = await _profileEndpoint.LoadProfile(_username);
+            FollowersCount = profile.FollowersCount.ToString();
+            FollowingCount = profile.FollowingCount.ToString();
 
             NotifyOfPropertyChange(() => DisplayName);
             NotifyOfPropertyChange(() => Image);
@@ -41,23 +42,9 @@ namespace DesktopUI.ViewModels
             NotifyOfPropertyChange(() => FollowBtnBorder);
         }
 
-        public bool IsLogIn
-        {
-            get
-            {
-                bool output = _user.Username == _username;
-                return output;
-            }
-        }
+        public bool IsLogIn => _user.Username == _username;
 
-        public bool IsCurrentUser
-        {
-            get
-            {
-                bool output = _user.Username != _username;
-                return output;
-            }
-        }
+        public bool IsCurrentUser => _user.Username != _username;
 
         private string _followersCount;
 
@@ -164,7 +151,8 @@ namespace DesktopUI.ViewModels
             ActivateItem(IoC.Get<PhotosListViewModel>());
 
             _events.PublishOnUIThread(new ModeEvent { IsEditMode = true });
-            _events.PublishOnUIThread(new MessageEvent { FromProfilePage = true });
+
+            _messageEvent.OnProfilePage(true);
         }
 
         public void LoadFollowing()

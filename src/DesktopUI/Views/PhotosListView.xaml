@@ -17,12 +17,12 @@
             <StackPanel Visibility="{Binding IsLogIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
 
                 <!-- Set Main Photo Button -->
-                <Button x:Name="SetMainPhoto" IsEnabled="{Binding IsSelectedUser}" Width="150" Margin="20" ToolTip="Set as the main photo" BorderThickness="0" Foreground="White" Background="Green">
+                <Button x:Name="SetMainPhoto" IsEnabled="{Binding IsPhotoSelected}" Width="150" Margin="20" ToolTip="Set as the main photo" BorderThickness="0" Foreground="White" Background="Green">
                     <materialDesign:PackIcon Kind="AccountCircleOutline" />
                 </Button>
 
                 <!-- Delete Photo Button -->
-                <Button x:Name="DeletePhoto"  IsEnabled="{Binding IsSelectedUser}" Width="150" Margin="20" ToolTip="Delete photo" BorderThickness="0" Foreground="White" Background="Black">
+                <Button x:Name="DeletePhoto"  IsEnabled="{Binding IsPhotoSelected}" Width="150" Margin="20" ToolTip="Delete photo" BorderThickness="0" Foreground="White" Background="Black">
                     <materialDesign:PackIcon Kind="DeleteForever" />
                 </Button>
             </StackPanel>

@@ -2,7 +2,6 @@
 using DesktopUI.EventModels;
 using DesktopUI.Library.Api.Profile;
 using Microsoft.Win32;
-using System;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -47,18 +46,18 @@ namespace DesktopUI.ViewModels
 
         public async Task UploadPhoto()
         {
-            try
-            {
-                await _profile.UploadPhoto(ImagePath);
 
+            if (await _profile.UploadPhoto(ImagePath))
+            {
                 MessageBox.Show("Image uploaded successfully", "Congratulations!",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
+                  MessageBoxButton.OK, MessageBoxImage.Information);
 
-                _events.PublishOnUIThread(new MessageEvent());
+                await _events.PublishOnUIThreadAsync(new MessageEvent());
             }
-            catch (Exception ex)
+            else
             {
-                throw new Exception(ex.Message);
+                MessageBox.Show("Problem uploading the photo", "Error!",
+                  MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
     }

@@ -1,8 +1,7 @@
-﻿using DesktopUI.Library.Models;
+﻿using DesktopUI.Library.Models.DbModels;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Threading.Tasks;
-using DesktopUI.Library.Models.DbModels;
 
 namespace DesktopUI.Library.Helpers
 {

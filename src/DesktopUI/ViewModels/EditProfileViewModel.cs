@@ -2,9 +2,9 @@
 using DesktopUI.EventModels;
 using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Models;
+using DesktopUI.Library.Models.DbModels;
 using System.Threading.Tasks;
 using System.Windows;
-using DesktopUI.Library.Models.DbModels;
 
 namespace DesktopUI.ViewModels
 {
@@ -76,7 +76,7 @@ namespace DesktopUI.ViewModels
 
         public bool? TextBoxBio
         {
-            get => _textBoxBio = IsEditMode == false || (!IsLogIn && !string.IsNullOrEmpty(_profile.Bio));
+            get => _textBoxBio = (IsEditMode == false) || (!IsLogIn && !string.IsNullOrEmpty(_profile.Bio));
             set
             {
                 _textBoxBio = value;
@@ -96,15 +96,7 @@ namespace DesktopUI.ViewModels
             }
         }
 
-        public bool IsLogIn
-        {
-            get
-            {
-                bool output = _user.Username == _profile.Username;
-
-                return output;
-            }
-        }
+        public bool IsLogIn => _user.Username == _profile.Username;
 
         public void ToggleEditMode()
         {
@@ -125,12 +117,13 @@ namespace DesktopUI.ViewModels
                 return;
             }
 
-            await _profileEndpoint.EditProfile(profile);
+            if (await _profileEndpoint.EditProfile(profile))
+            {
+                MessageBox.Show("Profile edited successfully", "Congratulations!",
+                  MessageBoxButton.OK, MessageBoxImage.Information);
 
-            MessageBox.Show("Profile edited successfully", "Congratulations!",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
-
-            _events.PublishOnUIThread(new MessageEvent());
+                await _events.PublishOnUIThreadAsync(new MessageEvent());
+            }
         }
 
         public void Handle(MessageEvent message)

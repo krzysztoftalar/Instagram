@@ -1,9 +1,8 @@
 ﻿using Caliburn.Micro;
 using DesktopUI.EventModels;
 using DesktopUI.Library.Api.User;
-using DesktopUI.Library.Models;
-using System.Threading.Tasks;
 using DesktopUI.Library.Models.DbModels;
+using System.Threading.Tasks;
 
 namespace DesktopUI.ViewModels
 {
@@ -82,14 +81,15 @@ namespace DesktopUI.ViewModels
             {
                 _selectedUser = value;
                 NotifyOfPropertyChange(() => SelectedUser);
+
                 ViewProfile();
             }
         }
 
         public async Task SearchUsers()
         {
-            var result = await _userEndpoint.SearchUsers(Search);
-            UsersList = new BindableCollection<AuthenticatedUser>(result);
+            var users = await _userEndpoint.SearchUsers(Search);
+            UsersList = new BindableCollection<AuthenticatedUser>(users);
 
             foreach (var user in UsersList)
             {

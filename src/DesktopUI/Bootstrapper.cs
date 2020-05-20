@@ -1,17 +1,17 @@
 ﻿using Caliburn.Micro;
+using DesktopUI.EventModels;
 using DesktopUI.Helpers;
 using DesktopUI.Library.Api.Comment;
 using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Api.User;
 using DesktopUI.Library.Helpers;
-using DesktopUI.Library.Models;
+using DesktopUI.Library.Models.DbModels;
 using DesktopUI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using DesktopUI.Library.Models.DbModels;
 
 namespace DesktopUI
 {
@@ -43,8 +43,9 @@ namespace DesktopUI
                 .Singleton<IChatHelper, ChatHelper>()
                 .Singleton<IAuthenticatedUser, AuthenticatedUser>()
                 .Singleton<IProfile, Profile>()
-                .Singleton<IPhoto, Photo>();
-               
+                .Singleton<IPhoto, Photo>()
+                .Singleton<IMessage, EventModels.Message>();
+
             GetType().Assembly.GetTypes()
                 .Where(type => type.IsClass)
                 .Where(type => type.Name.EndsWith("ViewModel"))

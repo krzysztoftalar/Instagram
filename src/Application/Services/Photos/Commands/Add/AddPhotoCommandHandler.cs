@@ -32,7 +32,7 @@ namespace Application.Services.Photos.Commands.Add
 
             if (photoUploadResult == null)
             {
-                throw new Exception("Problem uploading the foto");
+                throw new Exception("Problem uploading the photo");
             }
 
             var user = await _context.Users

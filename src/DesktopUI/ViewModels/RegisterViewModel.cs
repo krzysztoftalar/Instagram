@@ -2,10 +2,10 @@
 using DesktopUI.EventModels;
 using DesktopUI.Library.Api.User;
 using DesktopUI.Library.Models;
+using DesktopUI.Validators;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
-using DesktopUI.Validators;
 
 namespace DesktopUI.ViewModels
 {
@@ -72,24 +72,10 @@ namespace DesktopUI.ViewModels
             }
         }
 
-        public bool CanRegister
-        {
-            get
-            {
-                bool output = Username?.Length > 0 && DisplayName?.Length > 0 &&
-                    Email?.Length > 0 && Password?.Length > 0;
-                return output;
-            }
-        }
+        public bool CanRegister => Username?.Length > 0 && DisplayName?.Length > 0 &&
+                                   Email?.Length > 0 && Password?.Length > 0;
 
-        public bool IsErrorVisible
-        {
-            get
-            {
-                bool output = ErrorMessage?.Length > 0;
-                return output;
-            }
-        }
+        public bool IsErrorVisible => ErrorMessage?.Length > 0;
 
         private string _errorMessage;
 
@@ -123,7 +109,7 @@ namespace DesktopUI.ViewModels
                     MessageBox.Show("You have been successfully registered.", "Congratulations!",
                         MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    _events.PublishOnUIThread(Navigation.Login);
+                    await _events.PublishOnUIThreadAsync(Navigation.Login);
                 }
                 catch (Exception ex)
                 {
@@ -132,7 +118,7 @@ namespace DesktopUI.ViewModels
             }
             else
             {
-                ErrorMessage = _errorMessage;                
+                ErrorMessage = _errorMessage;
             }
         }
 

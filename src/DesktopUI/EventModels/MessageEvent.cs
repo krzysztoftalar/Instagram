@@ -8,6 +8,5 @@
         public string Bio { get; set; }
         public bool HandleGetNextComments { get; set; }
         public bool HandleGetNextPhotos { get; set; }
-        public bool FromProfilePage { get; set; }
     }
 }
