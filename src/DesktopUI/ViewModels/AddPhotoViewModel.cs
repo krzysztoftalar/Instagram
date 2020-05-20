@@ -35,7 +35,7 @@ namespace DesktopUI.ViewModels
             OpenFileDialog open = new OpenFileDialog
             {
                 DefaultExt = (".png"),
-                Filter = "Pictures (*.jpg;*.png)|*.jpg;*.png"
+                Filter = "Pictures (*.jpg;*.png;*.webp)|*.jpg;*.png;*.webp"
             };
 
             if (open.ShowDialog() == true)

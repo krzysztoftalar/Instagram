@@ -30,7 +30,8 @@ namespace Application.Services.Photos.Queries.List
               .ProjectTo<PhotoDto>(_mapper.ConfigurationProvider)
               .AsQueryable();
 
-            var photos = await PagedList<PhotoDto>.CreateAsync(queryable, request.Skip, request.Limit);
+            var photos = await PagedList<PhotoDto>
+              .CreateAsync(queryable, request.Skip, request.Limit);
 
             return new PhotosEnvelope
             {

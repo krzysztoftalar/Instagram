@@ -46,7 +46,8 @@ namespace Application.Services.Followers.Queries.List
                 _ => default
             };
 
-            var followers = await PagedList<FollowerDto>.CreateAsync(queryable, request.Skip, request.Limit);
+            var followers = await PagedList<FollowerDto>
+              .CreateAsync(queryable, request.Skip, request.Limit);
 
             return new FollowersEnvelope
             {

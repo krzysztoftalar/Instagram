@@ -29,6 +29,10 @@ The project implements Dependency Injection and MVVM patterns._
   <img src="./src/DesktopUI/Assets/screen1.png" width="70%">
 </p>
 
+<p align="center">
+  <img src="./src/DesktopUI/Assets/screen4.png" width="70%">
+</p>
+
 ## Features
 
 - Registration, login
@@ -39,16 +43,16 @@ The project implements Dependency Injection and MVVM patterns._
 
 ## Built With
 
-| Server                                                                                       | Client                                        |
-| -------------------------------------------------------------------------------------------- | --------------------------------------------- |
-| [.NET Core](https://docs.microsoft.com/en-us/dotnet/) 3.1.0                                  | [WPF](https://docs.microsoft.com/en-us/dotnet/framework/wpf/) .NET Framework 4.8 |
-| [ASP.NET Web API](https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-3.1) | [Caliburn.Micro](https://caliburnmicro.com/) |
-| [Entity Framework](https://docs.microsoft.com/en-us/ef/)                                     | [SignalR](https://docs.microsoft.com/pl-pl/aspnet/core/tutorials/signalr?view=aspnetcore-3.1&tabs=visual-studio) |
-| [SignalR](https://docs.microsoft.com/pl-pl/aspnet/core/tutorials/signalr?view=aspnetcore-3.1&tabs=visual-studio) | [Material Design](http://materialdesigninxaml.net/) |
-| [MediatR](https://github.com/jbogard/MediatR/wiki)                                           |
-| [AutoMapper](https://automapper.org/)                                                        |
-| [Swagger](https://swagger.io/)                                                               |
-| [Cloudinary](https://cloudinary.com/)                                                        |
+| Server                                                                                                           | Client                                                                                                           |
+| ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| [.NET Core](https://docs.microsoft.com/en-us/dotnet/) 3.1.0                                                      | [WPF](https://docs.microsoft.com/en-us/dotnet/framework/wpf/) .NET Framework 4.8                                 |
+| [ASP.NET Web API](https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-3.1)                     | [Caliburn.Micro](https://caliburnmicro.com/)                                                                     |
+| [Entity Framework](https://docs.microsoft.com/en-us/ef/)                                                         | [SignalR](https://docs.microsoft.com/pl-pl/aspnet/core/tutorials/signalr?view=aspnetcore-3.1&tabs=visual-studio) |
+| [SignalR](https://docs.microsoft.com/pl-pl/aspnet/core/tutorials/signalr?view=aspnetcore-3.1&tabs=visual-studio) | [Material Design](http://materialdesigninxaml.net/)                                                              |
+| [MediatR](https://github.com/jbogard/MediatR/wiki)                                                               |
+| [AutoMapper](https://automapper.org/)                                                                            |
+| [Swagger](https://swagger.io/)                                                                                   |
+| [Cloudinary](https://cloudinary.com/)                                                                            |
 
 ## Getting Started
 

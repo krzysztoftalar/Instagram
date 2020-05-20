@@ -23,8 +23,8 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="270"/>
         </Grid.ColumnDefinitions>
 
         <!-- NavBar -->
@@ -35,7 +35,6 @@
             </Button>
 
             <StackPanel Orientation="Vertical" Margin="10" VerticalAlignment="Center">
-
                 <!-- User Display Name -->
                 <TextBlock IsEnabled="True" x:Name="DisplayName" HorizontalAlignment="Right" FontFamily="Nirmala UI" FontSize="30" VerticalAlignment="Center" Foreground="#FF2A6088"/>
             </StackPanel>
@@ -45,7 +44,6 @@
         <Grid Row="0" RowSpan="2" Column="1" Background="White">
             <Border  VerticalAlignment="Top" Margin="30" Height="150" Width="150" CornerRadius="80" BorderThickness="1" BorderBrush="Gray">
                 <Border.Background>
-
                     <!-- User Image -->
                     <ImageBrush x:Name="Image" ImageSource="{Binding Image, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="UniformToFill"/>
                 </Border.Background>
@@ -57,7 +55,19 @@
             <ScrollViewer x:Name="CommentsScrollViewer" ScrollChanged="ScrollViewer_ScrollChanged" VerticalScrollBarVisibility="Auto">
                 <StackPanel>
                     <ProgressBar Visibility="{Binding LoadingNext, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" Style="{StaticResource MaterialDesignCircularProgressBar}" Value="35" IsIndeterminate="True" />
+                    
                     <ListBox ItemsSource="{Binding Source={StaticResource cvs}}" Background="white" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsLoggedInComment}" Value="true">
+                                        <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+
                         <ListBox.GroupStyle>
                             <GroupStyle>
                                 <GroupStyle.Panel>
@@ -121,13 +131,11 @@
 
         <!-- Footer -->
         <Grid Row="2" Column="0" Background="#FFAFE6B2">
-
             <!-- Message -->
             <TextBox Grid.Column="0" Text="{Binding Message}" Margin="20 10 20 10" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" FontSize="20"/>
         </Grid>
 
         <Grid Row="2" Column="1" Background="#FFAFE6B2">
-
             <!-- Send Button -->
             <Button x:Name="Send" ToolTip="Send message" Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
                 <materialDesign:PackIcon Kind="Send"/>

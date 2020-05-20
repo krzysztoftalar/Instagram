@@ -8,7 +8,7 @@ namespace Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<UserFollowing> builder)
         {
-            builder.HasKey(u => new {u.ObserverId, u.TargetId});
+            builder.HasKey(u => new { u.ObserverId, u.TargetId });
 
             builder.HasOne(u => u.Observer)
                 .WithMany(a => a.Followings)
@@ -19,6 +19,8 @@ namespace Persistence.Configurations
                 .WithMany(a => a.Followers)
                 .HasForeignKey(u => u.TargetId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasCheckConstraint("CK_UserFollowing_TargetId", "[TargetId] <> [ObserverId]");
         }
     }
 }
