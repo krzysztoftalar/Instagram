@@ -103,7 +103,7 @@ namespace DesktopUI.ViewModels
             IsEditMode = !IsEditMode;
         }
 
-        public async Task Submit()
+        public async Task SubmitAsync()
         {
             var profile = new ProfileFormValues
             {
@@ -117,7 +117,7 @@ namespace DesktopUI.ViewModels
                 return;
             }
 
-            if (await _profileEndpoint.EditProfile(profile))
+            if (await _profileEndpoint.EditProfileAsync(profile))
             {
                 MessageBox.Show("Profile edited successfully", "Congratulations!",
                   MessageBoxButton.OK, MessageBoxImage.Information);

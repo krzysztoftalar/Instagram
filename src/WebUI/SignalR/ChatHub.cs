@@ -17,7 +17,7 @@ namespace WebUI.SignalR
             _userAccessor = userAccessor;
         }
 
-        public async Task SendComment(CreateCommentCommand command)
+        public async Task SendCommentAsync(CreateCommentCommand command)
         {
             string username = _userAccessor.GetCurrentUsername();
 
@@ -25,10 +25,10 @@ namespace WebUI.SignalR
 
             var comment = await _mediator.Send(command);
 
-            await Clients.Group(command.PhotoId).SendAsync("ReceiveComment", comment);
+            await Clients.Group(command.PhotoId).SendAsync("ReceiveCommentAsync", comment);
         }
 
-        public async Task AddToGroup(string groupName)
+        public async Task AddToGroupAsync(string groupName)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
 
@@ -37,7 +37,7 @@ namespace WebUI.SignalR
             await Clients.Group(groupName).SendAsync("Send", $"{username} has joined the group");
         }
 
-        public async Task RemoveFromGroup(string groupName)
+        public async Task RemoveFromGroupAsync(string groupName)
         {
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
 

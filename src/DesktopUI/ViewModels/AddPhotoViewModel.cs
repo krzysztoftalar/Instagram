@@ -44,10 +44,10 @@ namespace DesktopUI.ViewModels
             }
         }
 
-        public async Task UploadPhoto()
+        public async Task UploadPhotoAsync()
         {
 
-            if (await _profile.UploadPhoto(ImagePath))
+            if (await _profile.UploadPhotoAsync(ImagePath))
             {
                 MessageBox.Show("Image uploaded successfully", "Congratulations!",
                   MessageBoxButton.OK, MessageBoxImage.Information);

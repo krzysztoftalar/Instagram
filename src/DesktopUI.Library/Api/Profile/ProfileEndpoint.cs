@@ -22,7 +22,7 @@ namespace DesktopUI.Library.Api.Profile
             _user = user;
         }
 
-        public async Task<bool> UploadPhoto(string photo)
+        public async Task<bool> UploadPhotoAsync(string photo)
         {
             using (var form = new MultipartFormDataContent())
             {
@@ -60,7 +60,7 @@ namespace DesktopUI.Library.Api.Profile
             }
         }
 
-        public async Task<bool> SetMainPhoto(Photo photo)
+        public async Task<bool> SetMainPhotoAsync(Photo photo)
         {
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.PostAsJsonAsync($"/api/photos/{photo.Id}/setMain",
@@ -77,7 +77,7 @@ namespace DesktopUI.Library.Api.Profile
             }
         }
 
-        public async Task<bool> DeletePhoto(Photo photo)
+        public async Task<bool> DeletePhotoAsync(Photo photo)
         {
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.DeleteAsync($"/api/photos/{photo.Id}"))
@@ -97,7 +97,7 @@ namespace DesktopUI.Library.Api.Profile
             }
         }
 
-        public async Task<PhotosEnvelope> LoadPhotos(string username, int? skip, int? limit)
+        public async Task<PhotosEnvelope> LoadPhotosAsync(string username, int? skip, int? limit)
         {
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.GetAsync($"/api/photos/{username}?skip={skip}&limit={limit}"))
@@ -111,7 +111,7 @@ namespace DesktopUI.Library.Api.Profile
             }
         }
 
-        public async Task<Models.DbModels.Profile> LoadProfile(string username)
+        public async Task<Models.DbModels.Profile> LoadProfileAsync(string username)
         {
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.GetAsync($"/api/profiles/{username}"))
@@ -133,7 +133,7 @@ namespace DesktopUI.Library.Api.Profile
             }
         }
 
-        public async Task<bool> EditProfile(ProfileFormValues profile)
+        public async Task<bool> EditProfileAsync(ProfileFormValues profile)
         {
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.PutAsJsonAsync($"/api/profiles", profile))
@@ -150,7 +150,7 @@ namespace DesktopUI.Library.Api.Profile
             }
         }
 
-        public async Task Follow(string username)
+        public async Task FollowAsync(string username)
         {
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.PostAsJsonAsync($"/api/profiles/{username}/follow",
@@ -168,7 +168,7 @@ namespace DesktopUI.Library.Api.Profile
             }
         }
 
-        public async Task UnFollow(string username)
+        public async Task UnFollowAsync(string username)
         {
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.DeleteAsync($"/api/profiles/{username}/follow"))
@@ -185,7 +185,7 @@ namespace DesktopUI.Library.Api.Profile
             }
         }
 
-        public async Task<FollowersEnvelope> LoadFollowing(string username, string predicate, int? skip, int? limit)
+        public async Task<FollowersEnvelope> LoadFollowingAsync(string username, string predicate, int? skip, int? limit)
         {
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient

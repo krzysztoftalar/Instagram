@@ -56,12 +56,12 @@
                     <StackPanel Margin="20" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
 
                         <!-- Previous Page Button -->
-                        <Button x:Name="PrevPage" Visibility="{Binding IsPrevPage, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" Margin="20 0">
+                        <Button x:Name="PrevPageAsync" Visibility="{Binding IsPrevPage, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" Margin="20 0">
                             <materialDesign:PackIcon Kind="ArrowLeft" />
                         </Button>
 
                         <!-- Next Page Button -->
-                        <Button x:Name="NextPage" Visibility="{Binding IsNextPage, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" Margin="20 0">
+                        <Button x:Name="NextPageAsync" Visibility="{Binding IsNextPage, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" Margin="20 0">
                             <materialDesign:PackIcon Kind="ArrowRight" />
                         </Button>
                     </StackPanel>

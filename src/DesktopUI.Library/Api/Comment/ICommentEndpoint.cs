@@ -5,7 +5,7 @@ namespace DesktopUI.Library.Api.Comment
 {
     public interface ICommentEndpoint
     {
-        Task AddComment(Models.DbModels.Comment comment);
-        Task<CommentsEnvelope> LoadComments(string id, int? skip, int? limit);
+        Task AddCommentAsync(Models.DbModels.Comment comment);
+        Task<CommentsEnvelope> LoadCommentsAsync(string id, int? skip, int? limit);
     }
 }

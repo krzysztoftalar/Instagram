@@ -90,7 +90,7 @@ namespace DesktopUI.ViewModels
             }
         }
 
-        public async Task Register()
+        public async Task RegisterAsync()
         {
             if (Password.IsValidPassword(ref _errorMessage) && Email.IsValidEmail(ref _errorMessage))
             {
@@ -104,7 +104,7 @@ namespace DesktopUI.ViewModels
 
                 try
                 {
-                    await _userEndpoint.Register(user);
+                    await _userEndpoint.RegisterAsync(user);
 
                     MessageBox.Show("You have been successfully registered.", "Congratulations!",
                         MessageBoxButton.OK, MessageBoxImage.Information);
@@ -122,9 +122,9 @@ namespace DesktopUI.ViewModels
             }
         }
 
-        public void GoToLogin()
+        public async Task GoToLoginAsync()
         {
-            _events.PublishOnUIThread(Navigation.Login);
+            await _events.PublishOnUIThreadAsync(Navigation.Login);
         }
     }
 }

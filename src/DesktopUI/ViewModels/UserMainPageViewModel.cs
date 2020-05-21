@@ -9,9 +9,9 @@ namespace DesktopUI.ViewModels
     public class UserMainPageViewModel : Conductor<object>
     {
         private readonly IEventAggregator _events;
+        private readonly IUserEndpoint _userEndpoint;
         private IAuthenticatedUser _user;
         private IProfile _profile;
-        private readonly IUserEndpoint _userEndpoint;
 
         public UserMainPageViewModel(IEventAggregator events, IAuthenticatedUser user, IProfile profile,
             IUserEndpoint userEndpoint)
@@ -82,13 +82,13 @@ namespace DesktopUI.ViewModels
                 _selectedUser = value;
                 NotifyOfPropertyChange(() => SelectedUser);
 
-                ViewProfile();
+                ViewProfileAsync().ConfigureAwait(false);
             }
         }
 
-        public async Task SearchUsers()
+        public async Task SearchUsersAsync()
         {
-            var users = await _userEndpoint.SearchUsers(Search);
+            var users = await _userEndpoint.SearchUsersAsync(Search);
             UsersList = new BindableCollection<AuthenticatedUser>(users);
 
             foreach (var user in UsersList)
@@ -97,27 +97,27 @@ namespace DesktopUI.ViewModels
             }
         }
 
-        public void ViewProfile()
+        public async Task ViewProfileAsync()
         {
-            _events.PublishOnUIThread(Navigation.Profile);
+            await _events.PublishOnUIThreadAsync(Navigation.Profile);
 
-            _events.PublishOnUIThread(new MessageEvent { Username = SelectedUser.Username });
+            await _events.PublishOnUIThreadAsync(new MessageEvent { Username = SelectedUser.Username });
         }
 
-        public void EditProfile()
+        public async Task EditProfileAsync()
         {
-            _events.PublishOnUIThread(Navigation.Profile);
+            await _events.PublishOnUIThreadAsync(Navigation.Profile);
 
-            _events.PublishOnUIThread(new MessageEvent { Username = _user.Username });
+            await _events.PublishOnUIThreadAsync(new MessageEvent { Username = _user.Username });
         }
 
-        public void Logout()
+        public async Task LogoutAsync()
         {
             _profile = new Profile();
             _user = new AuthenticatedUser();
 
             _userEndpoint.LogOffUser();
-            _events.PublishOnUIThread(Navigation.Login);
+            await _events.PublishOnUIThreadAsync(Navigation.Login);
         }
     }
 }

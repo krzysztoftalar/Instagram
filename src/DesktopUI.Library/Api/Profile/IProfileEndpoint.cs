@@ -6,16 +6,16 @@ namespace DesktopUI.Library.Api.Profile
 {
     public interface IProfileEndpoint
     {
-        Task<bool> UploadPhoto(string photo);
-        Task<bool> SetMainPhoto(Photo photo);
-        Task<bool> DeletePhoto(Photo photo);
-        Task<PhotosEnvelope> LoadPhotos(string username, int? skip, int? limit);
+        Task<bool> UploadPhotoAsync(string photo);
+        Task<bool> SetMainPhotoAsync(Photo photo);
+        Task<bool> DeletePhotoAsync(Photo photo);
+        Task<PhotosEnvelope> LoadPhotosAsync(string username, int? skip, int? limit);
 
-        Task<Models.DbModels.Profile> LoadProfile(string username);
-        Task<bool> EditProfile(ProfileFormValues profile);
+        Task<Models.DbModels.Profile> LoadProfileAsync(string username);
+        Task<bool> EditProfileAsync(ProfileFormValues profile);
 
-        Task<FollowersEnvelope> LoadFollowing(string username, string predicate, int? skip, int? limit);
-        Task Follow(string username);
-        Task UnFollow(string username);
+        Task<FollowersEnvelope> LoadFollowingAsync(string username, string predicate, int? skip, int? limit);
+        Task FollowAsync(string username);
+        Task UnFollowAsync(string username);
     }
 }

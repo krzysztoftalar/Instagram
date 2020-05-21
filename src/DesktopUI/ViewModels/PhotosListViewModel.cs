@@ -49,14 +49,14 @@ namespace DesktopUI.ViewModels
             _pagination.Limit = 4;
             UserPhotos = new ObservableCollection<Photo>();
 
-            await LoadPhotos(_pagination.Skip, _pagination.Limit);
+            await LoadPhotosAsync(_pagination.Skip, _pagination.Limit);
         }
 
-        public async Task LoadPhotos(int skip, int limit)
+        public async Task LoadPhotosAsync(int skip, int limit)
         {
             var username = _isEditMode ? _profile.Username : _user.Username;
 
-            var photos = await _profileEndpoint.LoadPhotos(username, skip, limit);
+            var photos = await _profileEndpoint.LoadPhotosAsync(username, skip, limit);
 
             foreach (var photo in photos.Photos)
             {
@@ -66,7 +66,7 @@ namespace DesktopUI.ViewModels
             _pagination.ItemsCount = photos.PhotosCount;
         }
 
-        public async Task HandleGetNext()
+        public async Task HandleGetNextAsync()
         {
             if (_pagination.PageNumber + 1 < _pagination.TotalPages)
             {
@@ -74,7 +74,7 @@ namespace DesktopUI.ViewModels
 
                 LoadingNext = true;
 
-                await LoadPhotos(_pagination.Skip, _pagination.Limit);
+                await LoadPhotosAsync(_pagination.Skip, _pagination.Limit);
 
                 LoadingNext = false;
             }
@@ -129,9 +129,9 @@ namespace DesktopUI.ViewModels
             }
         }
 
-        public async Task SetMainPhoto()
+        public async Task SetMainPhotoAsync()
         {
-            if (await _profileEndpoint.SetMainPhoto(SelectedPhoto))
+            if (await _profileEndpoint.SetMainPhotoAsync(SelectedPhoto))
             {
                 SelectedPhoto.IsMain = true;
 
@@ -139,9 +139,9 @@ namespace DesktopUI.ViewModels
             }
         }
 
-        public async Task DeletePhoto()
+        public async Task DeletePhotoAsync()
         {
-            if (await _profileEndpoint.DeletePhoto(SelectedPhoto))
+            if (await _profileEndpoint.DeletePhotoAsync(SelectedPhoto))
             {
                 UserPhotos.Remove(SelectedPhoto);
 
@@ -167,7 +167,7 @@ namespace DesktopUI.ViewModels
         {
             if (message.HandleGetNextPhotos)
             {
-                HandleGetNext().ConfigureAwait(false);
+                HandleGetNextAsync().ConfigureAwait(false);
             }
         }
 

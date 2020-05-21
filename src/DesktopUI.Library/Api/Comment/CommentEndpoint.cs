@@ -18,13 +18,13 @@ namespace DesktopUI.Library.Api.Comment
             _apiHelper = apiHelper;
         }
 
-        public async Task AddComment(Models.DbModels.Comment comment)
+        public async Task AddCommentAsync(Models.DbModels.Comment comment)
         {
             try
             {
                 if (_chat.Connection.State == HubConnectionState.Connected)
                 {
-                    await _chat.Connection.InvokeAsync("SendComment", comment);
+                    await _chat.Connection.InvokeAsync("SendCommentAsync", comment);
                 }
             }
             catch (Exception ex)
@@ -33,7 +33,7 @@ namespace DesktopUI.Library.Api.Comment
             }
         }
 
-        public async Task<CommentsEnvelope> LoadComments(string id, int? skip, int? limit)
+        public async Task<CommentsEnvelope> LoadCommentsAsync(string id, int? skip, int? limit)
         {
             using (HttpResponseMessage response =
               await _apiHelper.ApiClient.GetAsync($"/api/comments/{id}?skip={skip}&limit={limit}"))

@@ -30,7 +30,7 @@
         <!-- NavBar -->
         <Grid Row="0" Background="White">
             <Image Source="../Assets/insta.jpg" HorizontalAlignment="Left" Margin="10 0"/>
-            <Button x:Name="BackToMainPage" Height="30" Width="30" HorizontalAlignment="Left" Margin="170 0 0 5" Style="{DynamicResource MaterialDesignToolForegroundButton}" Panel.ZIndex="0">
+            <Button x:Name="BackToMainPageAsync" Height="30" Width="30" HorizontalAlignment="Left" Margin="170 0 0 5" Style="{DynamicResource MaterialDesignToolForegroundButton}" Panel.ZIndex="0">
                 <materialDesign:PackIcon Kind="HandPointingLeft" Foreground="#FF44325F" />
             </Button>
 
@@ -137,7 +137,7 @@
 
         <Grid Row="2" Column="1" Background="#FFAFE6B2">
             <!-- Send Button -->
-            <Button x:Name="Send" ToolTip="Send message" Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
+            <Button x:Name="SendAsync" ToolTip="Send message" Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
                 <materialDesign:PackIcon Kind="Send"/>
             </Button>
         </Grid>

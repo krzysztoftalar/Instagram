@@ -21,19 +21,19 @@ namespace DesktopUI.Library.Api.User
             _user = user;
         }
 
-        public async Task Register(UserFormValues user)
+        public async Task RegisterAsync(UserFormValues user)
         {
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.PostAsJsonAsync("/api/users/register", user))
             {
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new Exception(response.ApiException());
+                    throw new Exception(await response.ApiExceptionAsync());
                 }
             }
         }
 
-        public async Task<AuthenticatedUser> Login(UserFormValues user)
+        public async Task<AuthenticatedUser> LoginAsync(UserFormValues user)
         {
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.PostAsJsonAsync("/api/users/login", user))
@@ -52,7 +52,7 @@ namespace DesktopUI.Library.Api.User
             _apiHelper.ApiClient.DefaultRequestHeaders.Clear();
         }
 
-        public async Task<AuthenticatedUser> CurrentUser(string token)
+        public async Task<AuthenticatedUser> CurrentUserAsync(string token)
         {
             _apiHelper.ApiClient.DefaultRequestHeaders.Clear();
             _apiHelper.ApiClient.DefaultRequestHeaders.Accept.Clear();
@@ -76,7 +76,7 @@ namespace DesktopUI.Library.Api.User
             }
         }
 
-        public async Task<List<AuthenticatedUser>> SearchUsers(string displayName)
+        public async Task<List<AuthenticatedUser>> SearchUsersAsync(string displayName)
         {
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.GetAsync($"/api/users/{displayName}"))

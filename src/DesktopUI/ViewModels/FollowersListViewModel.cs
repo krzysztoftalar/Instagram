@@ -30,12 +30,12 @@ namespace DesktopUI.ViewModels
         {
             base.OnViewLoaded(view);
 
-            await LoadFollowing(_pagination.Skip, _pagination.Limit);
+            await LoadFollowingAsync(_pagination.Skip, _pagination.Limit);
         }
 
-        private async Task LoadFollowing(int skip, int limit)
+        private async Task LoadFollowingAsync(int skip, int limit)
         {
-            var followers = await _profileEndpoint.LoadFollowing(_profile.Username, _predicate, skip, limit);
+            var followers = await _profileEndpoint.LoadFollowingAsync(_profile.Username, _predicate, skip, limit);
             UserFollowing = new BindableCollection<Profile>(followers.Followers);
 
             foreach (var profile in UserFollowing)
@@ -82,21 +82,21 @@ namespace DesktopUI.ViewModels
             _events.PublishOnUIThread(new MessageEvent { Username = SelectedProfile.Username });
         }
 
-        public async Task PrevPage()
+        public async Task PrevPageAsync()
         {
             _pagination.PageNumber--;
 
-            await LoadFollowing(_pagination.Skip, _pagination.Limit);
+            await LoadFollowingAsync(_pagination.Skip, _pagination.Limit);
 
             NotifyOfPropertyChange(() => IsPrevPage);
             NotifyOfPropertyChange(() => IsNextPage);
         }
 
-        public async Task NextPage()
+        public async Task NextPageAsync()
         {
             _pagination.PageNumber++;
 
-            await LoadFollowing(_pagination.Skip, _pagination.Limit);
+            await LoadFollowingAsync(_pagination.Skip, _pagination.Limit);
 
             NotifyOfPropertyChange(() => IsPrevPage);
             NotifyOfPropertyChange(() => IsNextPage);
@@ -139,7 +139,7 @@ namespace DesktopUI.ViewModels
                 _pagination.PageNumber = 0;
                 _pagination.Limit = SelectedCount;
 
-                LoadFollowing(_pagination.Skip, _pagination.Limit).ConfigureAwait(false);
+                LoadFollowingAsync(_pagination.Skip, _pagination.Limit).ConfigureAwait(false);
             }
         }
 

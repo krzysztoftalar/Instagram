@@ -18,7 +18,7 @@ namespace DesktopUI.Library.Helpers
             _user = user;
         }
 
-        public async Task CreateHubConnection(string photoId)
+        public async Task CreateHubConnectionAsync(string photoId)
         {
             string api = ConfigurationManager.AppSettings["Chat"];
 
@@ -31,7 +31,7 @@ namespace DesktopUI.Library.Helpers
               .ConfigureLogging(logging => { logging.AddConsole(); })
               .Build();
 
-            Connection.On<Comment>("ReceiveComment", (comment) =>
+            Connection.On<Comment>("ReceiveCommentAsync", (comment) =>
             {
                 GetReceive?.Invoke(this, comment);
             });
@@ -40,13 +40,13 @@ namespace DesktopUI.Library.Helpers
 
             if (Connection.State == HubConnectionState.Connected)
             {
-                await Connection.InvokeAsync("AddToGroup", photoId);
+                await Connection.InvokeAsync("AddToGroupAsync", photoId);
             }
         }
 
-        public async Task StopHubConnection(string photoId)
+        public async Task StopHubConnectionAsync(string photoId)
         {
-            await Connection.InvokeAsync("RemoveFromGroup", photoId);
+            await Connection.InvokeAsync("RemoveFromGroupAsync", photoId);
 
             await Connection.StopAsync();
         }

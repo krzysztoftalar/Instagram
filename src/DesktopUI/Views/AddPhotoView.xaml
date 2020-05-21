@@ -31,7 +31,7 @@
                 <Button x:Name="AddPhoto" BorderThickness="0" Foreground="Gray" Background="White" FontSize="18" Content="Add Photo" Grid.Row="1" Width="150"/>
 
                 <!-- Upload Photo Button -->
-                <Button x:Name="UploadPhoto" ToolTip="Upload the photo" BorderThickness="0" Width="150" Margin="20" Foreground="White" Background="Green">
+                <Button x:Name="UploadPhotoAsync" ToolTip="Upload the photo" BorderThickness="0" Width="150" Margin="20" Foreground="White" Background="Green">
                     <materialDesign:PackIcon Kind="Check" />
                 </Button>
             </StackPanel>

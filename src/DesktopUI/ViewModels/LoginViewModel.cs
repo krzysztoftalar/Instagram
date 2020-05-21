@@ -61,7 +61,7 @@ namespace DesktopUI.ViewModels
             }
         }
 
-        public async Task Login()
+        public async Task LoginAsync()
         {
             var user = new UserFormValues
             {
@@ -73,9 +73,9 @@ namespace DesktopUI.ViewModels
             {
                 ErrorMessage = "";
 
-                var result = await _userEndpoint.Login(user);
+                var result = await _userEndpoint.LoginAsync(user);
 
-                await _userEndpoint.CurrentUser(result.Token);
+                await _userEndpoint.CurrentUserAsync(result.Token);
 
                 await _events.PublishOnUIThreadAsync(Navigation.Main);
             }
@@ -90,9 +90,9 @@ namespace DesktopUI.ViewModels
             }
         }
 
-        public void GoToRegister()
+        public async Task GoToRegisterAsync()
         {
-            _events.PublishOnUIThread(Navigation.Register);
+            await _events.PublishOnUIThreadAsync(Navigation.Register);
         }
     }
 }

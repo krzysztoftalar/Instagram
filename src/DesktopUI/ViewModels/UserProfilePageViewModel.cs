@@ -32,7 +32,7 @@ namespace DesktopUI.ViewModels
         {
             base.OnViewLoaded(view);
 
-            var profile = await _profileEndpoint.LoadProfile(_username);
+            var profile = await _profileEndpoint.LoadProfileAsync(_username);
             FollowersCount = profile.FollowersCount.ToString();
             FollowingCount = profile.FollowingCount.ToString();
 
@@ -94,15 +94,15 @@ namespace DesktopUI.ViewModels
             }
         }
 
-        public async Task Follow()
+        public async Task FollowAsync()
         {
             if (_profile.Following)
             {
-                await _profileEndpoint.UnFollow(_profile.Username);
+                await _profileEndpoint.UnFollowAsync(_profile.Username);
             }
             else
             {
-                await _profileEndpoint.Follow(_profile.Username);
+                await _profileEndpoint.FollowAsync(_profile.Username);
             }
 
             NotifyOfPropertyChange(() => FollowBtnContent);
@@ -139,41 +139,41 @@ namespace DesktopUI.ViewModels
             ActivateItem(IoC.Get<AddPhotoViewModel>());
         }
 
-        public void EditProfile()
+        public async Task EditProfileAsync()
         {
             ActivateItem(IoC.Get<EditProfileViewModel>());
 
-            _events.PublishOnUIThread(new MessageEvent { DisplayName = _profile.DisplayName, Bio = _profile.Bio });
+            await _events.PublishOnUIThreadAsync(new MessageEvent { DisplayName = _profile.DisplayName, Bio = _profile.Bio });
         }
 
-        public void PhotosList()
+        public async Task PhotosListAsync()
         {
             ActivateItem(IoC.Get<PhotosListViewModel>());
 
-            _events.PublishOnUIThread(new ModeEvent { IsEditMode = true });
+            await _events.PublishOnUIThreadAsync(new ModeEvent { IsEditMode = true });
 
             _messageEvent.OnProfilePage(true);
         }
 
-        public void LoadFollowing()
+        public async Task LoadFollowingAsync()
         {
             ActivateItem(IoC.Get<FollowersListViewModel>());
 
-            _events.PublishOnUIThread(new MessageEvent { Predicate = "following" });
+            await _events.PublishOnUIThreadAsync(new MessageEvent { Predicate = "following" });
         }
 
-        public void LoadFollowers()
+        public async Task LoadFollowersAsync()
         {
             ActivateItem(IoC.Get<FollowersListViewModel>());
 
-            _events.PublishOnUIThread(new MessageEvent { Predicate = "followers" });
+            await _events.PublishOnUIThreadAsync(new MessageEvent { Predicate = "followers" });
         }
 
-        public void BackToMainPage()
+        public async Task BackToMainPageAsync()
         {
-            _events.PublishOnUIThread(Navigation.Main);
+            await _events.PublishOnUIThreadAsync(Navigation.Main);
 
-            _events.PublishOnUIThread(new ModeEvent { IsEditMode = false });
+            await _events.PublishOnUIThreadAsync(new ModeEvent { IsEditMode = false });
         }
 
         public void Handle(MessageEvent message)

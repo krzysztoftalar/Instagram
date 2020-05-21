@@ -33,7 +33,7 @@
                 <StackPanel Orientation="Horizontal" Visibility="{Binding IsLogIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
 
                     <!-- Submit Button -->
-                    <Button x:Name="Submit" Content="Submit" BorderThickness="0" FontSize="18" Width="150" Margin="20 40" Height="40" Foreground="White" HorizontalAlignment="Left" Background="Green" />
+                    <Button x:Name="SubmitAsync" Content="Submit" BorderThickness="0" FontSize="18" Width="150" Margin="20 40" Height="40" Foreground="White" HorizontalAlignment="Left" Background="Green" />
 
                     <!-- Toggle Edit Mode Button -->
                     <Button x:Name="ToggleEditMode" Content="Edit" BorderThickness="0" FontSize="18" Width="150" Height="40" Foreground="White" HorizontalAlignment="Left" />

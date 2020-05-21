@@ -47,10 +47,10 @@
             </Grid>
 
             <!-- Register Button -->
-            <Button x:Name="Register" Width="150" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 65" Content="REGISTER"/>
+            <Button x:Name="RegisterAsync" Width="150" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 65" Content="REGISTER"/>
 
             <!-- Login Button -->
-            <Button x:Name="GoToLogin" FontSize="12" Width="250" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Foreground="Gray" Background="White" Content="Already using Instagram? Log in here."/>
+            <Button x:Name="GoToLoginAsync" FontSize="12" Width="250" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Foreground="Gray" Background="White" Content="Already using Instagram? Log in here."/>
             <Image Stretch="Uniform" Source="../Assets/home.png" Width="100" Height="100" VerticalAlignment="Top" Margin="10"/>            
         </Grid>
     </Grid>

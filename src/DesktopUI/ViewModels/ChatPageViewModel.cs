@@ -50,9 +50,9 @@ namespace DesktopUI.ViewModels
 
             Comments = new ObservableCollection<Comment>();
 
-            await _chat.CreateHubConnection(_photo.Id);
+            await _chat.CreateHubConnectionAsync(_photo.Id);
 
-            await LoadComments(_pagination.Skip, _pagination.Limit);
+            await LoadCommentsAsync(_pagination.Skip, _pagination.Limit);
         }
 
         private void OnGetReceive(object sender, Comment comment)
@@ -71,9 +71,9 @@ namespace DesktopUI.ViewModels
             comment.Date = comment.CreatedAt.ToString("dd-MM-yyyy");
         }
 
-        public async Task LoadComments(int? skip, int limit)
+        public async Task LoadCommentsAsync(int? skip, int limit)
         {
-            var comments = await _commentEndpoint.LoadComments(_photo.Id, skip, limit);
+            var comments = await _commentEndpoint.LoadCommentsAsync(_photo.Id, skip, limit);
 
             foreach (var comment in comments.Comments)
             {
@@ -86,7 +86,7 @@ namespace DesktopUI.ViewModels
         }
 
 
-        public async Task HandleGetNext()
+        public async Task HandleGetNextAsync()
         {
             if (_pagination.PageNumber + 1 < _pagination.TotalPages)
             {
@@ -94,7 +94,7 @@ namespace DesktopUI.ViewModels
 
                 LoadingNext = true;
 
-                await LoadComments(_pagination.Skip, _pagination.Limit);
+                await LoadCommentsAsync(_pagination.Skip, _pagination.Limit);
 
                 LoadingNext = false;
             }
@@ -160,7 +160,7 @@ namespace DesktopUI.ViewModels
             }
         }
 
-        public async Task Send()
+        public async Task SendAsync()
         {
             var comment = new Comment
             {
@@ -170,15 +170,15 @@ namespace DesktopUI.ViewModels
 
             if (!string.IsNullOrWhiteSpace(Message))
             {
-                await _commentEndpoint.AddComment(comment);
+                await _commentEndpoint.AddCommentAsync(comment);
 
                 Message = "";
             }
         }
 
-        public async Task BackToMainPage()
+        public async Task BackToMainPageAsync()
         {
-            await _chat.StopHubConnection(_photo.Id);
+            await _chat.StopHubConnectionAsync(_photo.Id);
 
             await _events.PublishOnUIThreadAsync(Navigation.Main);
         }
@@ -189,7 +189,7 @@ namespace DesktopUI.ViewModels
 
             if (message.HandleGetNextComments)
             {
-                HandleGetNext().ConfigureAwait(false);
+                HandleGetNextAsync().ConfigureAwait(false);
             }
         }
     }

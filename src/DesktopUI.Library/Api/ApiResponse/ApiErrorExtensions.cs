@@ -1,22 +1,23 @@
-﻿using System.Net.Http;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace DesktopUI.Library.Api.ApiResponse
 {
     public static class ApiErrorExtensions
     {
-        public static string ApiException(this HttpResponseMessage response)
+        public static async Task<string> ApiExceptionAsync(this HttpResponseMessage response)
         {
-            var responseContent = response.Content.ReadAsStringAsync().Result;
-            
+            var responseContent = await response.Content.ReadAsStringAsync();
+
             var exceptionResponse = JsonConvert.DeserializeObject<ApiError>(responseContent);
 
             return $"{exceptionResponse.Errors.Email}{exceptionResponse.Errors.UserName}";
         }
-        
+
         public class ApiError
         {
-            [JsonProperty("errors")]         
+            [JsonProperty("errors")]
 
             public Errors Errors { get; set; }
         }

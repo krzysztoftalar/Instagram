@@ -8,8 +8,8 @@ namespace DesktopUI.Library.Helpers
     public interface IChatHelper
     {
         HubConnection Connection { get; }
-        Task CreateHubConnection(string photoId);
-        Task StopHubConnection(string photoId);
+        Task CreateHubConnectionAsync(string photoId);
+        Task StopHubConnectionAsync(string photoId);
 
         event EventHandler<Comment> GetReceive;
     }

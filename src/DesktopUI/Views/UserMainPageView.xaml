@@ -22,9 +22,9 @@
             <Image Source="../Assets/insta.jpg" HorizontalAlignment="Left" Margin="10 0"/>
             <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="15 15">
                 <StackPanel Width="150">
-                    <Button cal:Message.Attach="[Event Click] = [Action EditProfile()]" Content="Account" />
+                    <Button cal:Message.Attach="[Event Click] = [Action EditProfileAsync()]" Content="Account" />
                     <Separator/>
-                    <Button cal:Message.Attach="[Event Click] = [Action Logout()]" Content="Logout" />
+                    <Button cal:Message.Attach="[Event Click] = [Action LogoutAsync()]" Content="Logout" />
                 </StackPanel>
             </materialDesign:PopupBox>
         </Grid>
@@ -78,7 +78,7 @@
             </StackPanel>
 
             <!-- Search Users Button -->
-            <Button x:Name="SearchUsers" VerticalAlignment="Top" Grid.Column="1" Style="{DynamicResource MaterialDesignToolForegroundButton}" Margin="0 35" Panel.ZIndex="0">
+            <Button x:Name="SearchUsersAsync" VerticalAlignment="Top" Grid.Column="1" Style="{DynamicResource MaterialDesignToolForegroundButton}" Margin="0 35" Panel.ZIndex="0">
                 <materialDesign:PackIcon Kind="Send" Foreground="White" />
             </Button>           
         </Grid>

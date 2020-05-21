@@ -46,7 +46,7 @@
         <!-- NavBar -->
         <Grid Grid.Row="0" Background="White" Grid.ColumnSpan="2">
             <Image Source="../Assets/insta.jpg" HorizontalAlignment="Left" Margin="10 0"/>
-            <Button x:Name="BackToMainPage" Height="30" Width="30" HorizontalAlignment="Left" Margin="170 0 0 5" Style="{DynamicResource MaterialDesignToolForegroundButton}" Panel.ZIndex="0">
+            <Button x:Name="BackToMainPageAsync" Height="30" Width="30" HorizontalAlignment="Left" Margin="170 0 0 5" Style="{DynamicResource MaterialDesignToolForegroundButton}" Panel.ZIndex="0">
                 <materialDesign:PackIcon Kind="HandPointingLeft" Foreground="#FF44325F" />
             </Button>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 5 0 0">
@@ -74,7 +74,7 @@
                     <TextBlock IsEnabled="True" x:Name="DisplayName" HorizontalAlignment="Center" FontFamily="Nirmala UI" Text="Name" FontSize="30" Margin="20" VerticalAlignment="Center" Foreground="#FF2A6088"/>
 
                     <!-- Follow User Button-->
-                    <Button x:Name="Follow" Width="120" Content="{Binding FollowBtnContent}" Background="White" Foreground="#FF2A6088" BorderThickness="2" HorizontalAlignment="Center" BorderBrush="{Binding FollowBtnBorder}"
+                    <Button x:Name="FollowAsync" Width="120" Content="{Binding FollowBtnContent}" Background="White" Foreground="#FF2A6088" BorderThickness="2" HorizontalAlignment="Center" BorderBrush="{Binding FollowBtnBorder}"
                             Visibility="{Binding IsCurrentUser, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Right" Height="200">
@@ -120,7 +120,7 @@
 
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
                     <StackPanel Height="60" HorizontalAlignment="Left">
-                        <Button BorderBrush="#FF44325F" Height="60" Width="250" x:Name="EditProfile" Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0" >
+                        <Button BorderBrush="#FF44325F" Height="60" Width="250" x:Name="EditProfileAsync" Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0" >
                             <StackPanel Orientation="Horizontal" Width="220">
                                 <materialDesign:PackIcon Kind="InformationVariant" Margin="5 0" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Left" />
                                 <TextBlock Margin="20 0" Text="Information" FontSize="20" FontFamily="Consolas"/>
@@ -136,7 +136,7 @@
                         </Button>
                     </StackPanel>                  
                     <StackPanel Orientation="Horizontal" Height="60"  >
-                        <Button BorderBrush="#FF44325F" Height="60" Width="250" x:Name="PhotosList" Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0" >
+                        <Button BorderBrush="#FF44325F" Height="60" Width="250" x:Name="PhotosListAsync" Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0" >
                             <StackPanel Orientation="Horizontal" Width="220">
                                 <materialDesign:PackIcon Kind="PhotoAlbum" Margin="5 0" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Left" />
                                 <TextBlock Margin="20 0" Text="Photos" FontSize="20" VerticalAlignment="Center" FontFamily="Consolas"/>
@@ -144,7 +144,7 @@
                         </Button>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Height="60"  >
-                        <Button BorderBrush="#FF44325F" Height="60" Width="250" x:Name="LoadFollowers" Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0" >
+                        <Button BorderBrush="#FF44325F" Height="60" Width="250" x:Name="LoadFollowersAsync" Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0" >
                             <StackPanel Orientation="Horizontal" Width="220">
                                 <materialDesign:PackIcon Kind="AccountArrowLeft" Margin="5 0" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Left" />
                                 <TextBlock Margin="20 0" Text="Followers" FontSize="20" VerticalAlignment="Center" FontFamily="Consolas"/>
@@ -152,7 +152,7 @@
                         </Button>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Height="60"  >
-                        <Button BorderBrush="#FF44325F" Height="60" Width="250" x:Name="LoadFollowing" Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0" >
+                        <Button BorderBrush="#FF44325F" Height="60" Width="250" x:Name="LoadFollowingAsync" Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0" >
                             <StackPanel Orientation="Horizontal" Width="220">
                                 <materialDesign:PackIcon Kind="AccountArrowRight" Margin="5 0" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Left" />
                                 <TextBlock Margin="20 0" Text="Following" FontSize="20" VerticalAlignment="Center" FontFamily="Consolas"/>
