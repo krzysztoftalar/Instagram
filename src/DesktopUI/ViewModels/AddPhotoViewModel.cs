@@ -2,6 +2,7 @@
 using DesktopUI.EventModels;
 using DesktopUI.Library.Api.Profile;
 using Microsoft.Win32;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -52,7 +53,7 @@ namespace DesktopUI.ViewModels
                 MessageBox.Show("Image uploaded successfully", "Congratulations!",
                   MessageBoxButton.OK, MessageBoxImage.Information);
 
-                await _events.PublishOnUIThreadAsync(new MessageEvent());
+                await _events.PublishOnUIThreadAsync(new MessageEvent(), new CancellationToken());
             }
             else
             {

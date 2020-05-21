@@ -1,7 +1,4 @@
-﻿using DesktopUI.Library.Models;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace DesktopUI.Views
 {
@@ -12,8 +9,8 @@ namespace DesktopUI.Views
     {
         public AddPhotoView()
         {
-            InitializeComponent();                 
-            
+            InitializeComponent();
+
         }
     }
 }

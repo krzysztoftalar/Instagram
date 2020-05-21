@@ -2,6 +2,7 @@
 using DesktopUI.EventModels;
 using DesktopUI.Library.Api.User;
 using DesktopUI.Library.Models.DbModels;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DesktopUI.ViewModels
@@ -21,7 +22,12 @@ namespace DesktopUI.ViewModels
             _profile = profile;
             _userEndpoint = userEndpoint;
 
-            ActivateItem(IoC.Get<PhotosListViewModel>());
+            ActivateItemAsync(IoC.Get<PhotosListViewModel>(), new CancellationToken());
+        }
+
+        public sealed override Task ActivateItemAsync(object item, CancellationToken cancellationToken)
+        {
+            return base.ActivateItemAsync(item, cancellationToken);
         }
 
         private string _image;
@@ -82,7 +88,7 @@ namespace DesktopUI.ViewModels
                 _selectedUser = value;
                 NotifyOfPropertyChange(() => SelectedUser);
 
-                ViewProfileAsync().ConfigureAwait(false);
+                Task.Run(ViewProfileAsync);
             }
         }
 
@@ -99,16 +105,22 @@ namespace DesktopUI.ViewModels
 
         public async Task ViewProfileAsync()
         {
-            await _events.PublishOnUIThreadAsync(Navigation.Profile);
+            await _events.PublishOnUIThreadAsync(Navigation.Profile, new CancellationToken());
 
-            await _events.PublishOnUIThreadAsync(new MessageEvent { Username = SelectedUser.Username });
+            await _events.PublishOnUIThreadAsync(new MessageEvent
+            {
+                Username = SelectedUser.Username
+            }, new CancellationToken());
         }
 
         public async Task EditProfileAsync()
         {
-            await _events.PublishOnUIThreadAsync(Navigation.Profile);
+            await _events.PublishOnUIThreadAsync(Navigation.Profile, new CancellationToken());
 
-            await _events.PublishOnUIThreadAsync(new MessageEvent { Username = _user.Username });
+            await _events.PublishOnUIThreadAsync(new MessageEvent
+            {
+                Username = _user.Username
+            }, new CancellationToken());
         }
 
         public async Task LogoutAsync()
@@ -117,7 +129,8 @@ namespace DesktopUI.ViewModels
             _user = new AuthenticatedUser();
 
             _userEndpoint.LogOffUser();
-            await _events.PublishOnUIThreadAsync(Navigation.Login);
+
+            await _events.PublishOnUIThreadAsync(Navigation.Login, new CancellationToken());
         }
     }
 }

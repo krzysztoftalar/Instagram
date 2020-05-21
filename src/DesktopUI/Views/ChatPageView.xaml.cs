@@ -1,5 +1,7 @@
 ﻿using Caliburn.Micro;
 using DesktopUI.EventModels;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace DesktopUI.Views
@@ -14,8 +16,7 @@ namespace DesktopUI.Views
             InitializeComponent();
 
             _events = IoC.Get<IEventAggregator>();
-
-            _events.Subscribe(this);
+            _events.SubscribeOnPublishedThread(this);
 
             CommentsScrollViewer.ScrollToEnd();
         }
@@ -28,14 +29,19 @@ namespace DesktopUI.Views
             {
                 if (CommentsScrollViewer.VerticalOffset == 0)
                 {
-                    _events.PublishOnUIThread(new MessageEvent { HandleGetNextComments = true });
+                    Task.Run(() => _events.PublishOnUIThreadAsync(new MessageEvent
+                    {
+                        HandleGetNextComments = true
+                    }, new CancellationToken()));
                 }
             }
         }
 
-        public void Handle(CommentEvent message)
+        public async Task HandleAsync(CommentEvent message, CancellationToken cancellationToken)
         {
             CommentsScrollViewer.ScrollToEnd();
+
+            await Task.CompletedTask;
         }
     }
 }

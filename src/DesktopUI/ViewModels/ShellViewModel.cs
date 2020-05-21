@@ -1,5 +1,8 @@
 ﻿using Caliburn.Micro;
 using DesktopUI.EventModels;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DesktopUI.ViewModels
 {
@@ -7,34 +10,41 @@ namespace DesktopUI.ViewModels
     {
         public ShellViewModel(IEventAggregator events)
         {
-            ActivateItem(IoC.Get<LoginViewModel>());
+            ActivateItemAsync(IoC.Get<LoginViewModel>(), new CancellationToken());
 
-            events.Subscribe(this);
+            events.SubscribeOnPublishedThread(this);
         }
 
-        public void Handle(Navigation message)
+        public sealed override Task ActivateItemAsync(object item, CancellationToken cancellationToken)
+        {
+            return base.ActivateItemAsync(item, cancellationToken);
+        }
+
+        public async Task HandleAsync(Navigation message, CancellationToken cancellationToken)
         {
             switch (message)
             {
                 case Navigation.Login:
-                    ActivateItem(IoC.Get<LoginViewModel>());
+                    await ActivateItemAsync(IoC.Get<LoginViewModel>(), new CancellationToken());
                     break;
 
                 case Navigation.Register:
-                    ActivateItem(IoC.Get<RegisterViewModel>());
+                    await ActivateItemAsync(IoC.Get<RegisterViewModel>(), new CancellationToken());
                     break;
 
                 case Navigation.Main:
-                    ActivateItem(IoC.Get<UserMainPageViewModel>());
+                    await ActivateItemAsync(IoC.Get<UserMainPageViewModel>(), new CancellationToken());
                     break;
 
                 case Navigation.Profile:
-                    ActivateItem(IoC.Get<UserProfilePageViewModel>());
+                    await ActivateItemAsync(IoC.Get<UserProfilePageViewModel>(), new CancellationToken());
                     break;
 
                 case Navigation.Chat:
-                    ActivateItem(IoC.Get<ChatPageViewModel>());
+                    await ActivateItemAsync(IoC.Get<ChatPageViewModel>(), new CancellationToken());
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(message), message, null);
             }
         }
     }

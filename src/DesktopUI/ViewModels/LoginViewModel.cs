@@ -3,6 +3,7 @@ using DesktopUI.EventModels;
 using DesktopUI.Library.Api.User;
 using DesktopUI.Library.Models;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DesktopUI.ViewModels
@@ -73,11 +74,11 @@ namespace DesktopUI.ViewModels
             {
                 ErrorMessage = "";
 
-                var result = await _userEndpoint.LoginAsync(user);
+                var authUser = await _userEndpoint.LoginAsync(user);
 
-                await _userEndpoint.CurrentUserAsync(result.Token);
+                await _userEndpoint.CurrentUserAsync(authUser.Token);
 
-                await _events.PublishOnUIThreadAsync(Navigation.Main);
+                await _events.PublishOnUIThreadAsync(Navigation.Main, new CancellationToken());
             }
             catch (Exception ex)
             {
@@ -92,7 +93,7 @@ namespace DesktopUI.ViewModels
 
         public async Task GoToRegisterAsync()
         {
-            await _events.PublishOnUIThreadAsync(Navigation.Register);
+            await _events.PublishOnUIThreadAsync(Navigation.Register, new CancellationToken());
         }
     }
 }

@@ -3,6 +3,7 @@ using DesktopUI.EventModels;
 using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Models;
 using DesktopUI.Library.Models.DbModels;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -23,7 +24,7 @@ namespace DesktopUI.ViewModels
             _profile = profile;
             _user = user;
 
-            _events.Subscribe(this);
+            _events.SubscribeOnPublishedThread(this);
         }
 
         protected override void OnViewLoaded(object view)
@@ -122,16 +123,16 @@ namespace DesktopUI.ViewModels
                 MessageBox.Show("Profile edited successfully", "Congratulations!",
                   MessageBoxButton.OK, MessageBoxImage.Information);
 
-                await _events.PublishOnUIThreadAsync(new MessageEvent());
+                await _events.PublishOnUIThreadAsync(new MessageEvent(), new CancellationToken());
             }
         }
 
-        public void Handle(MessageEvent message)
+        public async Task HandleAsync(MessageEvent message, CancellationToken cancellationToken)
         {
             if (message.DisplayName != null)
             {
-                DisplayName = message.DisplayName;
-                Bio = message.Bio;
+                await Task.FromResult(DisplayName = message.DisplayName);
+                await Task.FromResult(Bio = message.Bio);
             }
         }
     }

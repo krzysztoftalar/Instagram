@@ -4,42 +4,34 @@ using DesktopUI.Helpers;
 using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Models.DbModels;
 using System.Collections.ObjectModel;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DesktopUI.ViewModels
 {
-    public class PhotosListViewModel : Screen, IHandle<MessageEvent>, IHandle<ModeEvent>
+    public class PhotosListViewModel : Screen, IHandle<MessageEvent>, IHandle<ModeEvent>, IHandle<NavigationEvent>
     {
         private readonly IProfileEndpoint _profileEndpoint;
         private readonly IEventAggregator _events;
         private readonly IProfile _profile;
         private readonly IAuthenticatedUser _user;
         private readonly IPhoto _photo;
-        private readonly IMessage _messageEvent;
         private readonly PaginationHelper _pagination;
         private bool _isEditMode;
-        private bool _fromProfilePage;
+        private bool _isProfilePageActive;
 
         public PhotosListViewModel(IProfileEndpoint profileEndpoint, IEventAggregator events, IProfile profile,
-            IAuthenticatedUser user, IPhoto photo, IMessage messageEvent)
+            IAuthenticatedUser user, IPhoto photo)
         {
             _profileEndpoint = profileEndpoint;
             _events = events;
             _profile = profile;
             _user = user;
             _photo = photo;
-            _messageEvent = messageEvent;
 
             _pagination = new PaginationHelper();
 
-            _messageEvent.ProfilePage += OnProfilePage;
-
-            events.Subscribe(this);
-        }
-
-        private void OnProfilePage(object sender, bool e)
-        {
-            _fromProfilePage = e;
+            events.SubscribeOnPublishedThread(this);
         }
 
         protected override async void OnViewLoaded(object view)
@@ -123,8 +115,14 @@ namespace DesktopUI.ViewModels
 
                 if (!IsLogIn)
                 {
-                    _events.PublishOnUIThread(Navigation.Chat);
-                    _messageEvent.OnProfilePage(_fromProfilePage);
+                    Task.Run(async () =>
+                      {
+                          await _events.PublishOnUIThreadAsync(Navigation.Chat, new CancellationToken());
+                          await _events.PublishOnUIThreadAsync(new NavigationEvent
+                          {
+                              IsProfilePageActive = _isProfilePageActive
+                          }, new CancellationToken());
+                      });
                 }
             }
         }
@@ -135,7 +133,7 @@ namespace DesktopUI.ViewModels
             {
                 SelectedPhoto.IsMain = true;
 
-                await _events.PublishOnUIThreadAsync(new MessageEvent());
+                await _events.PublishOnUIThreadAsync(new MessageEvent(), new CancellationToken());
             }
         }
 
@@ -145,7 +143,7 @@ namespace DesktopUI.ViewModels
             {
                 UserPhotos.Remove(SelectedPhoto);
 
-                await _events.PublishOnUIThreadAsync(new MessageEvent());
+                await _events.PublishOnUIThreadAsync(new MessageEvent(), new CancellationToken());
             }
         }
 
@@ -163,17 +161,22 @@ namespace DesktopUI.ViewModels
             }
         }
 
-        public void Handle(MessageEvent message)
+        public async Task HandleAsync(ModeEvent message, CancellationToken cancellationToken)
+        {
+            await Task.FromResult(_isEditMode = message.IsEditMode);
+        }
+
+        public async Task HandleAsync(MessageEvent message, CancellationToken cancellationToken)
         {
             if (message.HandleGetNextPhotos)
             {
-                HandleGetNextAsync().ConfigureAwait(false);
+                await HandleGetNextAsync();
             }
         }
 
-        public void Handle(ModeEvent message)
+        public async Task HandleAsync(NavigationEvent message, CancellationToken cancellationToken)
         {
-            _isEditMode = message.IsEditMode;
+            await Task.FromResult(_isProfilePageActive = message.IsProfilePageActive);
         }
     }
 }

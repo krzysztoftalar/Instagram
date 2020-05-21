@@ -1,5 +1,7 @@
 ﻿using Caliburn.Micro;
 using DesktopUI.EventModels;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace DesktopUI.Views
@@ -24,7 +26,10 @@ namespace DesktopUI.Views
             {
                 if (e.VerticalOffset + e.ViewportHeight == e.ExtentHeight)
                 {
-                    _events.PublishOnUIThread(new MessageEvent { HandleGetNextPhotos = true });
+                    Task.Run(() => _events.PublishOnUIThreadAsync(new MessageEvent
+                    {
+                        HandleGetNextPhotos = true
+                    }, new CancellationToken()));
                 }
             }
         }

@@ -1,5 +1,4 @@
 ﻿using Caliburn.Micro;
-using DesktopUI.EventModels;
 using DesktopUI.Helpers;
 using DesktopUI.Library.Api.Comment;
 using DesktopUI.Library.Api.Profile;
@@ -43,8 +42,7 @@ namespace DesktopUI
                 .Singleton<IChatHelper, ChatHelper>()
                 .Singleton<IAuthenticatedUser, AuthenticatedUser>()
                 .Singleton<IProfile, Profile>()
-                .Singleton<IPhoto, Photo>()
-                .Singleton<IMessage, EventModels.Message>();
+                .Singleton<IPhoto, Photo>();
 
             GetType().Assembly.GetTypes()
                 .Where(type => type.IsClass)

@@ -5,11 +5,12 @@ using DesktopUI.Library.Api.Comment;
 using DesktopUI.Library.Helpers;
 using DesktopUI.Library.Models.DbModels;
 using System.Collections.ObjectModel;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DesktopUI.ViewModels
 {
-    public class ChatPageViewModel : Screen, IHandle<MessageEvent>
+    public class ChatPageViewModel : Screen, IHandle<MessageEvent>, IHandle<NavigationEvent>
     {
         private readonly IChatHelper _chat;
         private readonly ICommentEndpoint _commentEndpoint;
@@ -18,10 +19,10 @@ namespace DesktopUI.ViewModels
         private readonly IProfile _profile;
         private readonly IAuthenticatedUser _user;
         private readonly PaginationHelper _pagination;
-        private bool _fromProfilePage;
+        private bool _isProfilePageActive;
 
         public ChatPageViewModel(IChatHelper chat, IEventAggregator events, IProfile profile,
-            ICommentEndpoint commentEndpoint, IAuthenticatedUser user, IPhoto photo, IMessage messageEvent)
+            ICommentEndpoint commentEndpoint, IAuthenticatedUser user, IPhoto photo)
         {
             _chat = chat;
             _events = events;
@@ -33,15 +34,8 @@ namespace DesktopUI.ViewModels
             _pagination = new PaginationHelper();
 
             _chat.GetReceive += OnGetReceive;
-            messageEvent.ProfilePage += OnProfilePage;
 
-            _events.Subscribe(this);
-        }
-
-        private void OnProfilePage(object sender, bool e)
-        {
-            _fromProfilePage = e;
-            NotifyOfPropertyChange(() => DisplayName);
+            _events.SubscribeOnPublishedThread(this);
         }
 
         protected override async void OnViewLoaded(object view)
@@ -61,7 +55,7 @@ namespace DesktopUI.ViewModels
 
             Comments.Add(comment);
 
-            _events.PublishOnUIThread(new CommentEvent());
+            _events.PublishOnUIThreadAsync(new CommentEvent(), new CancellationToken());
         }
 
         public void EvalComment(Comment comment)
@@ -140,7 +134,7 @@ namespace DesktopUI.ViewModels
 
         public new string DisplayName
         {
-            get => _fromProfilePage ? _profile.DisplayName : _user.DisplayName;
+            get => _isProfilePageActive ? _profile.DisplayName : _user.DisplayName;
             set
             {
                 _displayName = value;
@@ -180,17 +174,22 @@ namespace DesktopUI.ViewModels
         {
             await _chat.StopHubConnectionAsync(_photo.Id);
 
-            await _events.PublishOnUIThreadAsync(Navigation.Main);
+            await _events.PublishOnUIThreadAsync(Navigation.Main, new CancellationToken());
         }
 
-        public void Handle(MessageEvent message)
+        public async Task HandleAsync(MessageEvent message, CancellationToken cancellationToken)
         {
-            NotifyOfPropertyChange(() => DisplayName);
-
             if (message.HandleGetNextComments)
             {
-                HandleGetNextAsync().ConfigureAwait(false);
+                await HandleGetNextAsync();
             }
+        }
+
+        public async Task HandleAsync(NavigationEvent message, CancellationToken cancellationToken)
+        {
+            await Task.FromResult(_isProfilePageActive = message.IsProfilePageActive);
+
+            NotifyOfPropertyChange(() => DisplayName);
         }
     }
 }

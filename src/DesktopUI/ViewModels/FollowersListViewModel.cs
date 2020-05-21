@@ -3,6 +3,7 @@ using DesktopUI.EventModels;
 using DesktopUI.Helpers;
 using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Models.DbModels;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DesktopUI.ViewModels
@@ -23,7 +24,7 @@ namespace DesktopUI.ViewModels
 
             _pagination = new PaginationHelper();
 
-            _events.Subscribe(this);
+            _events.SubscribeOnPublishedThread(this);
         }
 
         protected override async void OnViewLoaded(object view)
@@ -71,15 +72,18 @@ namespace DesktopUI.ViewModels
                 _selectedProfile = value;
                 NotifyOfPropertyChange(() => SelectedProfile);
 
-                ViewProfile();
+                Task.Run(ViewProfileAsync);
             }
         }
 
-        public void ViewProfile()
+        public async Task ViewProfileAsync()
         {
-            _events.PublishOnUIThread(Navigation.Profile);
+            await _events.PublishOnUIThreadAsync(Navigation.Profile, new CancellationToken());
 
-            _events.PublishOnUIThread(new MessageEvent { Username = SelectedProfile.Username });
+            await _events.PublishOnUIThreadAsync(new MessageEvent
+            {
+                Username = SelectedProfile.Username
+            }, new CancellationToken());
         }
 
         public async Task PrevPageAsync()
@@ -139,13 +143,13 @@ namespace DesktopUI.ViewModels
                 _pagination.PageNumber = 0;
                 _pagination.Limit = SelectedCount;
 
-                LoadFollowingAsync(_pagination.Skip, _pagination.Limit).ConfigureAwait(false);
+                Task.Run(() => LoadFollowingAsync(_pagination.Skip, _pagination.Limit));
             }
         }
 
-        public void Handle(MessageEvent message)
+        public async Task HandleAsync(MessageEvent message, CancellationToken cancellationToken)
         {
-            _predicate = message.Predicate;
+            await Task.FromResult(_predicate = message.Predicate);
         }
     }
 }

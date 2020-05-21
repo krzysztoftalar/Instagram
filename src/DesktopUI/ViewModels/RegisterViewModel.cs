@@ -4,6 +4,7 @@ using DesktopUI.Library.Api.User;
 using DesktopUI.Library.Models;
 using DesktopUI.Validators;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -109,7 +110,7 @@ namespace DesktopUI.ViewModels
                     MessageBox.Show("You have been successfully registered.", "Congratulations!",
                         MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    await _events.PublishOnUIThreadAsync(Navigation.Login);
+                    await _events.PublishOnUIThreadAsync(Navigation.Login, new CancellationToken());
                 }
                 catch (Exception ex)
                 {
@@ -124,7 +125,7 @@ namespace DesktopUI.ViewModels
 
         public async Task GoToLoginAsync()
         {
-            await _events.PublishOnUIThreadAsync(Navigation.Login);
+            await _events.PublishOnUIThreadAsync(Navigation.Login, new CancellationToken());
         }
     }
 }

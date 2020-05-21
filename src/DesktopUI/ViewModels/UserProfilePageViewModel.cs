@@ -2,6 +2,7 @@
 using DesktopUI.EventModels;
 using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Models.DbModels;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
@@ -13,19 +14,17 @@ namespace DesktopUI.ViewModels
         private readonly IAuthenticatedUser _user;
         private readonly IProfileEndpoint _profileEndpoint;
         private readonly IProfile _profile;
-        private readonly IMessage _messageEvent;
         private string _username;
 
         public UserProfilePageViewModel(IEventAggregator events, IAuthenticatedUser user,
-            IProfileEndpoint profileEndpoint, IProfile profile, IMessage messageEvent)
+            IProfileEndpoint profileEndpoint, IProfile profile)
         {
             _events = events;
             _user = user;
             _profileEndpoint = profileEndpoint;
             _profile = profile;
-            _messageEvent = messageEvent;
 
-            _events.Subscribe(this);
+            _events.SubscribeOnPublishedThread(this);
         }
 
         protected override async void OnViewLoaded(object view)
@@ -134,51 +133,70 @@ namespace DesktopUI.ViewModels
             }
         }
 
-        public void UploadPhoto()
+        public async Task UploadPhoto()
         {
-            ActivateItem(IoC.Get<AddPhotoViewModel>());
+            await ActivateItemAsync(IoC.Get<AddPhotoViewModel>(), new CancellationToken());
         }
 
         public async Task EditProfileAsync()
         {
-            ActivateItem(IoC.Get<EditProfileViewModel>());
+            await ActivateItemAsync(IoC.Get<EditProfileViewModel>(), new CancellationToken());
 
-            await _events.PublishOnUIThreadAsync(new MessageEvent { DisplayName = _profile.DisplayName, Bio = _profile.Bio });
+            await _events.PublishOnUIThreadAsync(new MessageEvent
+            {
+                DisplayName = _profile.DisplayName,
+                Bio = _profile.Bio
+            }, new CancellationToken());
         }
 
         public async Task PhotosListAsync()
         {
-            ActivateItem(IoC.Get<PhotosListViewModel>());
+            await ActivateItemAsync(IoC.Get<PhotosListViewModel>(), new CancellationToken());
 
-            await _events.PublishOnUIThreadAsync(new ModeEvent { IsEditMode = true });
+            await _events.PublishOnUIThreadAsync(new ModeEvent
+            {
+                IsEditMode = true,
+            }, new CancellationToken());
 
-            _messageEvent.OnProfilePage(true);
+            await _events.PublishOnUIThreadAsync(new NavigationEvent
+            {
+                IsProfilePageActive = true
+            }, new CancellationToken());
         }
 
         public async Task LoadFollowingAsync()
         {
-            ActivateItem(IoC.Get<FollowersListViewModel>());
+            await ActivateItemAsync(IoC.Get<FollowersListViewModel>(), new CancellationToken());
 
-            await _events.PublishOnUIThreadAsync(new MessageEvent { Predicate = "following" });
+            await _events.PublishOnUIThreadAsync(new MessageEvent
+            {
+                Predicate = "following"
+            }, new CancellationToken());
         }
 
         public async Task LoadFollowersAsync()
         {
-            ActivateItem(IoC.Get<FollowersListViewModel>());
+            await ActivateItemAsync(IoC.Get<FollowersListViewModel>(), new CancellationToken());
 
-            await _events.PublishOnUIThreadAsync(new MessageEvent { Predicate = "followers" });
+            await _events.PublishOnUIThreadAsync(new MessageEvent
+            {
+                Predicate = "followers"
+            }, new CancellationToken());
         }
 
         public async Task BackToMainPageAsync()
         {
-            await _events.PublishOnUIThreadAsync(Navigation.Main);
+            await _events.PublishOnUIThreadAsync(Navigation.Main, new CancellationToken());
 
-            await _events.PublishOnUIThreadAsync(new ModeEvent { IsEditMode = false });
+            await _events.PublishOnUIThreadAsync(new ModeEvent
+            {
+                IsEditMode = false
+            }, new CancellationToken());
         }
 
-        public void Handle(MessageEvent message)
+        public async Task HandleAsync(MessageEvent message, CancellationToken cancellationToken)
         {
-            _username = message.Username;
+            await Task.FromResult(_username = message.Username);
 
             NotifyOfPropertyChange(() => Image);
             NotifyOfPropertyChange(() => DisplayName);
