@@ -55,7 +55,10 @@ namespace DesktopUI.ViewModels
 
             Comments.Add(comment);
 
-            _events.PublishOnUIThreadAsync(new CommentEvent(), new CancellationToken());
+            _events.PublishOnUIThreadAsync(new CommentEvent
+            {
+                ScrollToEnd = true
+            }, new CancellationToken());
         }
 
         public void EvalComment(Comment comment)
@@ -87,6 +90,11 @@ namespace DesktopUI.ViewModels
                 _pagination.PageNumber++;
 
                 LoadingNext = true;
+
+                await _events.PublishOnUIThreadAsync(new CommentEvent
+                {
+                    ScrollToVerticalOffset = true
+                }, new CancellationToken());
 
                 await LoadCommentsAsync(_pagination.Skip, _pagination.Limit);
 

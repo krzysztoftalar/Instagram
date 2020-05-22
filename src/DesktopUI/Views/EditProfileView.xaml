@@ -27,7 +27,7 @@
                 </materialDesign:Chip>
 
                 <!-- Edit Bio -->
-                <TextBox IsReadOnly="{Binding IsEditMode, Mode=TwoWay}" Text="{Binding Bio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}" Height="200" AcceptsReturn="True" TextWrapping="Wrap" 
+                <TextBox IsReadOnly="{Binding IsEditMode, Mode=TwoWay}" Text="{Binding Bio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}" AcceptsReturn="True" TextWrapping="Wrap" 
                     Visibility="{Binding TextBoxBio, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" VerticalScrollBarVisibility="Auto" materialDesign:HintAssist.Hint="" Background="White" FontSize="20"/>
 
                 <StackPanel Orientation="Horizontal" Visibility="{Binding IsLogIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">

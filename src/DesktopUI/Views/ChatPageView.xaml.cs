@@ -39,7 +39,15 @@ namespace DesktopUI.Views
 
         public async Task HandleAsync(CommentEvent message, CancellationToken cancellationToken)
         {
-            CommentsScrollViewer.ScrollToEnd();
+            if (message.ScrollToEnd)
+            {
+                CommentsScrollViewer.ScrollToEnd();
+            }
+
+            if (message.ScrollToVerticalOffset)
+            {
+                CommentsScrollViewer.ScrollToVerticalOffset(500);
+            }
 
             await Task.CompletedTask;
         }
