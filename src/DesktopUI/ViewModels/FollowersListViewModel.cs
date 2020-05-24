@@ -39,11 +39,6 @@ namespace DesktopUI.ViewModels
             var followers = await _profileEndpoint.LoadFollowingAsync(_profile.Username, _predicate, skip, limit);
             UserFollowing = new BindableCollection<Profile>(followers.Followers);
 
-            foreach (var profile in UserFollowing)
-            {
-                profile.Image = profile.Image ?? "../Assets/user.png";
-            }
-
             _pagination.ItemsCount = followers.FollowersCount;
 
             NotifyOfPropertyChange(() => IsPrevPage);

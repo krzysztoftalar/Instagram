@@ -49,6 +49,7 @@ namespace DesktopUI.ViewModels
 
         public bool IsErrorVisible => ErrorMessage?.Length > 0;
 
+
         private string _errorMessage;
 
         public string ErrorMessage
@@ -83,11 +84,6 @@ namespace DesktopUI.ViewModels
             catch (Exception ex)
             {
                 ErrorMessage = ex.Message;
-
-                if (ex.Message == "Unauthorized")
-                {
-                    ErrorMessage = "Incorrect email address or password, please try again.";
-                }
             }
         }
 

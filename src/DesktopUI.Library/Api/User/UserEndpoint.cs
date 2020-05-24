@@ -28,7 +28,7 @@ namespace DesktopUI.Library.Api.User
             {
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new Exception(await response.ApiExceptionAsync());
+                    throw new Exception(await response.RegisterExceptionAsync());
                 }
             }
         }
@@ -43,7 +43,7 @@ namespace DesktopUI.Library.Api.User
                     return await response.Content.ReadAsAsync<AuthenticatedUser>();
                 }
 
-                throw new Exception(response.ReasonPhrase);
+                throw new Exception(response.LoginException());
             }
         }
 

@@ -11,14 +11,14 @@ namespace DesktopUI.ViewModels
     {
         private readonly IEventAggregator _events;
         private readonly IUserEndpoint _userEndpoint;
-        private IAuthenticatedUser _user;
+        private readonly IAuthenticatedUser _iUser;
         private IProfile _profile;
 
-        public UserMainPageViewModel(IEventAggregator events, IAuthenticatedUser user, IProfile profile,
+        public UserMainPageViewModel(IEventAggregator events, IAuthenticatedUser iUser, IProfile profile,
             IUserEndpoint userEndpoint)
         {
             _events = events;
-            _user = user;
+            _iUser = iUser;
             _profile = profile;
             _userEndpoint = userEndpoint;
 
@@ -30,27 +30,15 @@ namespace DesktopUI.ViewModels
             return base.ActivateItemAsync(item, cancellationToken);
         }
 
-        private string _image;
+        private AuthenticatedUser _user;
 
-        public string Image
+        public AuthenticatedUser User
         {
-            get => _image = _user.Image ?? "../Assets/user.png";
+            get => _user = _iUser as AuthenticatedUser;
             set
             {
-                _image = value;
-                NotifyOfPropertyChange(() => Image);
-            }
-        }
-
-        private string _displayName;
-
-        public new string DisplayName
-        {
-            get => _displayName = _user.DisplayName;
-            set
-            {
-                _displayName = value;
-                NotifyOfPropertyChange(() => DisplayName);
+                _user = value;
+                NotifyOfPropertyChange(() => User);
             }
         }
 
@@ -96,11 +84,6 @@ namespace DesktopUI.ViewModels
         {
             var users = await _userEndpoint.SearchUsersAsync(Search);
             UsersList = new BindableCollection<AuthenticatedUser>(users);
-
-            foreach (var user in UsersList)
-            {
-                user.Image = user.Image ?? "../Assets/user.png";
-            }
         }
 
         public async Task ViewProfileAsync()

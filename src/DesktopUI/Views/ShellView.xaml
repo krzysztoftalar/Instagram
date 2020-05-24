@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DesktopUI.Views"
         mc:Ignorable="d"
-        Title="Instagram" Height="600" Width="1080" WindowStartupLocation="CenterScreen" >
+        Icon="../Assets/insta_window.png"
+        Title="Instagram"
+        Height="600" Width="1080" 
+        WindowStartupLocation="CenterScreen" >
     <Grid>
         <ContentControl x:Name="ActiveItem" />
     </Grid>

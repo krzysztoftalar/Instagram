@@ -16,18 +16,19 @@
         <Grid Grid.Row="0">
             <StackPanel Visibility="{Binding IsLogIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
 
-                <!-- Set Main Photo Button -->
+                <!-- Set main photo button -->
                 <Button x:Name="SetMainPhotoAsync" IsEnabled="{Binding IsPhotoSelected}" Width="150" Margin="20" ToolTip="Set as the main photo" BorderThickness="0" Foreground="White" Background="Green">
                     <materialDesign:PackIcon Kind="AccountCircleOutline" />
                 </Button>
 
-                <!-- Delete Photo Button -->
+                <!-- Delete photo button -->
                 <Button x:Name="DeletePhotoAsync"  IsEnabled="{Binding IsPhotoSelected}" Width="150" Margin="20" ToolTip="Delete photo" BorderThickness="0" Foreground="White" Background="Black">
                     <materialDesign:PackIcon Kind="DeleteForever" />
                 </Button>
             </StackPanel>
         </Grid>
 
+        <!-- Photos -->
         <ScrollViewer ScrollChanged="ScrollViewer_ScrollChanged" VerticalScrollBarVisibility="Auto" Grid.Row="1">
             <StackPanel>
                 <ListView x:Name="UserPhotos" SelectedItem="{Binding SelectedPhoto}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="20 0 0 0">
@@ -35,7 +36,7 @@
                         <DataTemplate>
                             <StackPanel>
 
-                                <!-- Photo -->
+                                <!-- Photo's url -->
                                 <Image Source="{Binding Url}" Stretch="Fill" Width="400" Height="400" Margin="20"/>
                             </StackPanel>
                         </DataTemplate>
@@ -46,6 +47,8 @@
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
                 </ListView>
+                
+                <!-- Loading indicator -->
                 <ProgressBar Visibility="{Binding LoadingNext, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" Style="{StaticResource MaterialDesignCircularProgressBar}" Value="35" IsIndeterminate="True" />
             </StackPanel>
         </ScrollViewer>

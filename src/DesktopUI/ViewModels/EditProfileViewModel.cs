@@ -9,19 +9,19 @@ using System.Windows;
 
 namespace DesktopUI.ViewModels
 {
-    public class EditProfileViewModel : Screen, IHandle<MessageEvent>
+    public class EditProfileViewModel : Screen
     {
         private readonly IEventAggregator _events;
         private readonly IProfileEndpoint _profileEndpoint;
-        private readonly IProfile _profile;
+        private readonly IProfile _iProfile;
         private readonly IAuthenticatedUser _user;
 
-        public EditProfileViewModel(IEventAggregator events, IProfileEndpoint profileEndpoint, IProfile profile,
+        public EditProfileViewModel(IEventAggregator events, IProfileEndpoint profileEndpoint, IProfile iProfile,
             IAuthenticatedUser user)
         {
             _events = events;
             _profileEndpoint = profileEndpoint;
-            _profile = profile;
+            _iProfile = iProfile;
             _user = user;
 
             _events.SubscribeOnPublishedThread(this);
@@ -34,28 +34,15 @@ namespace DesktopUI.ViewModels
             IsEditMode = true;
         }
 
-        private string _displayName;
+        private Profile _profile;
 
-        public new string DisplayName
+        public Profile Profile
         {
-            get => _displayName;
+            get => _profile = _iProfile as Profile;
             set
             {
-                _displayName = value;
-                NotifyOfPropertyChange(() => DisplayName);
-            }
-        }
-
-        private string _bio;
-
-        public string Bio
-        {
-            get => _bio;
-            set
-            {
-                _bio = value;
-                NotifyOfPropertyChange(() => Bio);
-                NotifyOfPropertyChange(() => TextBoxBio);
+                _profile = value;
+                NotifyOfPropertyChange(() => Profile);
             }
         }
 
@@ -68,36 +55,36 @@ namespace DesktopUI.ViewModels
             {
                 _isEditMode = value;
                 NotifyOfPropertyChange(() => IsEditMode);
-                NotifyOfPropertyChange(() => TextBoxBio);
-                NotifyOfPropertyChange(() => TextBoxDisplayName);
+                NotifyOfPropertyChange(() => IsBioVisible);
+                NotifyOfPropertyChange(() => IsDisplayNameVisible);
             }
         }
 
-        private bool? _textBoxBio;
+        private bool _isBioVisible;
 
-        public bool? TextBoxBio
+        public bool IsBioVisible
         {
-            get => _textBoxBio = (IsEditMode == false) || (!IsLogIn && !string.IsNullOrEmpty(_profile.Bio));
+            get => _isBioVisible = (IsEditMode == false) || (!IsLogIn && !string.IsNullOrEmpty(_iProfile.Bio));
             set
             {
-                _textBoxBio = value;
-                NotifyOfPropertyChange(() => TextBoxBio);
+                _isBioVisible = value;
+                NotifyOfPropertyChange(() => IsBioVisible);
             }
         }
 
-        private bool? _textBoxDisplayName;
+        private bool _isDisplayNameVisible;
 
-        public bool? TextBoxDisplayName
+        public bool IsDisplayNameVisible
         {
-            get => _textBoxDisplayName = IsEditMode == false;
+            get => _isDisplayNameVisible = IsEditMode == false;
             set
             {
-                _textBoxDisplayName = value;
-                NotifyOfPropertyChange(() => TextBoxDisplayName);
+                _isDisplayNameVisible = value;
+                NotifyOfPropertyChange(() => IsDisplayNameVisible);
             }
         }
 
-        public bool IsLogIn => _user.Username == _profile.Username;
+        public bool IsLogIn => _user.Username == _iProfile.Username;
 
         public void ToggleEditMode()
         {
@@ -108,8 +95,8 @@ namespace DesktopUI.ViewModels
         {
             var profile = new ProfileFormValues
             {
-                DisplayName = DisplayName,
-                Bio = Bio
+                DisplayName = Profile.DisplayName,
+                Bio = Profile.Bio
             };
 
             if (string.IsNullOrEmpty(DisplayName))
@@ -124,15 +111,6 @@ namespace DesktopUI.ViewModels
                   MessageBoxButton.OK, MessageBoxImage.Information);
 
                 await _events.PublishOnUIThreadAsync(new MessageEvent(), new CancellationToken());
-            }
-        }
-
-        public async Task HandleAsync(MessageEvent message, CancellationToken cancellationToken)
-        {
-            if (message.DisplayName != null)
-            {
-                await Task.FromResult(DisplayName = message.DisplayName);
-                await Task.FromResult(Bio = message.Bio);
             }
         }
     }

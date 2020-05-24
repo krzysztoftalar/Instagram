@@ -25,6 +25,7 @@
             </StackPanel>
         </Grid>
 
+        <!-- List of users -->
         <Grid Grid.Row="1">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
@@ -32,13 +33,15 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="20">
+                                    
+                                    <!-- User's image -->
                                     <Ellipse Height="100" VerticalAlignment="Top" Width="100" Margin="15" Stroke="White" StrokeThickness="1">
                                         <Ellipse.Fill>
-                                            <ImageBrush x:Name="Image" ImageSource="{Binding Image}" Stretch="UniformToFill"/>
+                                            <ImageBrush x:Name="Image" ImageSource="{Binding Image, TargetNullValue={StaticResource DefaultImage}}" Stretch="UniformToFill"/>
                                         </Ellipse.Fill>
                                     </Ellipse>
 
-                                    <!-- View Profile -->
+                                    <!-- User's display name -->
                                     <materialDesign:Chip Content="{Binding DisplayName}" IconBackground="{DynamicResource PrimaryHueDarkBrush}" IsEnabled="False" FontWeight="Bold" BorderBrush="White" Foreground="#FF2A6088" FontSize="20" Margin="20 0" Background="White" FontFamily="Corbel" IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
                                         <materialDesign:Chip.Icon>
                                             <materialDesign:PackIcon Kind="Instagram"></materialDesign:PackIcon>
@@ -55,12 +58,12 @@
                     </ListView>
                     <StackPanel Margin="20" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
 
-                        <!-- Previous Page Button -->
+                        <!-- Previous page button -->
                         <Button x:Name="PrevPageAsync" Visibility="{Binding IsPrevPage, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" Margin="20 0">
                             <materialDesign:PackIcon Kind="ArrowLeft" />
                         </Button>
 
-                        <!-- Next Page Button -->
+                        <!-- Next page button -->
                         <Button x:Name="NextPageAsync" Visibility="{Binding IsNextPage, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" Margin="20 0">
                             <materialDesign:PackIcon Kind="ArrowRight" />
                         </Button>

@@ -33,23 +33,21 @@
         <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="40 -75" >
                 
-                <!-- User Display Name -->
-                <TextBlock x:Name="DisplayName" HorizontalAlignment="Center"  VerticalAlignment="Top" FontFamily="Nirmala UI" Text="Name" FontSize="30" Margin="30" Foreground="#FF2A6088"/>
+                <!-- User's display name -->
+                <TextBlock x:Name="User_DisplayName" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Nirmala UI" Text="Name" FontSize="30" Margin="30" Foreground="#FF2A6088"/>
 
                 <StackPanel HorizontalAlignment="Right" Height="200">
                     <Ellipse Height="150" Width="150" Stroke="White" StrokeThickness="3">
                         <Ellipse.Fill>
-
-                            <!-- User Image -->
-                            <ImageBrush x:Name="Image" ImageSource="{Binding Image}" Stretch="UniformToFill"/>
-
+                            <!-- User's image -->
+                            <ImageBrush x:Name="Image" ImageSource="{Binding User.Image, TargetNullValue={StaticResource DefaultImage}}" Stretch="UniformToFill"/>
                         </Ellipse.Fill>
                     </Ellipse>
                 </StackPanel>
             </StackPanel>
         </Grid>
 
-        <!-- Search Grid -->
+        <!-- Search grid -->
         <Grid Grid.Row="1" Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
@@ -66,27 +64,24 @@
                             <ColumnDefinition  Width="*" />
                             <ColumnDefinition  Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Button Style="{DynamicResource MaterialDesignToolButton}">
+                        
+                        <!-- Search users button -->
+                        <Button x:Name="SearchUsersAsync" Style="{DynamicResource MaterialDesignToolButton}">
                             <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
                         </Button>
 
-                        <!-- Search TextBox -->
+                        <!-- Search textBox -->
                         <TextBox x:Name="Search" Grid.Column="1" Margin="8 0 0 0" materialDesign:HintAssist.Hint="Search" materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
                         BorderThickness="0" MinWidth="200" VerticalAlignment="Center" />
                     </Grid>
                 </materialDesign:ColorZone>
             </StackPanel>
-
-            <!-- Search Users Button -->
-            <Button x:Name="SearchUsersAsync" VerticalAlignment="Top" Grid.Column="1" Style="{DynamicResource MaterialDesignToolForegroundButton}" Margin="0 35" Panel.ZIndex="0">
-                <materialDesign:PackIcon Kind="Send" Foreground="White" />
-            </Button>           
         </Grid>
 
-        <!-- Photos List -->
+        <!-- PhotosListView -->
         <ContentControl x:Name="ActiveItem" Grid.Row="2" Grid.Column="0" />
 
-        <!-- Search Users List -->
+        <!-- Profiles found -->
         <Grid Grid.Row="2" Grid.Column="1">
             <ListBox x:Name="UsersList" SelectedItem="{Binding SelectedUser}" Margin="20 0 0 0">
                 <ListBox.ItemTemplate>
@@ -94,11 +89,12 @@
                         <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
                             <Ellipse Width="90" Height="90" StrokeThickness="0.5" Stroke="White" HorizontalAlignment="Left">
                                 <Ellipse.Fill>
-                                    <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill"/>
+                                    <!-- Profile's image -->
+                                    <ImageBrush ImageSource="{Binding Image, TargetNullValue={StaticResource DefaultImage}}" Stretch="UniformToFill"/>
                                 </Ellipse.Fill>
                             </Ellipse>
 
-                            <!-- View Profile -->
+                            <!-- Profile's display name -->
                             <materialDesign:Chip Content="{Binding DisplayName}" IconBackground="{DynamicResource PrimaryHueDarkBrush}" IsEnabled="False" FontWeight="Bold" BorderBrush="White" Foreground="#FF2A6088" FontSize="20" Margin="20 0" Background="White" FontFamily="Corbel" IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
                                 <materialDesign:Chip.Icon>
                                     <materialDesign:PackIcon Kind="Instagram"></materialDesign:PackIcon>

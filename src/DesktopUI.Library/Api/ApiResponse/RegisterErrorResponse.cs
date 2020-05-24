@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 namespace DesktopUI.Library.Api.ApiResponse
 {
-    public static class ApiErrorExtensions
+    public static class RegisterErrorResponse
     {
-        public static async Task<string> ApiExceptionAsync(this HttpResponseMessage response)
+        public static async Task<string> RegisterExceptionAsync(this HttpResponseMessage response)
         {
             var responseContent = await response.Content.ReadAsStringAsync();
 

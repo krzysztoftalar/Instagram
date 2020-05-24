@@ -78,6 +78,7 @@ namespace DesktopUI.ViewModels
 
         public bool IsErrorVisible => ErrorMessage?.Length > 0;
 
+
         private string _errorMessage;
 
         public string ErrorMessage
@@ -117,10 +118,8 @@ namespace DesktopUI.ViewModels
                     ErrorMessage = ex.Message;
                 }
             }
-            else
-            {
-                ErrorMessage = _errorMessage;
-            }
+
+            NotifyOfPropertyChange(() => ErrorMessage);
         }
 
         public async Task GoToLoginAsync()

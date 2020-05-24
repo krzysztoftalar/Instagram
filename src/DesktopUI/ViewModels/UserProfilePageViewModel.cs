@@ -4,7 +4,6 @@ using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Models.DbModels;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Media;
 
 namespace DesktopUI.ViewModels
 {
@@ -13,16 +12,16 @@ namespace DesktopUI.ViewModels
         private readonly IEventAggregator _events;
         private readonly IAuthenticatedUser _user;
         private readonly IProfileEndpoint _profileEndpoint;
-        private readonly IProfile _profile;
+        private readonly IProfile _iProfile;
         private string _username;
 
         public UserProfilePageViewModel(IEventAggregator events, IAuthenticatedUser user,
-            IProfileEndpoint profileEndpoint, IProfile profile)
+            IProfileEndpoint profileEndpoint, IProfile iProfile)
         {
             _events = events;
             _user = user;
             _profileEndpoint = profileEndpoint;
-            _profile = profile;
+            _iProfile = iProfile;
 
             _events.SubscribeOnPublishedThread(this);
         }
@@ -31,67 +30,27 @@ namespace DesktopUI.ViewModels
         {
             base.OnViewLoaded(view);
 
-            var profile = await _profileEndpoint.LoadProfileAsync(_username);
-            FollowersCount = profile.FollowersCount.ToString();
-            FollowingCount = profile.FollowingCount.ToString();
+            Profile = await _profileEndpoint.LoadProfileAsync(_username);
 
-            NotifyOfPropertyChange(() => DisplayName);
-            NotifyOfPropertyChange(() => Image);
-            NotifyOfPropertyChange(() => FollowBtnContent);
-            NotifyOfPropertyChange(() => FollowBtnBorder);
+            NotifyOfPropertyChange(() => IsLogIn);
+            NotifyOfPropertyChange(() => IsCurrentUser);
+        }
+
+        private Profile _profile;
+
+        public Profile Profile
+        {
+            get => _profile;
+            set
+            {
+                _profile = value;
+                NotifyOfPropertyChange(() => Profile);
+            }
         }
 
         public bool IsLogIn => _user.Username == _username;
 
         public bool IsCurrentUser => _user.Username != _username;
-
-        private string _followersCount;
-
-        public string FollowersCount
-        {
-            get => _followersCount = _profile.FollowersCount.ToString();
-            set
-            {
-                _followersCount = value;
-                NotifyOfPropertyChange(() => FollowersCount);
-            }
-        }
-
-        private string _followingCount;
-
-        public string FollowingCount
-        {
-            get => _followingCount;
-            set
-            {
-                _followingCount = value;
-                NotifyOfPropertyChange(() => FollowingCount);
-            }
-        }
-
-        private string _followBtnContent;
-
-        public string FollowBtnContent
-        {
-            get => _profile.Following ? "UNFOLLOW" : "FOLLOW";
-            set
-            {
-                _followBtnContent = value;
-                NotifyOfPropertyChange(() => FollowBtnContent);
-            }
-        }
-
-        private SolidColorBrush _followBtnBorder;
-
-        public SolidColorBrush FollowBtnBorder
-        {
-            get => _profile.Following ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.Green);
-            set
-            {
-                _followBtnBorder = value;
-                NotifyOfPropertyChange(() => FollowBtnBorder);
-            }
-        }
 
         public async Task FollowAsync()
         {
@@ -104,33 +63,7 @@ namespace DesktopUI.ViewModels
                 await _profileEndpoint.FollowAsync(_profile.Username);
             }
 
-            NotifyOfPropertyChange(() => FollowBtnContent);
-            NotifyOfPropertyChange(() => FollowBtnBorder);
-            NotifyOfPropertyChange(() => FollowersCount);
-        }
-
-        private string _displayName;
-
-        public new string DisplayName
-        {
-            get => _displayName = _profile.DisplayName;
-            set
-            {
-                _displayName = value;
-                NotifyOfPropertyChange(() => DisplayName);
-            }
-        }
-
-        private string _image;
-
-        public string Image
-        {
-            get => _image = _profile.Image ?? "../Assets/user.png";
-            set
-            {
-                _image = value;
-                NotifyOfPropertyChange(() => Image);
-            }
+            Profile = _iProfile as Profile;
         }
 
         public async Task UploadPhoto()
@@ -141,12 +74,6 @@ namespace DesktopUI.ViewModels
         public async Task EditProfileAsync()
         {
             await ActivateItemAsync(IoC.Get<EditProfileViewModel>(), new CancellationToken());
-
-            await _events.PublishOnUIThreadAsync(new MessageEvent
-            {
-                DisplayName = _profile.DisplayName,
-                Bio = _profile.Bio
-            }, new CancellationToken());
         }
 
         public async Task PhotosListAsync()
@@ -198,8 +125,7 @@ namespace DesktopUI.ViewModels
         {
             await Task.FromResult(_username = message.Username);
 
-            NotifyOfPropertyChange(() => Image);
-            NotifyOfPropertyChange(() => DisplayName);
+            Profile = _iProfile as Profile;
         }
     }
 }

@@ -19,7 +19,7 @@
                     <RowDefinition Height="350" />
                 </Grid.RowDefinitions>
 
-                <!-- Photo -->
+                <!-- Photo to upload -->
                 <Image Source="{Binding ImagePath}" Margin="10 10" />
             </Grid>
         </materialDesign:Card>
@@ -27,10 +27,10 @@
         <Grid Grid.Column="1">
             <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
 
-                <!-- Add Photo Button -->
+                <!-- Add photo button -->
                 <Button x:Name="AddPhoto" BorderThickness="0" Foreground="Gray" Background="White" FontSize="18" Content="Add Photo" Grid.Row="1" Width="150"/>
 
-                <!-- Upload Photo Button -->
+                <!-- Upload photo button -->
                 <Button x:Name="UploadPhotoAsync" ToolTip="Upload the photo" BorderThickness="0" Width="150" Margin="20" Foreground="White" Background="Green">
                     <materialDesign:PackIcon Kind="Check" />
                 </Button>

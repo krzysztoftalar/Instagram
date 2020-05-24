@@ -64,7 +64,6 @@ namespace DesktopUI.ViewModels
         public void EvalComment(Comment comment)
         {
             comment.IsLoggedInComment = comment.Username == _user.Username;
-            comment.Image = comment.Image ?? "../Assets/user.png";
             comment.Date = comment.CreatedAt.ToString("dd-MM-yyyy");
         }
 

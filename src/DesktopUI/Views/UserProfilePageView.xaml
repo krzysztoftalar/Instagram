@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:DesktopUI.Views"
              mc:Ignorable="d"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             d:DesignHeight="600" d:DesignWidth="1080" 
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
+             d:DesignHeight="600" d:DesignWidth="1080" >
     <UserControl.Resources>
+        <!-- PopUp menu -->
         <Storyboard x:Key="OpenMenu">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
                 <EasingDoubleKeyFrame KeyTime="0" Value="70"/>
@@ -24,6 +24,7 @@
     </UserControl.Resources>
 
     <UserControl.Triggers>
+        <!-- PopUp menu buttons -->
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonOpenMenu">
             <BeginStoryboard Storyboard="{StaticResource OpenMenu}"/>
         </EventTrigger>
@@ -54,13 +55,13 @@
                     <TextBlock Text="FOLLOWERS" Margin="10 0" FontSize="16" FontWeight="Bold" Foreground="#FF2A6088" />
 
                     <!-- Followers -->
-                    <TextBlock Text="{Binding FollowersCount}" HorizontalAlignment="Center" Margin="5 0 5 5" FontSize="16" Foreground="#FF2A6088"/>
+                    <TextBlock x:Name="Profile_FollowersCount" HorizontalAlignment="Center" Margin="5 0 5 5" FontSize="16" Foreground="#FF2A6088"/>
                 </StackPanel>
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Text="FOLLOWING" Margin="10 0" FontSize="16" FontWeight="Bold" Foreground="#FF2A6088"/>
 
                     <!-- Following -->
-                    <TextBlock Text="{Binding FollowingCount}" HorizontalAlignment="Center" Margin="5 0 5 5" FontSize="16" Foreground="#FF2A6088"/>
+                    <TextBlock x:Name="Profile_FollowingCount" HorizontalAlignment="Center" Margin="5 0 5 5" FontSize="16" Foreground="#FF2A6088"/>
                 </StackPanel>
             </StackPanel>
         </Grid>
@@ -70,32 +71,44 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="40 -75" >
                 <StackPanel Orientation="Vertical" Margin="10" VerticalAlignment="Top">
 
-                    <!-- User Display Name -->
-                    <TextBlock IsEnabled="True" x:Name="DisplayName" HorizontalAlignment="Center" FontFamily="Nirmala UI" Text="Name" FontSize="30" Margin="20" VerticalAlignment="Center" Foreground="#FF2A6088"/>
+                    <!-- User's display name -->
+                    <TextBlock IsEnabled="True" x:Name="Profile_DisplayName" HorizontalAlignment="Center" FontFamily="Nirmala UI" Text="Name" FontSize="30" Margin="20" VerticalAlignment="Center" Foreground="#FF2A6088"/>
 
-                    <!-- Follow User Button-->
-                    <Button x:Name="FollowAsync" Width="120" Content="{Binding FollowBtnContent}" Background="White" Foreground="#FF2A6088" BorderThickness="2" HorizontalAlignment="Center" BorderBrush="{Binding FollowBtnBorder}"
-                            Visibility="{Binding IsCurrentUser, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
+                    <!-- Follow user button-->
+                    <Button x:Name="FollowAsync" Width="120" Background="White" Foreground="#FF2A6088" BorderThickness="2" HorizontalAlignment="Center"
+                            Visibility="{Binding IsCurrentUser, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource MaterialDesignRaisedButton}" TargetType="Button">
+                                <Setter Property="Content" Value="FOLLOW"></Setter>
+                                <Setter Property="BorderBrush" Value="Green"></Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Profile.Following}" Value="true">
+                                        <Setter Property="Content" Value="UNFOLLOW"></Setter>
+                                        <Setter Property="BorderBrush" Value="Red"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Right" Height="200">
                     <Ellipse Height="150" Width="150" Stroke="White" StrokeThickness="3">
                         <Ellipse.Fill>
-
-                            <!-- User Image -->
-                            <ImageBrush x:Name="Image" ImageSource="{Binding Image, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="UniformToFill"/>
+                            <!-- User's image -->
+                            <ImageBrush ImageSource="{Binding Profile.Image, TargetNullValue={StaticResource DefaultImage}}" Stretch="UniformToFill"></ImageBrush>
                         </Ellipse.Fill>
                     </Ellipse>
                 </StackPanel>
             </StackPanel>
         </Grid>
 
-        <!-- Content Control -->
+        <!-- Content control -->
         <ContentControl x:Name="ActiveItem" Grid.Row="2" Grid.Column="1" />
 
-        <!-- Empty Grid -->
+        <!-- Empty grid -->
         <Grid Grid.Row="1" Grid.Column="0" Background="White"/>
 
-        <!-- Grid Menu -->
+        <!-- Menu grid -->
         <Grid x:Name="GridMenu" Grid.Row="2" Width="70" HorizontalAlignment="Left" Background="#FF44325F">
             <Grid.Effect>
                 <DropShadowEffect BlurRadius="2" ShadowDepth="1" Color="#FFAEAEAE"/>
@@ -119,6 +132,7 @@
                 </Grid>
 
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                    <!-- EditProfileView -->
                     <StackPanel Height="60" HorizontalAlignment="Left">
                         <Button BorderBrush="#FF44325F" Height="60" Width="250" x:Name="EditProfileAsync" Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0" >
                             <StackPanel Orientation="Horizontal" Width="220">
@@ -127,6 +141,7 @@
                             </StackPanel>
                         </Button>
                     </StackPanel>
+                    <!-- AddPhotoView -->
                     <StackPanel Visibility="{Binding IsLogIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" Height="60" HorizontalAlignment="Left">
                         <Button BorderBrush="#FF44325F" Height="60" Width="250" x:Name="UploadPhoto" Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0" >
                             <StackPanel Orientation="Horizontal" Width="220">
@@ -134,8 +149,9 @@
                                 <TextBlock Margin="20 0" Text="Upload Photo" FontSize="20" FontFamily="Consolas"/>
                             </StackPanel>
                         </Button>
-                    </StackPanel>                  
-                    <StackPanel Orientation="Horizontal" Height="60"  >
+                    </StackPanel>      
+                    <!-- PhotosListView -->
+                    <StackPanel Orientation="Horizontal" Height="60">
                         <Button BorderBrush="#FF44325F" Height="60" Width="250" x:Name="PhotosListAsync" Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0" >
                             <StackPanel Orientation="Horizontal" Width="220">
                                 <materialDesign:PackIcon Kind="PhotoAlbum" Margin="5 0" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Left" />
@@ -143,7 +159,8 @@
                             </StackPanel>
                         </Button>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Height="60"  >
+                    <!-- FollowersListView -->
+                    <StackPanel Orientation="Horizontal" Height="60">
                         <Button BorderBrush="#FF44325F" Height="60" Width="250" x:Name="LoadFollowersAsync" Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0" >
                             <StackPanel Orientation="Horizontal" Width="220">
                                 <materialDesign:PackIcon Kind="AccountArrowLeft" Margin="5 0" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Left" />
@@ -151,6 +168,7 @@
                             </StackPanel>
                         </Button>
                     </StackPanel>
+                    <!-- FollowersListView -->
                     <StackPanel Orientation="Horizontal" Height="60"  >
                         <Button BorderBrush="#FF44325F" Height="60" Width="250" x:Name="LoadFollowingAsync" Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0" >
                             <StackPanel Orientation="Horizontal" Width="220">
