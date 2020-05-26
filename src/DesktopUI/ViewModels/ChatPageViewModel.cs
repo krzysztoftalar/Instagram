@@ -102,7 +102,6 @@ namespace DesktopUI.ViewModels
         }
 
         private bool _loadingNext;
-
         public bool LoadingNext
         {
             get => _loadingNext;
@@ -114,7 +113,6 @@ namespace DesktopUI.ViewModels
         }
 
         private ObservableCollection<Comment> _comments;
-
         public ObservableCollection<Comment> Comments
         {
             get => _comments;
@@ -126,7 +124,6 @@ namespace DesktopUI.ViewModels
         }
 
         private string _message;
-
         public string Message
         {
             get => _message;
@@ -138,7 +135,6 @@ namespace DesktopUI.ViewModels
         }
 
         private string _displayName;
-
         public new string DisplayName
         {
             get => _isProfilePageActive ? _profile.DisplayName : _user.DisplayName;
@@ -150,7 +146,6 @@ namespace DesktopUI.ViewModels
         }
 
         private string _image;
-
         public string Image
         {
             get => _image = _photo.Url;

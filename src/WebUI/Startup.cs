@@ -34,11 +34,11 @@ namespace WebUI
                     var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                     options.Filters.Add(new AuthorizeFilter(policy));
                 })
-                .AddFluentValidation(opt =>
+                .AddFluentValidation(options =>
                 {
-                    opt.RegisterValidatorsFromAssemblyContaining<LoginUserQueryValidator>();
-                    opt.RegisterValidatorsFromAssemblyContaining<RegisterUserCommandValidator>();
-                    opt.RegisterValidatorsFromAssemblyContaining<EditProfileCommandValidator>();
+                    options.RegisterValidatorsFromAssemblyContaining<LoginUserQueryValidator>();
+                    options.RegisterValidatorsFromAssemblyContaining<RegisterUserCommandValidator>();
+                    options.RegisterValidatorsFromAssemblyContaining<EditProfileCommandValidator>();
                 });
 
             services.AddApplication();

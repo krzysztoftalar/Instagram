@@ -45,7 +45,7 @@
 
         <!-- Right sideBar -->
         <Grid Row="0" RowSpan="2" Column="1" Background="White">
-            <Border  VerticalAlignment="Top" Margin="30" Height="150" Width="150" CornerRadius="80" BorderThickness="1" BorderBrush="Gray">
+            <Border VerticalAlignment="Top" Margin="30" Height="150" Width="150" CornerRadius="80" BorderThickness="1" BorderBrush="Gray">
                 <Border.Background>
                     
                     <!-- Chat image -->
@@ -64,6 +64,7 @@
                     <!-- Comments -->
                     <ListBox ItemsSource="{Binding Source={StaticResource cvs}}" Background="white" ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <ListBox.ItemContainerStyle>
+                            <!-- Comment positioning trigger -->
                             <Style BasedOn="{StaticResource MaterialDesignListBoxItem}" TargetType="ListBoxItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
                                 <Style.Triggers>
@@ -110,7 +111,7 @@
                                         <!-- Comment's body -->
                                         <Border Margin="5">
                                             <Border.Style>
-                                                <!-- Trigger for comment styling -->
+                                                <!-- Comment styling trigger -->
                                                 <Style TargetType="Border">
                                                     <Setter Property="Background" Value="Gray"></Setter>
                                                     <Setter Property="CornerRadius" Value="15 15 15 0"></Setter>

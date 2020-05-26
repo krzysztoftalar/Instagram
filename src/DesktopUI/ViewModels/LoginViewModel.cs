@@ -20,7 +20,6 @@ namespace DesktopUI.ViewModels
         }
 
         private string _email;
-
         public string Email
         {
             get => _email;
@@ -33,7 +32,6 @@ namespace DesktopUI.ViewModels
         }
 
         private string _password;
-
         public string Password
         {
             get => _password;
@@ -51,7 +49,6 @@ namespace DesktopUI.ViewModels
 
 
         private string _errorMessage;
-
         public string ErrorMessage
         {
             get => _errorMessage;

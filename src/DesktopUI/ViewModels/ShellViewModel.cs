@@ -43,6 +43,7 @@ namespace DesktopUI.ViewModels
                 case Navigation.Chat:
                     await ActivateItemAsync(IoC.Get<ChatPageViewModel>(), new CancellationToken());
                     break;
+                
                 default:
                     throw new ArgumentOutOfRangeException(nameof(message), message, null);
             }

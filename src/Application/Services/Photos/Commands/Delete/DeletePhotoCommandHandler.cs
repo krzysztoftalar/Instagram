@@ -37,7 +37,7 @@ namespace Application.Services.Photos.Commands.Delete
 
             if (result == null)
             {
-                throw new Exception("Problem deleting the foto");
+                throw new Exception("Problem deleting the photo");
             }
 
             _context.Photos.Remove(photo);

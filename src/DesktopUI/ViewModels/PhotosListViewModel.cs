@@ -73,7 +73,6 @@ namespace DesktopUI.ViewModels
         }
 
         private bool _loadingNext;
-
         public bool LoadingNext
         {
             get => _loadingNext;
@@ -85,7 +84,6 @@ namespace DesktopUI.ViewModels
         }
 
         private ObservableCollection<Photo> _userPhotos;
-
         public ObservableCollection<Photo> UserPhotos
         {
             get => _userPhotos;
@@ -97,7 +95,6 @@ namespace DesktopUI.ViewModels
         }
 
         private Photo _selectedPhoto;
-
         public Photo SelectedPhoto
         {
             get => _selectedPhoto;
@@ -150,7 +147,6 @@ namespace DesktopUI.ViewModels
         public bool IsLogIn => _user.Username == _profile.Username && _isEditMode;
 
         private bool _isPhotoSelected;
-
         public bool IsPhotoSelected
         {
             get => _isPhotoSelected = SelectedPhoto != null;

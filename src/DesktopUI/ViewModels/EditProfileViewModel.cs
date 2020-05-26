@@ -35,7 +35,6 @@ namespace DesktopUI.ViewModels
         }
 
         private Profile _profile;
-
         public Profile Profile
         {
             get => _profile = _iProfile as Profile;
@@ -47,7 +46,6 @@ namespace DesktopUI.ViewModels
         }
 
         private bool _isEditMode;
-
         public bool IsEditMode
         {
             get => _isEditMode;
@@ -61,7 +59,6 @@ namespace DesktopUI.ViewModels
         }
 
         private bool _isBioVisible;
-
         public bool IsBioVisible
         {
             get => _isBioVisible = (IsEditMode == false) || (!IsLogIn && !string.IsNullOrEmpty(_iProfile.Bio));
@@ -73,7 +70,6 @@ namespace DesktopUI.ViewModels
         }
 
         private bool _isDisplayNameVisible;
-
         public bool IsDisplayNameVisible
         {
             get => _isDisplayNameVisible = IsEditMode == false;

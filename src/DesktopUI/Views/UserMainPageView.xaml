@@ -22,8 +22,10 @@
             <Image Source="../Assets/insta.jpg" HorizontalAlignment="Left" Margin="10 0"/>
             <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="15 15">
                 <StackPanel Width="150">
+                    <!-- Edit profile button -->
                     <Button cal:Message.Attach="[Event Click] = [Action EditProfileAsync()]" Content="Account" />
                     <Separator/>
+                    <!-- Log out button -->
                     <Button cal:Message.Attach="[Event Click] = [Action LogoutAsync()]" Content="Logout" />
                 </StackPanel>
             </materialDesign:PopupBox>

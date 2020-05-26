@@ -27,7 +27,7 @@
                 </materialDesign:Chip>
 
                 <!-- Bio -->
-                <TextBox IsReadOnly="{Binding IsEditMode, Mode=TwoWay}" x:Name="Profile_Bio" Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}" AcceptsReturn="True" TextWrapping="Wrap" 
+                <TextBox IsReadOnly="{Binding IsEditMode}" x:Name="Profile_Bio" Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}" AcceptsReturn="True" TextWrapping="Wrap" 
                     Visibility="{Binding IsBioVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" VerticalScrollBarVisibility="Auto" Background="White" FontSize="20"/>
 
                 <StackPanel Orientation="Horizontal" Visibility="{Binding IsLogIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">

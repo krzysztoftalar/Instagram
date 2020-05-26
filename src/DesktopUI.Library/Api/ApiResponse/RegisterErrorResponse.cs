@@ -12,13 +12,12 @@ namespace DesktopUI.Library.Api.ApiResponse
 
             var exceptionResponse = JsonConvert.DeserializeObject<ApiError>(responseContent);
 
-            return $"{exceptionResponse.Errors.Email}{exceptionResponse.Errors.UserName}";
+            return $"{exceptionResponse.Errors}";
         }
 
         public class ApiError
         {
             [JsonProperty("errors")]
-
             public Errors Errors { get; set; }
         }
 
@@ -26,6 +25,7 @@ namespace DesktopUI.Library.Api.ApiResponse
         {
             [JsonProperty("Email")]
             public string Email { get; set; }
+            
             [JsonProperty("UserName")]
             public string UserName { get; set; }
         }

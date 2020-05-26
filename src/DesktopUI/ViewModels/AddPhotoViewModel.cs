@@ -20,7 +20,6 @@ namespace DesktopUI.ViewModels
         }
 
         private string _imagePath;
-
         public string ImagePath
         {
             get => _imagePath;
@@ -33,7 +32,7 @@ namespace DesktopUI.ViewModels
 
         public void AddPhoto()
         {
-            OpenFileDialog open = new OpenFileDialog
+            var open = new OpenFileDialog
             {
                 DefaultExt = (".png"),
                 Filter = "Pictures (*.jpg;*.png;*.webp)|*.jpg;*.png;*.webp"
@@ -47,7 +46,6 @@ namespace DesktopUI.ViewModels
 
         public async Task UploadPhotoAsync()
         {
-
             if (await _profile.UploadPhotoAsync(ImagePath))
             {
                 MessageBox.Show("Image uploaded successfully", "Congratulations!",

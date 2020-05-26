@@ -10,7 +10,6 @@ namespace DesktopUI.Views
         public AddPhotoView()
         {
             InitializeComponent();
-
         }
     }
 }

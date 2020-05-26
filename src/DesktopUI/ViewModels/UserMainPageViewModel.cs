@@ -31,7 +31,6 @@ namespace DesktopUI.ViewModels
         }
 
         private AuthenticatedUser _user;
-
         public AuthenticatedUser User
         {
             get => _user = _iUser as AuthenticatedUser;
@@ -43,7 +42,6 @@ namespace DesktopUI.ViewModels
         }
 
         private string _search;
-
         public string Search
         {
             get => _search;
@@ -55,7 +53,6 @@ namespace DesktopUI.ViewModels
         }
 
         private BindableCollection<AuthenticatedUser> _usersList;
-
         public BindableCollection<AuthenticatedUser> UsersList
         {
             get => _usersList;
@@ -67,7 +64,6 @@ namespace DesktopUI.ViewModels
         }
 
         private AuthenticatedUser _selectedUser;
-
         public AuthenticatedUser SelectedUser
         {
             get => _selectedUser;

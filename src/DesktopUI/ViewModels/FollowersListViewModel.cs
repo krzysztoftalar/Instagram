@@ -46,7 +46,6 @@ namespace DesktopUI.ViewModels
         }
 
         private BindableCollection<Profile> _userFollowing;
-
         public BindableCollection<Profile> UserFollowing
         {
             get => _userFollowing;
@@ -58,7 +57,6 @@ namespace DesktopUI.ViewModels
         }
 
         private Profile _selectedProfile;
-
         public Profile SelectedProfile
         {
             get => _selectedProfile;
@@ -102,7 +100,6 @@ namespace DesktopUI.ViewModels
         }
 
         private bool _isPrevPage;
-
         public bool IsPrevPage
         {
             get => _isPrevPage = _pagination.PageNumber > 0;
@@ -114,7 +111,6 @@ namespace DesktopUI.ViewModels
         }
 
         private bool _isNextPage;
-
         public bool IsNextPage
         {
             get => _isNextPage = _pagination.PageNumber + 1 < _pagination.TotalPages;
@@ -126,7 +122,6 @@ namespace DesktopUI.ViewModels
         }
 
         private int _selectedCount;
-
         public int SelectedCount
         {
             get => _selectedCount;

@@ -37,7 +37,6 @@ namespace DesktopUI.ViewModels
         }
 
         private Profile _profile;
-
         public Profile Profile
         {
             get => _profile;

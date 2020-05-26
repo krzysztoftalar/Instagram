@@ -118,7 +118,7 @@ namespace DesktopUI.Library.Api.Profile
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsAsync<Models.DbModels.Profile>();
+                    var result = await response.Content.ReadAsAsync<Models.DbModels.Profile>();    
                     _profile.DisplayName = result.DisplayName;
                     _profile.Username = result.Username;
                     _profile.Bio = result.Bio;
