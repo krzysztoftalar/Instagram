@@ -28,6 +28,7 @@ namespace Application.Services.Photos.Queries.List
               .Where(x => x.UserName == request.Username)
               .SelectMany(x => x.Photos)
               .ProjectTo<PhotoDto>(_mapper.ConfigurationProvider)
+              .AsNoTracking()
               .AsQueryable();
 
             var photos = await PagedList<PhotoDto>

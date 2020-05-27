@@ -1,13 +1,13 @@
-﻿using System.Linq;
-using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
-using Application.Errors;
+﻿using Application.Errors;
 using Application.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Application.Services.Profiles.Queries.Details
 {
@@ -32,19 +32,20 @@ namespace Application.Services.Profiles.Queries.Details
                 .Include(x => x.Followings)
                 .Where(x => x.UserName == request.Username)
                 .ProjectTo<ProfileDto>(_mapper.ConfigurationProvider)
-                .SingleAsync(cancellationToken);
+                .SingleOrDefaultAsync(cancellationToken);
 
             if (profile == null)
             {
-                throw new RestException(HttpStatusCode.NotFound, new {User = "Not Found"});
+                throw new RestException(HttpStatusCode.NotFound, new { User = "Not Found" });
             }
 
-            var currentUser = await _context.Users
+            var isFollowing = await _context.Users
                 .Include(x => x.Followings)
-                .SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername(),
-                    cancellationToken: cancellationToken);
+                .AsNoTracking()
+                .SelectMany(x => x.Followings)
+                .AnyAsync(x => x.TargetId == profile.Id, cancellationToken);
 
-            if (currentUser.Followings.Any(x => x.TargetId == profile.Id))
+            if (isFollowing)
             {
                 profile.Following = true;
             }

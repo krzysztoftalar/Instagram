@@ -40,7 +40,7 @@ namespace Application.Services.Photos.Commands.Add
                 .Where(x => x.UserName == _userAccessor.GetCurrentUsername())
                 .Select(x => new { UserId = x.Id, MainPhoto = x.Photos.FirstOrDefault(y => y.IsMain) })
                 .AsNoTracking()
-                .FirstAsync(cancellationToken);
+                .FirstOrDefaultAsync(cancellationToken);
 
             var photo = new Photo
             {

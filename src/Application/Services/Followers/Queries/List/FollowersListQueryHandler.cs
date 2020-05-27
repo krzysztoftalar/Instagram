@@ -30,6 +30,7 @@ namespace Application.Services.Followers.Queries.List
                       UserName = x.Observer.UserName,
                       Image = x.Observer.Photos.FirstOrDefault(y => y.IsMain).Url
                   })
+                  .AsNoTracking()
                   .AsQueryable(),
 
                 "following" => _context.Followings.Include(x => x.Target)
@@ -41,6 +42,7 @@ namespace Application.Services.Followers.Queries.List
                       UserName = x.Target.UserName,
                       Image = x.Target.Photos.FirstOrDefault(y => y.IsMain).Url
                   })
+                  .AsNoTracking()
                   .AsQueryable(),
 
                 _ => default

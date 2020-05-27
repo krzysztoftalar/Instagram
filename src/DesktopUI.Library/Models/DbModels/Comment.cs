@@ -4,7 +4,7 @@ namespace DesktopUI.Library.Models.DbModels
 {
     public class Comment
     {
-        public Guid Id { get; set; }
+        public Guid CommentId { get; set; }
         public string PhotoId { get; set; }
         public string Body { get; set; }
         public DateTime CreatedAt { get; set; }

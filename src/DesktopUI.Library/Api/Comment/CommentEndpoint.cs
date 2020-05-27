@@ -36,7 +36,7 @@ namespace DesktopUI.Library.Api.Comment
         public async Task<CommentsEnvelope> LoadCommentsAsync(string id, int? skip, int? limit)
         {
             using (HttpResponseMessage response =
-              await _apiHelper.ApiClient.GetAsync($"/api/comments/{id}?skip={skip}&limit={limit}"))
+                await _apiHelper.ApiClient.GetAsync($"/api/comments/{id}?skip={skip}&limit={limit}"))
             {
                 if (response.IsSuccessStatusCode)
                 {
@@ -44,6 +44,20 @@ namespace DesktopUI.Library.Api.Comment
                 }
 
                 throw new Exception(response.ReasonPhrase);
+            }
+        }
+
+        public async Task<bool> DeleteCommentAsync(Models.DbModels.Comment comment)
+        {
+            using (HttpResponseMessage response =
+                await _apiHelper.ApiClient.DeleteAsync($"/api/comments/{comment.CommentId}"))
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+
+                return true;
             }
         }
     }

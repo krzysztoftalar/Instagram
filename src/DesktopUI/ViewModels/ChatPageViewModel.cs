@@ -156,7 +156,7 @@ namespace DesktopUI.ViewModels
             }
         }
 
-        public async Task SendAsync()
+        public async Task SendMessageAsync()
         {
             var comment = new Comment
             {
@@ -169,6 +169,38 @@ namespace DesktopUI.ViewModels
                 await _commentEndpoint.AddCommentAsync(comment);
 
                 Message = "";
+            }
+        }
+
+        private Comment _selectedComment;
+
+        public Comment SelectedComment
+        {
+            get => _selectedComment;
+            set
+            {
+                _selectedComment = value;
+                NotifyOfPropertyChange(() => SelectedComment);
+                NotifyOfPropertyChange(() => IsCommentSelected);
+            }
+        }
+
+        private bool _isCommentSelected;
+        public bool IsCommentSelected
+        {
+            get => _isCommentSelected = SelectedComment != null && SelectedComment.IsLoggedInComment;
+            set
+            {
+                _isCommentSelected = value;
+                NotifyOfPropertyChange(() => IsCommentSelected);
+            }
+        }
+
+        public async Task DeleteCommentAsync()
+        {
+            if (await _commentEndpoint.DeleteCommentAsync(SelectedComment))
+            {
+                Comments.Remove(SelectedComment);
             }
         }
 

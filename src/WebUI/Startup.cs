@@ -1,7 +1,5 @@
 using Application;
-using Application.Services.Profiles.Commands.Edit;
-using Application.Services.User.Commands.Register;
-using Application.Services.User.Queries.Login;
+using Application.Interfaces;
 using FluentValidation.AspNetCore;
 using Infrastructure;
 using Infrastructure.Photos;
@@ -36,10 +34,10 @@ namespace WebUI
                 })
                 .AddFluentValidation(options =>
                 {
-                    options.RegisterValidatorsFromAssemblyContaining<LoginUserQueryValidator>();
-                    options.RegisterValidatorsFromAssemblyContaining<RegisterUserCommandValidator>();
-                    options.RegisterValidatorsFromAssemblyContaining<EditProfileCommandValidator>();
+                    options.RegisterValidatorsFromAssemblyContaining<IApplicationDbContext>();
                 });
+
+            services.AddHttpContextAccessor();
 
             services.AddApplication();
             services.AddInfrastructure();

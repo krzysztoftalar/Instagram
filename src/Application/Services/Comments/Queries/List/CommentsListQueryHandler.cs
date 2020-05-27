@@ -30,6 +30,7 @@ namespace Application.Services.Comments.Queries.List
               .SelectMany(x => x.Comments)
               .ProjectTo<CommentDto>(_mapper.ConfigurationProvider)
               .OrderByDescending(x => x.CreatedAt)
+              .AsNoTracking()
               .AsQueryable();
 
             var comments = await PagedList<CommentDto>

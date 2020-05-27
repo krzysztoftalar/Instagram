@@ -52,6 +52,8 @@ namespace DesktopUI.ViewModels
                   MessageBoxButton.OK, MessageBoxImage.Information);
 
                 await _events.PublishOnUIThreadAsync(new MessageEvent(), new CancellationToken());
+
+                ImagePath = "";
             }
             else
             {

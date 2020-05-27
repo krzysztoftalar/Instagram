@@ -7,5 +7,6 @@ namespace DesktopUI.Library.Api.Comment
     {
         Task AddCommentAsync(Models.DbModels.Comment comment);
         Task<CommentsEnvelope> LoadCommentsAsync(string id, int? skip, int? limit);
+        Task<bool> DeleteCommentAsync(Models.DbModels.Comment comment);
     }
 }

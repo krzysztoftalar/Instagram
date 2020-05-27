@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,15 +24,24 @@ namespace Application.Services.Followers.Commands.Add
 
         public async Task<Unit> Handle(AddFollowersCommand request, CancellationToken cancellationToken)
         {
-            var observer = await _context.Users.SingleOrDefaultAsync(x =>
-                x.UserName == _userAccessor.GetCurrentUsername(), cancellationToken: cancellationToken);
+            var observer = await _context.Users
+                .Where(x => x.UserName == _userAccessor.GetCurrentUsername())
+                .Select(x => new {x.Id})
+                .SingleOrDefaultAsync(cancellationToken);
 
-            var target = await _context.Users.SingleOrDefaultAsync(x =>
-                x.UserName == request.Username, cancellationToken: cancellationToken);
+            var target = await _context.Users
+                .Where(x => x.UserName == request.Username)
+                .Select(x => new {x.Id})
+                .SingleOrDefaultAsync(cancellationToken);
 
             if (target == null)
             {
-                throw new RestException(HttpStatusCode.NotFound, new { User = "Not Found" });
+                throw new RestException(HttpStatusCode.NotFound, new {User = "Not Found"});
+            }
+
+            if (target.Id == observer.Id)
+            {
+                throw new RestException(HttpStatusCode.BadRequest, new {User = "You can not following yourself"});
             }
 
             var following = await _context.Followings.SingleOrDefaultAsync(x =>
@@ -39,13 +49,13 @@ namespace Application.Services.Followers.Commands.Add
 
             if (following != null)
             {
-                throw new RestException(HttpStatusCode.BadRequest, new { User = "You are already following this user" });
+                throw new RestException(HttpStatusCode.BadRequest, new {User = "You are already following this user"});
             }
 
             following = new UserFollowing
             {
-                Observer = observer,
-                Target = target
+                ObserverId = observer.Id,
+                TargetId = target.Id
             };
 
             await _context.Followings.AddAsync(following, cancellationToken);

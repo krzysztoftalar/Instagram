@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,15 +23,19 @@ namespace Application.Services.Followers.Commands.Delete
 
         public async Task<Unit> Handle(DeleteFollowersCommand request, CancellationToken cancellationToken)
         {
-            var observer = await _context.Users.SingleOrDefaultAsync(x =>
-                x.UserName == _userAccessor.GetCurrentUsername(), cancellationToken: cancellationToken);
+            var observer = await _context.Users
+                .Where(x => x.UserName == _userAccessor.GetCurrentUsername())
+                .Select(x => new {x.Id})
+                .SingleOrDefaultAsync(cancellationToken);
 
-            var target = await _context.Users.SingleOrDefaultAsync(x =>
-                x.UserName == request.Username, cancellationToken: cancellationToken);
+            var target = await _context.Users
+                .Where(x => x.UserName == request.Username)
+                .Select(x => new {x.Id})
+                .SingleOrDefaultAsync(cancellationToken);
 
             if (target == null)
             {
-                throw new RestException(HttpStatusCode.NotFound, new { User = "Not Found" });
+                throw new RestException(HttpStatusCode.NotFound, new {User = "Not Found"});
             }
 
             var following = await _context.Followings.SingleOrDefaultAsync(x =>
@@ -38,7 +43,7 @@ namespace Application.Services.Followers.Commands.Delete
 
             if (following == null)
             {
-                throw new RestException(HttpStatusCode.BadRequest, new { User = "You are not following this user" });
+                throw new RestException(HttpStatusCode.BadRequest, new {User = "You are not following this user"});
             }
 
             _context.Followings.Remove(following);

@@ -31,7 +31,7 @@
         <!-- NavBar -->
         <Grid Row="0" Background="White">
             <Image Source="../Assets/insta.jpg" HorizontalAlignment="Left" Margin="10 0"/>
-            
+
             <!-- Back to main page button -->
             <Button x:Name="BackToMainPageAsync" Height="30" Width="30" HorizontalAlignment="Left" Margin="170 0 0 5" Style="{DynamicResource MaterialDesignToolForegroundButton}" Panel.ZIndex="0">
                 <materialDesign:PackIcon Kind="HandPointingLeft" Foreground="#FF44325F" />
@@ -47,7 +47,7 @@
         <Grid Row="0" RowSpan="2" Column="1" Background="White">
             <Border VerticalAlignment="Top" Margin="30" Height="150" Width="150" CornerRadius="80" BorderThickness="1" BorderBrush="Gray">
                 <Border.Background>
-                    
+
                     <!-- Chat image -->
                     <ImageBrush x:Name="Image" ImageSource="{Binding Image}" Stretch="UniformToFill"/>
                 </Border.Background>
@@ -62,7 +62,7 @@
                     <ProgressBar Visibility="{Binding LoadingNext, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" Style="{StaticResource MaterialDesignCircularProgressBar}" Value="35" IsIndeterminate="True" />
 
                     <!-- Comments -->
-                    <ListBox ItemsSource="{Binding Source={StaticResource cvs}}" Background="white" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <ListBox ItemsSource="{Binding Source={StaticResource cvs}}" SelectedItem="{Binding SelectedComment}" Background="white" ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <ListBox.ItemContainerStyle>
                             <!-- Comment positioning trigger -->
                             <Style BasedOn="{StaticResource MaterialDesignListBoxItem}" TargetType="ListBoxItem">
@@ -126,7 +126,7 @@
                                             <TextBlock Text="{Binding Body}" Margin="15" TextWrapping="Wrap" FontSize="16" Foreground="White"/>
                                         </Border>
                                     </StackPanel>
-                                    
+
                                     <!-- Comment's time -->
                                     <TextBlock Text="{Binding CreatedAt, StringFormat={}{0:HH:mm}}" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="11" Margin="10 0"/>
                                 </StackPanel>
@@ -144,10 +144,18 @@
         </Grid>
 
         <Grid Row="2" Column="1" Background="#FFAFE6B2">
-            <!-- Send button -->
-            <Button x:Name="SendAsync" ToolTip="Send message" Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
-                <materialDesign:PackIcon Kind="Send"/>
-            </Button>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <!-- Send message button -->
+                <Button x:Name="SendMessageAsync" Margin="0 0 20 0" ToolTip="Send message" Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
+                    <materialDesign:PackIcon Kind="Send"/>
+                </Button>
+
+                <!-- Delete message button -->
+                <Button x:Name="DeleteCommentAsync" ToolTip="Delete message" Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                        Visibility="{Binding IsCommentSelected, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                    <materialDesign:PackIcon Kind="Delete"/>
+                </Button>
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>
