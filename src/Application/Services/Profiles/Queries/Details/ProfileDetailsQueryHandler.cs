@@ -36,11 +36,12 @@ namespace Application.Services.Profiles.Queries.Details
 
             if (profile == null)
             {
-                throw new RestException(HttpStatusCode.NotFound, new { User = "Not Found" });
+                throw new RestException(HttpStatusCode.NotFound, new {User = "Not Found"});
             }
 
             var isFollowing = await _context.Users
                 .Include(x => x.Followings)
+                .Where(x => x.UserName == _userAccessor.GetCurrentUsername())
                 .AsNoTracking()
                 .SelectMany(x => x.Followings)
                 .AnyAsync(x => x.TargetId == profile.Id, cancellationToken);

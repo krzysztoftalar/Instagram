@@ -26,12 +26,12 @@ namespace Application.Services.User.Commands.Register
 
         public async Task<RegisterUserDto> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
-            if (await _context.Users.AnyAsync(x => x.Email == request.Email, cancellationToken: cancellationToken))
+            if (await _context.Users.AnyAsync(x => x.Email == request.Email, cancellationToken))
             {
                 throw new RestException(HttpStatusCode.BadRequest, new { Email = "Email already exists." });
             }
 
-            if (await _context.Users.AnyAsync(x => x.UserName == request.Username, cancellationToken: cancellationToken))
+            if (await _context.Users.AnyAsync(x => x.UserName == request.Username, cancellationToken))
             {
                 throw new RestException(HttpStatusCode.BadRequest, new { UserName = "Username already exists." });
             }

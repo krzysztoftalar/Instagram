@@ -42,8 +42,8 @@ namespace WebUI
             services.AddApplication();
             services.AddInfrastructure();
             services.AddPersistence(Configuration);
-            services.AddSignalR();
 
+            services.AddSignalR();
             services.AddSwaggerDocumentation();
             services.AddJwtIdentity(Configuration.GetSection("JwtConfiguration"));
 

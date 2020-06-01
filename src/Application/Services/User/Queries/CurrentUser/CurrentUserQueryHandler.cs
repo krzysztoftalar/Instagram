@@ -29,7 +29,7 @@ namespace Application.Services.User.Queries.CurrentUser
             var user = await _userManager.FindByNameAsync(_userAccessor.GetCurrentUsername());
 
             var photo = await _context.Photos
-                .FirstOrDefaultAsync(x => x.AppUserId == user.Id && x.IsMain, cancellationToken: cancellationToken);
+                .FirstOrDefaultAsync(x => x.AppUserId == user.Id && x.IsMain, cancellationToken);
 
             return new CurrentUserDto
             {

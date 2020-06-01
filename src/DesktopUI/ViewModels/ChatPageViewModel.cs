@@ -173,7 +173,6 @@ namespace DesktopUI.ViewModels
         }
 
         private Comment _selectedComment;
-
         public Comment SelectedComment
         {
             get => _selectedComment;

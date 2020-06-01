@@ -11,7 +11,7 @@ namespace DesktopUI.ViewModels
     {
         private readonly IEventAggregator _events;
         private readonly IUserEndpoint _userEndpoint;
-        private readonly IAuthenticatedUser _iUser;
+        private IAuthenticatedUser _iUser;
         private IProfile _profile;
 
         public UserMainPageViewModel(IEventAggregator events, IAuthenticatedUser iUser, IProfile profile,
@@ -105,7 +105,7 @@ namespace DesktopUI.ViewModels
         public async Task LogoutAsync()
         {
             _profile = new Profile();
-            _user = new AuthenticatedUser();
+            _iUser = new AuthenticatedUser();
 
             _userEndpoint.LogOffUser();
 

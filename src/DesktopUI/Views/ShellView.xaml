@@ -7,9 +7,12 @@
         mc:Ignorable="d"
         Icon="../Assets/insta_window.png"
         Title="Instagram"
-        Height="600" Width="1080" 
-        WindowStartupLocation="CenterScreen" >
+        Height="600" Width="1080"
+        WindowStartupLocation="CenterScreen">
+
     <Grid>
+
         <ContentControl x:Name="ActiveItem" />
+
     </Grid>
 </Window>

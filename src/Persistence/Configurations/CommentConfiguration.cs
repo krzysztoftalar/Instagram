@@ -17,6 +17,7 @@ namespace Persistence.Configurations
               .IsRequired();
 
             builder.Property(c => c.CreatedAt)
+              .HasDefaultValueSql("getdate()")
               .IsRequired();
 
             builder.Property(c => c.AuthorId)

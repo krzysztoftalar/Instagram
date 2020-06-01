@@ -49,7 +49,7 @@ namespace DesktopUI.ViewModels
             if (await _profile.UploadPhotoAsync(ImagePath))
             {
                 MessageBox.Show("Image uploaded successfully", "Congratulations!",
-                  MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBoxButton.OK, MessageBoxImage.Information);
 
                 await _events.PublishOnUIThreadAsync(new MessageEvent(), new CancellationToken());
 
@@ -58,7 +58,7 @@ namespace DesktopUI.ViewModels
             else
             {
                 MessageBox.Show("Problem uploading the photo", "Error!",
-                  MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
     }

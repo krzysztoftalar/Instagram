@@ -28,7 +28,7 @@ namespace Application.Services.User.Queries.Search
                 .Where(x => x.DisplayName == request.DisplayName)
                 .ProjectTo<SearchUserDto>(_mapper.ConfigurationProvider)
                 .AsNoTracking()
-                .ToListAsync(cancellationToken: cancellationToken);
+                .ToListAsync(cancellationToken);
         }
     }
 }

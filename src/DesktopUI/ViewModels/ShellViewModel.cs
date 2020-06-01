@@ -25,23 +25,23 @@ namespace DesktopUI.ViewModels
             switch (message)
             {
                 case Navigation.Login:
-                    await ActivateItemAsync(IoC.Get<LoginViewModel>(), new CancellationToken());
+                    await ActivateItemAsync(IoC.Get<LoginViewModel>(), cancellationToken);
                     break;
 
                 case Navigation.Register:
-                    await ActivateItemAsync(IoC.Get<RegisterViewModel>(), new CancellationToken());
+                    await ActivateItemAsync(IoC.Get<RegisterViewModel>(), cancellationToken);
                     break;
 
                 case Navigation.Main:
-                    await ActivateItemAsync(IoC.Get<UserMainPageViewModel>(), new CancellationToken());
+                    await ActivateItemAsync(IoC.Get<UserMainPageViewModel>(), cancellationToken);
                     break;
 
                 case Navigation.Profile:
-                    await ActivateItemAsync(IoC.Get<UserProfilePageViewModel>(), new CancellationToken());
+                    await ActivateItemAsync(IoC.Get<UserProfilePageViewModel>(), cancellationToken);
                     break;
 
                 case Navigation.Chat:
-                    await ActivateItemAsync(IoC.Get<ChatPageViewModel>(), new CancellationToken());
+                    await ActivateItemAsync(IoC.Get<ChatPageViewModel>(), cancellationToken);
                     break;
                 
                 default:

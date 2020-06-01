@@ -27,7 +27,7 @@ namespace Application.Services.Comments.Commands.Create
             var user = await _context.Users
               .Include(x => x.Photos)
               .SingleOrDefaultAsync(x =>
-                  x.UserName == request.Username, cancellationToken: cancellationToken);
+                  x.UserName == request.Username, cancellationToken);
 
             var comment = new Comment
             {

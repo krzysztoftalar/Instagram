@@ -6,7 +6,7 @@ namespace Application.Services.Profiles.Commands.Edit
     {
         public EditProfileCommandValidator()
         {
-            RuleFor(x => x.DisplayName).NotEmpty();
+            RuleFor(x => x.DisplayName).NotEmpty().MaximumLength(50);
         }
     }
 }

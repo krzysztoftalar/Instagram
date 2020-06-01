@@ -13,14 +13,12 @@ namespace Application.Services.Photos.Commands.Delete
     {
         private readonly IApplicationDbContext _context;
         private readonly IPhotoAccessor _photoAccessor;
-        private readonly IUserAccessor _userAccessor;
 
         public DeletePhotoCommandHandler(IApplicationDbContext context, IPhotoAccessor photoAccessor,
             IUserAccessor userAccessor)
         {
             _context = context;
             _photoAccessor = photoAccessor;
-            _userAccessor = userAccessor;
         }
 
         public async Task<Unit> Handle(DeletePhotoCommand request, CancellationToken cancellationToken)
