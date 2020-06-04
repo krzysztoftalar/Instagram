@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace DesktopUI.Library.Models.DbModels
+namespace DesktopUI.Models
 {
-    public class Comment
+    public class CommentDisplayModel
     {
         public Guid CommentId { get; set; }
         public string PhotoId { get; set; }
@@ -11,5 +11,8 @@ namespace DesktopUI.Library.Models.DbModels
         public string DisplayName { get; set; }
         public string Username { get; set; }
         public string Image { get; set; }
+
+        public string Date { get; set; }
+        public bool IsLoggedInComment { get; set; }
     }
 }

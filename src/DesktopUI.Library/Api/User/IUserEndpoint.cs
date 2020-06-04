@@ -7,8 +7,8 @@ namespace DesktopUI.Library.Api.User
 {
     public interface IUserEndpoint
     {
-        Task RegisterAsync(UserFormValues data);
-        Task<AuthenticatedUser> LoginAsync(UserFormValues user);
+        Task RegisterAsync(RegisterUserFormValues data);
+        Task<AuthenticatedUser> LoginAsync(LoginUserFormValues user);
         void LogOffUser();
         Task<AuthenticatedUser> CurrentUserAsync(string token);
         Task<List<AuthenticatedUser>> SearchUsersAsync(string displayName);

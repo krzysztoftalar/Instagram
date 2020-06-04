@@ -48,8 +48,8 @@ The project implements Dependency Injection and MVVM patterns._
 | [.NET Core](https://docs.microsoft.com/en-us/dotnet/) 3.1.0                                                      | [WPF](https://docs.microsoft.com/en-us/dotnet/framework/wpf/) .NET Framework 4.8                                 |
 | [ASP.NET Web API](https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-3.1)                     | [Caliburn.Micro](https://caliburnmicro.com/)                                                                     |
 | [Entity Framework](https://docs.microsoft.com/en-us/ef/)                                                         | [SignalR](https://docs.microsoft.com/pl-pl/aspnet/core/tutorials/signalr?view=aspnetcore-3.1&tabs=visual-studio) |
-| [SignalR](https://docs.microsoft.com/pl-pl/aspnet/core/tutorials/signalr?view=aspnetcore-3.1&tabs=visual-studio) | [Material Design](http://materialdesigninxaml.net/)                                                              |
-| [MediatR](https://github.com/jbogard/MediatR/wiki)                                                               |
+| [SignalR](https://docs.microsoft.com/pl-pl/aspnet/core/tutorials/signalr?view=aspnetcore-3.1&tabs=visual-studio) | [AutoMapper](https://automapper.org/)                                                                            |
+| [MediatR](https://github.com/jbogard/MediatR/wiki)                                                               | [Material Design](http://materialdesigninxaml.net/) 
 | [AutoMapper](https://automapper.org/)                                                                            |
 | [Swagger](https://swagger.io/)                                                                                   |
 | [Cloudinary](https://cloudinary.com/)                                                                            |

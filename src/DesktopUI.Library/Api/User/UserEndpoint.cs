@@ -21,7 +21,7 @@ namespace DesktopUI.Library.Api.User
             _user = user;
         }
 
-        public async Task RegisterAsync(UserFormValues user)
+        public async Task RegisterAsync(RegisterUserFormValues user)
         {
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.PostAsJsonAsync("/api/users/register", user))
@@ -33,7 +33,7 @@ namespace DesktopUI.Library.Api.User
             }
         }
 
-        public async Task<AuthenticatedUser> LoginAsync(UserFormValues user)
+        public async Task<AuthenticatedUser> LoginAsync(LoginUserFormValues user)
         {
             using (HttpResponseMessage response =
                 await _apiHelper.ApiClient.PostAsJsonAsync("/api/users/login", user))

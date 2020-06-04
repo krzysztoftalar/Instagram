@@ -1,6 +1,8 @@
-﻿namespace DesktopUI.Library.Models.DbModels
+﻿using DesktopUI.Library.Models.DbModels;
+
+namespace DesktopUI.Models
 {
-    public class Photo
+    public class PhotoDisplayModel : IPhoto
     {
         public string Id { get; set; }
         public string Url { get; set; }

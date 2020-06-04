@@ -43,9 +43,9 @@ namespace DesktopUI.Helpers
         {
             PasswordBox password = sender as PasswordBox;
 
-            SetBoundPassword(password, password.Password);
+            SetBoundPassword(password, password?.Password);
 
-            password.GetType().GetMethod("Select", BindingFlags.Instance | BindingFlags.NonPublic)?
+            password?.GetType().GetMethod("Select", BindingFlags.Instance | BindingFlags.NonPublic)?
                 .Invoke(password, new object[] { password.Password.Length, 0 });
         }
     }

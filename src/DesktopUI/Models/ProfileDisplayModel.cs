@@ -1,6 +1,8 @@
-﻿namespace DesktopUI.Library.Models.DbModels
+﻿using DesktopUI.Library.Models.DbModels;
+
+namespace DesktopUI.Models
 {
-    public class Profile
+    public class ProfileDisplayModel : IProfile
     {
         public string DisplayName { get; set; }
         public string Username { get; set; }

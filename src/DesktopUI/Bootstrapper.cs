@@ -1,16 +1,19 @@
-﻿using Caliburn.Micro;
+﻿using AutoMapper;
+using Caliburn.Micro;
 using DesktopUI.Helpers;
 using DesktopUI.Library.Api.Comment;
 using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Api.User;
 using DesktopUI.Library.Helpers;
 using DesktopUI.Library.Models.DbModels;
-using DesktopUI.ViewModels;
+using DesktopUI.Models;
+using DesktopUI.ViewModels.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using Profile = DesktopUI.Library.Models.DbModels.Profile;
 
 namespace DesktopUI
 {
@@ -28,21 +31,50 @@ namespace DesktopUI
             Initialize();
         }
 
+        public IMapper ConfigureAutoMapper()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                // Mapping Display model to api model 
+                cfg.CreateMap<PhotoDisplayModel, Photo>();
+                cfg.CreateMap<ProfileDisplayModel, Profile>();
+                cfg.CreateMap<CommentDisplayModel, Comment>();
+
+                // Mapping Api model to display model 
+                cfg.CreateMap<Photo, PhotoDisplayModel>();
+                cfg.CreateMap<Profile, ProfileDisplayModel>();
+                cfg.CreateMap<AuthenticatedUser, UserDisplayModel>();
+                cfg.CreateMap<Comment, CommentDisplayModel>();
+            });
+
+            return config.CreateMapper();
+        }
+
         protected override void Configure()
         {
+            _container.Instance(ConfigureAutoMapper());
+
+            // Api call methods
             _container.Instance(_container)
                 .PerRequest<IUserEndpoint, UserEndpoint>()
                 .PerRequest<IProfileEndpoint, ProfileEndpoint>()
                 .PerRequest<ICommentEndpoint, CommentEndpoint>();
 
+            // Caliburn.Micro methods
             _container
                 .Singleton<IWindowManager, WindowManager>()
-                .Singleton<IEventAggregator, EventAggregator>()
+                .Singleton<IEventAggregator, EventAggregator>();
+
+            // Api settings methods
+            _container
                 .Singleton<IApiHelper, ApiHelper>()
-                .Singleton<IChatHelper, ChatHelper>()
-                .Singleton<IAuthenticatedUser, AuthenticatedUser>()
-                .Singleton<IProfile, Profile>()
-                .Singleton<IPhoto, Photo>();
+                .Singleton<IChatHelper, ChatHelper>();
+
+            // Display models
+            _container
+                .Singleton<IAuthenticatedUser, UserDisplayModel>()
+                .Singleton<IProfile, ProfileDisplayModel>()
+                .Singleton<IPhoto, PhotoDisplayModel>();
 
             GetType().Assembly.GetTypes()
                 .Where(type => type.IsClass)

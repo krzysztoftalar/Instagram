@@ -1,6 +1,8 @@
-﻿namespace DesktopUI.Library.Models.DbModels
+﻿using DesktopUI.Library.Models.DbModels;
+
+namespace DesktopUI.Models
 {
-    public class AuthenticatedUser
+    public class UserDisplayModel : IAuthenticatedUser
     {
         public string DisplayName { get; set; }
         public string Token { get; set; }

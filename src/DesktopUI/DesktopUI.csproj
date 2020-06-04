@@ -39,6 +39,10 @@
     <LangVersion>8</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005">
+      <HintPath>..\..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Caliburn.Micro.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Caliburn.Micro.Core.4.0.105-alpha\lib\net45\Caliburn.Micro.Core.dll</HintPath>
     </Reference>
@@ -229,6 +233,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commands\RegisterCommand.cs" />
     <Compile Include="EventModels\CommentEvent.cs" />
     <Compile Include="EventModels\MessageEvent.cs" />
     <Compile Include="EventModels\ModeEvent.cs" />
@@ -236,46 +241,60 @@
     <Compile Include="EventModels\NavigationEvent.cs" />
     <Compile Include="Helpers\PaginationHelper.cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
+    <Compile Include="Commands\LoginCommand.cs" />
+    <Compile Include="Models\CommentDisplayModel.cs" />
+    <Compile Include="Models\PhotoDisplayModel.cs" />
+    <Compile Include="Models\ProfileDisplayModel.cs" />
+    <Compile Include="Models\UserDisplayModel.cs" />
     <Compile Include="Validators\ValidatorExtensions.cs" />
-    <Compile Include="ViewModels\AddPhotoViewModel.cs" />
-    <Compile Include="ViewModels\ChatPageViewModel.cs" />
-    <Compile Include="ViewModels\EditProfileViewModel.cs" />
-    <Compile Include="ViewModels\FollowersListViewModel.cs" />
-    <Compile Include="ViewModels\LoginViewModel.cs" />
-    <Compile Include="ViewModels\PhotosListViewModel.cs" />
-    <Compile Include="ViewModels\RegisterViewModel.cs" />
-    <Compile Include="ViewModels\ShellViewModel.cs" />
-    <Compile Include="ViewModels\UserMainPageViewModel.cs" />
-    <Compile Include="ViewModels\UserProfilePageViewModel.cs" />
-    <Compile Include="Views\AddPhotoView.xaml.cs">
-      <DependentUpon>AddPhotoView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ChatPageView.xaml.cs">
-      <DependentUpon>ChatPageView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EditProfileView.xaml.cs">
-      <DependentUpon>EditProfileView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\FollowersListView.xaml.cs">
-      <DependentUpon>FollowersListView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LoginView.xaml.cs">
+    <Compile Include="ViewModels\Auth\LoginViewModel.cs" />
+    <Compile Include="ViewModels\Auth\RegisterViewModel.cs" />
+    <Compile Include="ViewModels\Pages\ChatPageViewModel.cs" />
+    <Compile Include="ViewModels\Pages\ShellViewModel.cs" />
+    <Compile Include="ViewModels\Pages\UserMainPageViewModel.cs" />
+    <Compile Include="ViewModels\Pages\UserProfilePageViewModel.cs" />
+    <Compile Include="ViewModels\Photos\AddPhotoViewModel.cs" />
+    <Compile Include="ViewModels\Photos\PhotosListViewModel.cs" />
+    <Compile Include="ViewModels\Profiles\EditProfileViewModel.cs" />
+    <Compile Include="ViewModels\Profiles\FollowersListViewModel.cs" />
+    <Compile Include="Views\Auth\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PhotosListView.xaml.cs">
-      <DependentUpon>PhotosListView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RegisterView.xaml.cs">
+    <Compile Include="Views\Auth\RegisterView.xaml.cs">
       <DependentUpon>RegisterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ShellView.xaml.cs">
+    <Compile Include="Views\Chat\CommentsListItemView.xaml.cs">
+      <DependentUpon>CommentsListItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\ChatPageView.xaml.cs">
+      <DependentUpon>ChatPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserMainPageView.xaml.cs">
+    <Compile Include="Views\Pages\UserMainPageView.xaml.cs">
       <DependentUpon>UserMainPageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserProfilePageView.xaml.cs">
+    <Compile Include="Views\Pages\UserProfilePageView.xaml.cs">
       <DependentUpon>UserProfilePageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Photos\AddPhotoView.xaml.cs">
+      <DependentUpon>AddPhotoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Photos\PhotosListItemView.xaml.cs">
+      <DependentUpon>PhotosListItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Photos\PhotosListView.xaml.cs">
+      <DependentUpon>PhotosListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Profiles\EditProfileView.xaml.cs">
+      <DependentUpon>EditProfileView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Profiles\FollowersListItemView.xaml.cs">
+      <DependentUpon>FollowersListItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Profiles\FollowersListView.xaml.cs">
+      <DependentUpon>FollowersListView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -311,43 +330,46 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AddPhotoView.xaml">
+    <Page Include="Views\Auth\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ChatPageView.xaml">
+    <Page Include="Views\Auth\RegisterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\EditProfileView.xaml">
+    <Page Include="Views\Chat\CommentsListItemView.xaml" />
+    <Page Include="Views\Pages\ChatPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FollowersListView.xaml">
+    <Page Include="Views\Pages\ShellView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LoginView.xaml">
+    <Page Include="Views\Pages\UserMainPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PhotosListView.xaml">
+    <Page Include="Views\Pages\UserProfilePageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\RegisterView.xaml">
+    <Page Include="Views\Photos\AddPhotoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ShellView.xaml">
+    <Page Include="Views\Photos\PhotosListItemView.xaml" />
+    <Page Include="Views\Photos\PhotosListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UserMainPageView.xaml">
+    <Page Include="Views\Profiles\EditProfileView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UserProfilePageView.xaml">
+    <Page Include="Views\Profiles\FollowersListItemView.xaml" />
+    <Page Include="Views\Profiles\FollowersListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
