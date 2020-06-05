@@ -14,8 +14,7 @@ namespace Application.Services.Photos.Commands.Delete
         private readonly IApplicationDbContext _context;
         private readonly IPhotoAccessor _photoAccessor;
 
-        public DeletePhotoCommandHandler(IApplicationDbContext context, IPhotoAccessor photoAccessor,
-            IUserAccessor userAccessor)
+        public DeletePhotoCommandHandler(IApplicationDbContext context, IPhotoAccessor photoAccessor)
         {
             _context = context;
             _photoAccessor = photoAccessor;

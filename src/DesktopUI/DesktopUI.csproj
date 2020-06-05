@@ -246,6 +246,7 @@
     <Compile Include="Models\PhotoDisplayModel.cs" />
     <Compile Include="Models\ProfileDisplayModel.cs" />
     <Compile Include="Models\UserDisplayModel.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Validators\ValidatorExtensions.cs" />
     <Compile Include="ViewModels\Auth\LoginViewModel.cs" />
     <Compile Include="ViewModels\Auth\RegisterViewModel.cs" />

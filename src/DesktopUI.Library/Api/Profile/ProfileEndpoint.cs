@@ -6,7 +6,6 @@ using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using AutoMapper;
 
 namespace DesktopUI.Library.Api.Profile
 {
@@ -119,7 +118,7 @@ namespace DesktopUI.Library.Api.Profile
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsAsync<Models.DbModels.Profile>();    
+                    var result = await response.Content.ReadAsAsync<Models.DbModels.Profile>();
                     _profile.DisplayName = result.DisplayName;
                     _profile.Username = result.Username;
                     _profile.Bio = result.Bio;

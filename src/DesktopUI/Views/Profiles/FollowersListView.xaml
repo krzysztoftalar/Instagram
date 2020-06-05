@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:DesktopUI.Views"
-             mc:Ignorable="d" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:profiles="clr-namespace:DesktopUI.Views.Profiles"
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid Background="#FF44325F">
@@ -37,20 +37,20 @@
                     <ListView x:Name="UserFollowing" SelectedItem="{Binding SelectedProfile}"
                               ScrollViewer.VerticalScrollBarVisibility="Auto"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="20 0 0 0">
-                        
+
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <!-- FollowersListItemView -->
                                 <profiles:FollowersListItemView />
                             </DataTemplate>
                         </ListView.ItemTemplate>
-                        
+
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel />
                             </ItemsPanelTemplate>
                         </ListView.ItemsPanel>
-                        
+
                     </ListView>
 
                     <StackPanel Margin="20" Orientation="Horizontal" HorizontalAlignment="Center"

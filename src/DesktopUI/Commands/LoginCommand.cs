@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
 using DesktopUI.Library.Models;
-using DesktopUI.Library.Models.DbModels;
 
 namespace DesktopUI.Commands
 {

@@ -92,6 +92,7 @@ namespace DesktopUI.ViewModels.Profiles
             IsEditMode = !IsEditMode;
         }
 
+
         public async Task SubmitAsync()
         {
             var profile = new ProfileFormValues
@@ -100,7 +101,7 @@ namespace DesktopUI.ViewModels.Profiles
                 Bio = Profile.Bio
             };
 
-            if (string.IsNullOrEmpty(DisplayName))
+            if (string.IsNullOrEmpty(Profile.DisplayName))
             {
                 MessageBox.Show("Display name can not be empty", "Information",
                     MessageBoxButton.OK, MessageBoxImage.Information);

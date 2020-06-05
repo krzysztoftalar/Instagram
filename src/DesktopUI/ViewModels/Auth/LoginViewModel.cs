@@ -7,7 +7,6 @@ using DesktopUI.Commands;
 using DesktopUI.EventModels;
 using DesktopUI.Library.Api.User;
 using DesktopUI.Library.Models;
-using DesktopUI.Library.Models.DbModels;
 
 namespace DesktopUI.ViewModels.Auth
 {
