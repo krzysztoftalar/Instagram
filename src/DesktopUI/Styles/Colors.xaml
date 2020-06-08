@@ -7,6 +7,9 @@
     <Color x:Key="ForegroundError">#FF0000</Color>
     <SolidColorBrush x:Key="ForegroundErrorBrush" Color="{StaticResource ForegroundError}" />
 
+    <Color x:Key="BackgroundBlack">#FF000000</Color>
+    <SolidColorBrush x:Key="BackgroundBlackBrush" Color="{StaticResource BackgroundBlack}" />
+
     <Color x:Key="ForegroundGray">#FF808080</Color>
     <SolidColorBrush x:Key="ForegroundGrayBrush" Color="{StaticResource ForegroundGray}" />
 
@@ -15,5 +18,17 @@
 
     <Color x:Key="BackgroundWhite">#FFFFFFFF</Color>
     <SolidColorBrush x:Key="BackgroundWhiteBrush" Color="{StaticResource BackgroundWhite}" />
+
+    <Color x:Key="BackgroundGreen">#FF008000</Color>
+    <SolidColorBrush x:Key="BackgroundGreenBrush" Color="{StaticResource BackgroundGreen}" />
+
+    <Color x:Key="BackgroundLightGreen">#FFAFE6B2</Color>
+    <SolidColorBrush x:Key="BackgroundLightGreenBrush" Color="{StaticResource BackgroundLightGreen}" />
+
+    <Color x:Key="ForegroundDarkBlue">#FF2A6088</Color>
+    <SolidColorBrush x:Key="ForegroundDarkBlueBrush" Color="{StaticResource ForegroundDarkBlue}" />
+
+    <Color x:Key="ForegroundLightBlue">#FF5C99D6</Color>
+    <SolidColorBrush x:Key="ForegroundLightBlueBrush" Color="{StaticResource ForegroundLightBlue}" />
 
 </ResourceDictionary>

@@ -4,12 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
-    
+             d:DesignWidth="300"
+             d:DesignHeight="300">
+
     <StackPanel>
 
         <!-- Photo's url -->
-        <Image Source="{Binding Url}" Stretch="Fill" Width="400" Height="400" Margin="20" />
-                                
+        <Image Source="{Binding Url}"
+               Stretch="Fill"
+               Margin="20"
+               Width="400"
+               Height="400" />
+
     </StackPanel>
 </UserControl>

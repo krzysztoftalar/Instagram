@@ -22,11 +22,16 @@
         </Grid.ColumnDefinitions>
 
         <!-- NavBar -->
-        <Grid Grid.Row="0" Background="White" Grid.ColumnSpan="2">
-            <Image Source="../../Assets/insta.jpg" HorizontalAlignment="Left" Margin="10 0" />
+        <Grid Grid.Row="0" Grid.ColumnSpan="2" Background="White">
+            <Image Source="../../Assets/insta.jpg"
+                   HorizontalAlignment="Left"
+                   Margin="10 0" />
 
-            <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False"
-                                     HorizontalAlignment="Right" VerticalAlignment="Top" Margin="15 15">
+            <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges"
+                                     StaysOpen="False"
+                                     HorizontalAlignment="Right"
+                                     VerticalAlignment="Top"
+                                     Margin="15 15">
                 <StackPanel Width="150">
 
                     <!-- Edit profile button -->
@@ -44,14 +49,26 @@
 
         <!-- Avatar -->
         <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="40 -75">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Margin="40 -75">
 
                 <!-- User's display name -->
-                <TextBlock x:Name="User_DisplayName" HorizontalAlignment="Center" VerticalAlignment="Top"
-                           FontFamily="Nirmala UI" Text="Name" FontSize="30" Margin="30" Foreground="#FF2A6088" />
+                <TextBlock x:Name="User_DisplayName"
+                           Text="Name"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top"
+                           Margin="30"
+                           Foreground="{StaticResource ForegroundDarkBlueBrush}"
+                           FontFamily="{StaticResource NirmalaUI}"
+                           FontSize="{StaticResource FontSizeXXLarge}" />
 
                 <StackPanel HorizontalAlignment="Right" Height="200">
-                    <Ellipse Height="150" Width="150" Stroke="White" StrokeThickness="3">
+                    <Ellipse Width="150"
+                             Height="150"
+                             Stroke="White"
+                             StrokeThickness="3">
                         <Ellipse.Fill>
                             <!-- User's image -->
                             <ImageBrush x:Name="Image"
@@ -73,9 +90,16 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Top" Margin="0 30">
-                <materialDesign:ColorZone Mode="Standard" Padding="8 4 8 4" CornerRadius="2" Panel.ZIndex="1"
-                                          Margin="16 0 0 0" materialDesign:ShadowAssist.ShadowDepth="Depth1">
+            <StackPanel Grid.Column="0"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Top"
+                        Margin="0 30">
+                <materialDesign:ColorZone Panel.ZIndex="1"
+                                          materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                                          Mode="Standard"
+                                          CornerRadius="2"
+                                          Padding="8 4 8 4"
+                                          Margin="16 0 0 0">
 
                     <Grid>
 
@@ -92,10 +116,15 @@
                         </Button>
 
                         <!-- Search textBox -->
-                        <TextBox x:Name="Search" Grid.Column="1" FontSize="15" Margin="8 0 0 0"
+                        <TextBox x:Name="Search"
+                                 Grid.Column="1"
+                                 VerticalAlignment="Center"
                                  materialDesign:HintAssist.Hint="Search friends"
                                  materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
-                                 BorderThickness="0" MinWidth="200" VerticalAlignment="Center" />
+                                 MinWidth="200"
+                                 Margin="8 0 0 0"
+                                 BorderThickness="0"
+                                 FontSize="{StaticResource FontSizeSmall}" />
 
                     </Grid>
                 </materialDesign:ColorZone>
@@ -112,11 +141,15 @@
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
 
-                            <Ellipse Width="90" Height="90" StrokeThickness="0.5" Stroke="White"
-                                     HorizontalAlignment="Left">
+                            <Ellipse HorizontalAlignment="Left"
+                                     Width="90"
+                                     Height="90"
+                                     StrokeThickness="0.5"
+                                     Stroke="{StaticResource BackgroundWhiteBrush}">
                                 <Ellipse.Fill>
                                     <!-- Profile's image -->
-                                    <ImageBrush ImageSource="{Binding Image, TargetNullValue={StaticResource DefaultImage}}"
+                                    <ImageBrush
+                                        ImageSource="{Binding Image, TargetNullValue={StaticResource DefaultImage}}"
                                         Stretch="UniformToFill" />
                                 </Ellipse.Fill>
                             </Ellipse>
@@ -124,10 +157,15 @@
                             <!-- Profile's display name -->
                             <materialDesign:Chip Content="{Binding DisplayName}"
                                                  IconBackground="{DynamicResource PrimaryHueDarkBrush}"
-                                                 IsEnabled="False" FontWeight="Bold" BorderBrush="White"
-                                                 Foreground="#FF2A6088" FontSize="20" Margin="20 0" Background="White"
-                                                 FontFamily="Corbel"
-                                                 IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                                                 IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                                 IsEnabled="False"
+                                                 Margin="20 0"
+                                                 BorderBrush="{StaticResource BackgroundWhiteBrush}"
+                                                 Background="{StaticResource BackgroundWhiteBrush}"
+                                                 Foreground="{StaticResource ForegroundDarkBlueBrush}"
+                                                 FontFamily="{StaticResource SegoeUIEmoji}"
+                                                 FontSize="{StaticResource FontSizeLarge}"
+                                                 FontWeight="Bold">
                                 <materialDesign:Chip.Icon>
                                     <materialDesign:PackIcon Kind="Instagram" />
                                 </materialDesign:Chip.Icon>

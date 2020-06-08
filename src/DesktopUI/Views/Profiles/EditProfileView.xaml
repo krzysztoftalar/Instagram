@@ -5,58 +5,93 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignWidth="800"
+             d:DesignHeight="450">
 
-    <Grid Background="#FF44325F">
+    <Grid Background="{StaticResource BackgroundMainBrush}">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="20">
 
                 <materialDesign:Chip Content="Display Name"
                                      Visibility="{Binding IsLogIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
-                                     Margin="20" IconBackground="{DynamicResource PrimaryHueDarkBrush}"
-                                     IsEnabled="False" BorderBrush="White" Foreground="White" FontSize="20"
-                                     IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                                     IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+                                     IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                     IsEnabled="False"
+                                     Margin="20"
+                                     BorderBrush="{StaticResource BackgroundWhiteBrush}"
+                                     Foreground="{StaticResource BackgroundWhiteBrush}"
+                                     FontSize="{StaticResource FontSizeLarge}">
                     <materialDesign:Chip.Icon>
                         <materialDesign:PackIcon Kind="Instagram" />
                     </materialDesign:Chip.Icon>
                 </materialDesign:Chip>
 
                 <!-- Display name -->
-                <TextBox IsReadOnly="{Binding IsEditMode}" x:Name="Profile_DisplayName" TextWrapping="Wrap"
-                         VerticalAlignment="Stretch" AcceptsReturn="True"
+                <TextBox x:Name="Profile_DisplayName"
+                         IsReadOnly="{Binding IsEditMode}"
                          Visibility="{Binding IsDisplayNameVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
-                         VerticalScrollBarVisibility="Auto" Width="300" HorizontalAlignment="Left" Background="White"
-                         FontSize="20" Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}" />
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Stretch"
+                         VerticalScrollBarVisibility="Auto"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         Width="300"
+                         Background="{StaticResource BackgroundWhiteBrush}"
+                         FontSize="{StaticResource FontSizeLarge}" />
 
-                <materialDesign:Chip Content="Biography" Margin="20"
-                                     IconBackground="{DynamicResource PrimaryHueDarkBrush}" IsEnabled="False"
-                                     BorderBrush="White" Foreground="White" FontSize="20"
-                                     IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                <materialDesign:Chip Content="Biography"
+                                     IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+                                     IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                     IsEnabled="False"
+                                     Margin="20"
+                                     BorderBrush="{StaticResource BackgroundWhiteBrush}"
+                                     Foreground="{StaticResource BackgroundWhiteBrush}"
+                                     FontSize="{StaticResource FontSizeLarge}">
                     <materialDesign:Chip.Icon>
                         <materialDesign:PackIcon Kind="Instagram" />
                     </materialDesign:Chip.Icon>
                 </materialDesign:Chip>
 
                 <!-- Bio -->
-                <TextBox IsReadOnly="{Binding IsEditMode}" x:Name="Profile_Bio"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}" AcceptsReturn="True"
-                         TextWrapping="Wrap"
+                <TextBox x:Name="Profile_Bio"
+                         IsReadOnly="{Binding IsEditMode}"
                          Visibility="{Binding IsBioVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
-                         VerticalScrollBarVisibility="Auto" Background="White" FontSize="20" />
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                         VerticalScrollBarVisibility="Auto"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         Background="{StaticResource BackgroundWhiteBrush}"
+                         FontSize="{StaticResource FontSizeLarge}" />
 
-                <StackPanel Orientation="Horizontal"
-                            Visibility="{Binding IsLogIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                    
+                <StackPanel
+                    Visibility="{Binding IsLogIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
+                    Orientation="Horizontal">
+
                     <!-- Submit button -->
-                    <Button x:Name="SubmitAsync" Content="Submit" BorderThickness="0" FontSize="18" Width="150"
-                            Margin="20 40" Height="40" Foreground="White" HorizontalAlignment="Left" Background="Green" />
+                    <Button x:Name="SubmitAsync"
+                            Content="Submit"
+                            HorizontalAlignment="Left"
+                            Margin="20 40"
+                            BorderThickness="0"
+                            Width="150"
+                            Height="40"
+                            Background="{StaticResource BackgroundGreenBrush}"
+                            Foreground="{StaticResource BackgroundWhiteBrush}"
+                            FontSize="{StaticResource FontSizeRegular}" />
 
                     <!-- Toggle edit mode button -->
-                    <Button x:Name="ToggleEditMode" Content="Edit" BorderThickness="0" FontSize="18" Width="150"
-                            Height="40" Foreground="White" HorizontalAlignment="Left" />
-                    
+                    <Button x:Name="ToggleEditMode"
+                            Content="Edit"
+                            HorizontalAlignment="Left"
+                            BorderThickness="0"
+                            Height="40"
+                            Width="150"
+                            Foreground="{StaticResource BackgroundWhiteBrush}"
+                            FontSize="{StaticResource FontSizeRegular}" />
+
                 </StackPanel>
-                
+
             </StackPanel>
         </ScrollViewer>
     </Grid>

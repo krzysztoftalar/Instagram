@@ -96,14 +96,35 @@
             </Grid>
 
             <!-- Register button -->
-            <Button Content="REGISTER"
-                    Command="{Binding RegisterCommand}"
+            <Button Command="{Binding RegisterCommand}"
                     CommandParameter="{Binding User}"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"
                     Width="150"
                     Margin="0 65"
-                    FontSize="{StaticResource FontSizeRegular}" />
+                    FontSize="{StaticResource FontSizeRegular}">
+                <Grid>
+                    <TextBlock Text="REGISTER"
+                               Visibility="{Binding RegisterIsRunning, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                    <!-- Loading indicator -->
+                    <ProgressBar
+                        Visibility="{Binding RegisterIsRunning, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}"
+                        Value="60"
+                        Foreground="{StaticResource BackgroundMainBrush}">
+                        <ProgressBar.Style>
+                            <Style TargetType="ProgressBar"
+                                   BasedOn="{StaticResource MaterialDesignCircularProgressBar}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RegisterIsRunning}" Value="True">
+                                        <Setter Property="IsIndeterminate" Value="True" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ProgressBar.Style>
+                    </ProgressBar>
+                </Grid>
+            </Button>
 
             <!-- Login button -->
             <StackPanel Orientation="Horizontal"

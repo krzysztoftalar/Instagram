@@ -5,6 +5,7 @@
 
     <FontFamily x:Key="SegoeUIEmoji">Segoe UI Emoji</FontFamily>
     <FontFamily x:Key="Champagne">Champagne &amp; Limousines</FontFamily>
+    <FontFamily x:Key="NirmalaUI">Nirmala UI</FontFamily>
 
     <system:Double x:Key="FontSizeSmaller">12</system:Double>
     <system:Double x:Key="FontSizeSmall">15</system:Double>

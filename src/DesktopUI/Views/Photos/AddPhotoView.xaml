@@ -5,16 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
-             d:DesignHeight="500" d:DesignWidth="800">
-    
-    <Grid Background="#FF44325F">
+             d:DesignWidth="800"
+             d:DesignHeight="500">
+
+    <Grid Background="{StaticResource BackgroundMainBrush}">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="400" />
         </Grid.ColumnDefinitions>
 
-        <materialDesign:Card Width="350" Height="350" Grid.Column="0" Margin="20">
+        <materialDesign:Card Grid.Column="0"
+                             Width="350"
+                             Height="350"
+                             Margin="20">
             <Grid>
 
                 <Grid.RowDefinitions>
@@ -31,12 +35,22 @@
             <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
 
                 <!-- Add photo button -->
-                <Button x:Name="AddPhoto" BorderThickness="0" Foreground="Gray" Background="White" FontSize="18"
-                        Content="Add Photo" Width="150" />
+                <Button x:Name="AddPhoto"
+                        Content="Add Photo"
+                        BorderThickness="0"
+                        Width="150"
+                        Background="{StaticResource BackgroundWhiteBrush}"
+                        Foreground="{StaticResource ForegroundGrayBrush}"
+                        FontSize="{StaticResource FontSizeRegular}" />
 
                 <!-- Upload photo button -->
-                <Button x:Name="UploadPhotoAsync" ToolTip="Upload the photo" BorderThickness="0" Width="150"
-                        Margin="20" Foreground="White" Background="Green">
+                <Button x:Name="UploadPhotoAsync"
+                        ToolTip="Upload the photo"
+                        BorderThickness="0"
+                        Width="150"
+                        Margin="20"
+                        Background="{StaticResource BackgroundGreenBrush}"
+                        Foreground="{StaticResource BackgroundWhiteBrush}">
                     <materialDesign:PackIcon Kind="Check" />
                 </Button>
 

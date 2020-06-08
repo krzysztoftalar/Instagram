@@ -5,13 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
-    
+             d:DesignWidth="300"
+             d:DesignHeight="300">
+
     <StackPanel Margin="20">
 
         <!-- User's image -->
-        <Ellipse Height="100" VerticalAlignment="Top" Width="100" Margin="15"
-                 Stroke="White" StrokeThickness="1">
+        <Ellipse VerticalAlignment="Top"
+                 Margin="15"
+                 Width="100"
+                 Height="100"
+                 Stroke="{StaticResource BackgroundWhiteBrush}"
+                 StrokeThickness="1">
             <Ellipse.Fill>
                 <ImageBrush x:Name="Image"
                             ImageSource="{Binding Image, TargetNullValue={StaticResource DefaultImage}}"
@@ -22,10 +27,15 @@
         <!-- User's display name -->
         <materialDesign:Chip Content="{Binding DisplayName}"
                              IconBackground="{DynamicResource PrimaryHueDarkBrush}"
-                             IsEnabled="False" FontWeight="Bold" BorderBrush="White"
-                             Foreground="#FF2A6088" FontSize="20" Margin="20 0"
-                             Background="White" FontFamily="Corbel"
-                             IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                             IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                             IsEnabled="False"
+                             Margin="20 0"
+                             BorderBrush="{StaticResource BackgroundWhiteBrush}"
+                             Background="{StaticResource BackgroundWhiteBrush}"
+                             Foreground="{StaticResource ForegroundDarkBlueBrush}"
+                             FontFamily="{StaticResource SegoeUIEmoji}"
+                             FontSize="{StaticResource FontSizeLarge}"
+                             FontWeight="Bold">
             <materialDesign:Chip.Icon>
                 <materialDesign:PackIcon Kind="Instagram" />
             </materialDesign:Chip.Icon>

@@ -9,10 +9,11 @@ using DesktopUI.EventModels;
 using DesktopUI.Library.Api.User;
 using DesktopUI.Library.Models;
 using DesktopUI.Validators;
+using DesktopUI.ViewModels.Base;
 
 namespace DesktopUI.ViewModels.Auth
 {
-    public class RegisterViewModel : Screen
+    public class RegisterViewModel : BaseViewModel
     {
         private readonly IUserEndpoint _userEndpoint;
         private readonly IEventAggregator _events;
@@ -31,6 +32,7 @@ namespace DesktopUI.ViewModels.Auth
         public bool IsErrorVisible => ErrorMessage?.Length > 0;
 
         private string _errorMessage;
+
         public string ErrorMessage
         {
             get => _errorMessage;
@@ -42,7 +44,20 @@ namespace DesktopUI.ViewModels.Auth
             }
         }
 
+        private bool _registerIsRunning;
+
+        public bool RegisterIsRunning
+        {
+            get => _registerIsRunning;
+            set
+            {
+                _registerIsRunning = value;
+                NotifyOfPropertyChange(() => RegisterIsRunning);
+            }
+        }
+
         private RegisterUserFormValues _user;
+
         public RegisterUserFormValues User
         {
             get => _user;
@@ -55,27 +70,30 @@ namespace DesktopUI.ViewModels.Auth
 
         public async Task RegisterAsync(object parameter)
         {
-            if (parameter is RegisterUserFormValues user &&
-                (user.Password.IsValidPassword(ref _errorMessage) &&
-                 user.Email.IsValidEmail(ref _errorMessage)))
+            await RunCommand(() => RegisterIsRunning, async () =>
             {
-                try
+                if (parameter is RegisterUserFormValues user &&
+                    (user.Password.IsValidPassword(ref _errorMessage) &&
+                     user.Email.IsValidEmail(ref _errorMessage)))
                 {
-                    await _userEndpoint.RegisterAsync(user);
+                    try
+                    {
+                        await _userEndpoint.RegisterAsync(user);
 
-                    MessageBox.Show("You have been successfully registered.", "Congratulations!",
-                        MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("You have been successfully registered.", "Congratulations!",
+                            MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    await _events.PublishOnUIThreadAsync(Navigation.Login, new CancellationToken());
+                        await _events.PublishOnUIThreadAsync(Navigation.Login, new CancellationToken());
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorMessage = ex.Message;
+                    }
                 }
-                catch (Exception ex)
-                {
-                    ErrorMessage = ex.Message;
-                }
-            }
 
-            NotifyOfPropertyChange(() => ErrorMessage);
-            NotifyOfPropertyChange(() => IsErrorVisible);
+                NotifyOfPropertyChange(() => ErrorMessage);
+                NotifyOfPropertyChange(() => IsErrorVisible);
+            });
         }
 
         public async Task GoToLoginAsync()

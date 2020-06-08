@@ -6,9 +6,10 @@
              mc:Ignorable="d"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:photos="clr-namespace:DesktopUI.Views.Photos"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignWidth="800"
+             d:DesignHeight="450">
 
-    <Grid Background="#FF44325F">
+    <Grid Background="{StaticResource BackgroundMainBrush}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -16,18 +17,33 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <StackPanel Visibility="{Binding IsLogIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
-                Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel
+                Visibility="{Binding IsLogIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
+                Orientation="Horizontal"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
 
                 <!-- Set main photo button -->
-                <Button x:Name="SetMainPhotoAsync" IsEnabled="{Binding IsPhotoSelected}" Width="150" Margin="20"
-                        ToolTip="Set as the main photo" BorderThickness="0" Foreground="White" Background="Green">
+                <Button x:Name="SetMainPhotoAsync"
+                        IsEnabled="{Binding IsPhotoSelected}"
+                        ToolTip="Set as the main photo"
+                        BorderThickness="0"
+                        Margin="20"
+                        Width="150"
+                        Background="{StaticResource BackgroundGreenBrush}"
+                        Foreground="{StaticResource BackgroundWhiteBrush}">
                     <materialDesign:PackIcon Kind="AccountCircleOutline" />
                 </Button>
 
                 <!-- Delete photo button -->
-                <Button x:Name="DeletePhotoAsync" IsEnabled="{Binding IsPhotoSelected}" Width="150" Margin="20"
-                        ToolTip="Delete photo" BorderThickness="0" Foreground="White" Background="Black">
+                <Button x:Name="DeletePhotoAsync"
+                        IsEnabled="{Binding IsPhotoSelected}"
+                        ToolTip="Delete photo"
+                        BorderThickness="0"
+                        Margin="20"
+                        Width="150"
+                        Background="{StaticResource BackgroundBlackBrush}"
+                        Foreground="{StaticResource BackgroundWhiteBrush}">
                     <materialDesign:PackIcon Kind="DeleteForever" />
                 </Button>
 
@@ -35,13 +51,17 @@
         </Grid>
 
         <!-- Photos -->
-        <ScrollViewer ScrollChanged="ScrollViewer_ScrollChanged" VerticalScrollBarVisibility="Auto" Grid.Row="1">
+        <ScrollViewer Grid.Row="1"
+                      ScrollChanged="ScrollViewer_ScrollChanged"
+                      VerticalScrollBarVisibility="Auto">
             <StackPanel>
 
-                <ListView x:Name="UserPhotos" SelectedItem="{Binding SelectedPhoto}"
+                <ListView x:Name="UserPhotos"
+                          SelectedItem="{Binding SelectedPhoto}"
                           ScrollViewer.VerticalScrollBarVisibility="Auto"
-                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="20 0 0 0">
-                    
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          Margin="20 0 0 0">
+
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <!-- PhotosListItemView -->
@@ -54,12 +74,15 @@
                             <WrapPanel />
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
-                    
+
                 </ListView>
 
                 <!-- Loading indicator -->
-                <ProgressBar Visibility="{Binding LoadingNext, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
-                    Style="{StaticResource MaterialDesignCircularProgressBar}" Value="35" IsIndeterminate="True" />
+                <ProgressBar
+                    Visibility="{Binding LoadingNext, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
+                    Style="{StaticResource MaterialDesignCircularProgressBar}"
+                    Value="60"
+                    IsIndeterminate="True" />
 
             </StackPanel>
         </ScrollViewer>

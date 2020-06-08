@@ -6,7 +6,8 @@
              mc:Ignorable="d"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:cal="http://www.caliburnproject.org"
-             d:DesignHeight="600" d:DesignWidth="1080">
+             d:DesignWidth="1080"
+             d:DesignHeight="600">
 
     <UserControl.Resources>
 
@@ -42,7 +43,7 @@
 
     </UserControl.Triggers>
 
-    <Grid Background="#FF44325F">
+    <Grid Background="{StaticResource BackgroundMainBrush}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="100" />
@@ -56,30 +57,54 @@
         </Grid.ColumnDefinitions>
 
         <!-- NavBar -->
-        <Grid Grid.Row="0" Background="White" Grid.ColumnSpan="2">
-            <Image Source="../../Assets/insta.jpg" HorizontalAlignment="Left" Margin="10 0" />
+        <Grid Grid.Row="0" Grid.ColumnSpan="2" Background="White">
+            <Image Source="../../Assets/insta.jpg"
+                   HorizontalAlignment="Left"
+                   Margin="10 0" />
 
             <!-- Back to main page button -->
-            <Button x:Name="BackToMainPageAsync" Height="30" Width="30" HorizontalAlignment="Left" Margin="170 0 0 5"
-                    Style="{DynamicResource MaterialDesignToolForegroundButton}" Panel.ZIndex="0">
-                <materialDesign:PackIcon Kind="HandPointingLeft" Foreground="#FF44325F" />
+            <Button x:Name="BackToMainPageAsync"
+                    Panel.ZIndex="0"
+                    Style="{DynamicResource MaterialDesignToolForegroundButton}"
+                    HorizontalAlignment="Left"
+                    Margin="170 0 0 5"
+                    Width="30"
+                    Height="30">
+                <materialDesign:PackIcon Kind="HandPointingLeft" Foreground="{StaticResource BackgroundMainBrush}" />
             </Button>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 5 0 0">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Margin="0 5 0 0">
                 <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="FOLLOWERS" Margin="10 0" FontSize="16" FontWeight="Bold" Foreground="#FF2A6088" />
+                    <TextBlock Text="FOLLOWERS"
+                               Margin="10 0"
+                               Foreground="{StaticResource ForegroundDarkBlueBrush}"
+                               FontSize="{StaticResource FontSizeSmall}"
+                               FontWeight="Bold" />
 
                     <!-- Followers -->
-                    <TextBlock x:Name="Profile_FollowersCount" HorizontalAlignment="Center" Margin="5 0 5 5"
-                               FontSize="16" Foreground="#FF2A6088" />
+                    <TextBlock x:Name="Profile_FollowersCount"
+                               HorizontalAlignment="Center"
+                               Margin="5 0 5 5"
+                               Foreground="{StaticResource ForegroundDarkBlueBrush}"
+                               FontSize="{StaticResource FontSizeRegular}" />
                 </StackPanel>
 
                 <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="FOLLOWING" Margin="10 0" FontSize="16" FontWeight="Bold" Foreground="#FF2A6088" />
+                    <TextBlock Text="FOLLOWING"
+                               Margin="10 0"
+                               Foreground="{StaticResource ForegroundDarkBlueBrush}"
+                               FontSize="{StaticResource FontSizeSmall}"
+                               FontWeight="Bold" />
 
                     <!-- Following -->
-                    <TextBlock x:Name="Profile_FollowingCount" HorizontalAlignment="Center" Margin="5 0 5 5"
-                               FontSize="16" Foreground="#FF2A6088" />
+                    <TextBlock x:Name="Profile_FollowingCount"
+                               HorizontalAlignment="Center"
+                               Margin="5 0 5 5"
+                               Foreground="{StaticResource ForegroundDarkBlueBrush}"
+                               FontSize="{StaticResource FontSizeRegular}" />
 
                 </StackPanel>
             </StackPanel>
@@ -87,18 +112,33 @@
 
         <!-- Avatar -->
         <Grid Grid.Row="1" Grid.Column="1" Grid.RowSpan="2">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="40 -75">
-                <StackPanel Orientation="Vertical" Margin="10" VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Margin="40 -75">
+                <StackPanel Orientation="Vertical"
+                            VerticalAlignment="Top"
+                            Margin="10">
 
                     <!-- User's display name -->
-                    <TextBlock IsEnabled="True" x:Name="Profile_DisplayName" HorizontalAlignment="Center"
-                               FontFamily="Nirmala UI" Text="Name" FontSize="30" Margin="20" VerticalAlignment="Center"
-                               Foreground="#FF2A6088" />
+                    <TextBlock IsEnabled="True"
+                               x:Name="Profile_DisplayName"
+                               Text="Name"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Margin="20"
+                               Foreground="{StaticResource ForegroundDarkBlueBrush}"
+                               FontFamily="{StaticResource NirmalaUI}"
+                               FontSize="{StaticResource FontSizeXXLarge}" />
 
                     <!-- Follow user button-->
-                    <Button x:Name="FollowAsync" Width="120" Background="White" Foreground="#FF2A6088"
-                            BorderThickness="2" HorizontalAlignment="Center"
-                            Visibility="{Binding IsCurrentUser, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                    <Button x:Name="FollowAsync"
+                            Visibility="{Binding IsCurrentUser, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
+                            HorizontalAlignment="Center"
+                            Width="120"
+                            BorderThickness="2"
+                            Background="{StaticResource BackgroundWhiteBrush}"
+                            Foreground="{StaticResource ForegroundDarkBlueBrush}">
                         <Button.Style>
                             <Style BasedOn="{StaticResource MaterialDesignRaisedButton}" TargetType="Button">
                                 <Setter Property="Content" Value="FOLLOW" />
@@ -116,10 +156,14 @@
                 </StackPanel>
 
                 <StackPanel HorizontalAlignment="Right" Height="200">
-                    <Ellipse Height="150" Width="150" Stroke="White" StrokeThickness="3">
+                    <Ellipse Width="150"
+                             Height="150"
+                             Stroke="{StaticResource BackgroundWhiteBrush}"
+                             StrokeThickness="3">
                         <Ellipse.Fill>
                             <!-- User's image -->
-                            <ImageBrush ImageSource="{Binding Profile.Image, TargetNullValue={StaticResource DefaultImage}}"
+                            <ImageBrush
+                                ImageSource="{Binding Profile.Image, TargetNullValue={StaticResource DefaultImage}}"
                                 Stretch="UniformToFill" />
                         </Ellipse.Fill>
                     </Ellipse>
@@ -132,18 +176,22 @@
         <ContentControl x:Name="ActiveItem" Grid.Row="2" Grid.Column="1" />
 
         <!-- Empty grid -->
-        <Grid Grid.Row="1" Grid.Column="0" Background="White" />
+        <Grid Grid.Row="1" Grid.Column="0" Background="{StaticResource BackgroundWhiteBrush}" />
 
         <!-- Menu grid -->
-        <Grid x:Name="GridMenu" Grid.Row="2" Grid.Column="0" Width="70" HorizontalAlignment="Left"
-              Background="#FF44325F">
+        <Grid x:Name="GridMenu"
+              Grid.Row="2"
+              Grid.Column="0"
+              HorizontalAlignment="Left"
+              Width="70"
+              Background="{StaticResource BackgroundMainBrush}">
 
             <Grid.Effect>
-                <DropShadowEffect BlurRadius="2" ShadowDepth="1" Color="#FFAEAEAE" />
+                <DropShadowEffect BlurRadius="2" ShadowDepth="1" Color="{StaticResource ForegroundLightGray}" />
             </Grid.Effect>
 
             <StackPanel>
-                <Grid Height="70" Background="White" RenderTransformOrigin="0.5,0.5">
+                <Grid RenderTransformOrigin="0.5 0.5" Height="70" Background="{StaticResource BackgroundWhiteBrush}">
 
                     <Grid.RenderTransform>
                         <TransformGroup>
@@ -155,17 +203,32 @@
                     </Grid.RenderTransform>
 
                     <!-- PopUp menu buttons -->
-                    <Button x:Name="ButtonOpenMenu" Height="60" Width="60" Margin="5" HorizontalAlignment="Right"
+                    <Button x:Name="ButtonOpenMenu"
+                            Click="ButtonOpenMenu_Click"
+                            Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                            HorizontalAlignment="Right"
                             VerticalAlignment="Top"
-                            Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}"
-                            BorderBrush="{x:Null}" Foreground="#FF31577E" Click="ButtonOpenMenu_Click">
+                            Margin="5"
+                            BorderBrush="{x:Null}"
+                            Width="60"
+                            Height="60"
+                            Background="{x:Null}"
+                            Foreground="{StaticResource ForegroundDarkBlueBrush}">
                         <materialDesign:PackIcon Kind="Menu" Width="25" Height="25" />
                     </Button>
 
-                    <Button x:Name="ButtonCloseMenu" Visibility="Collapsed" Height="60" Width="60" Margin="5"
-                            HorizontalAlignment="Right" VerticalAlignment="Top"
-                            Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}"
-                            BorderBrush="{x:Null}" Foreground="#FF31577E" Click="ButtonCloseMenu_Click">
+                    <Button x:Name="ButtonCloseMenu"
+                            Click="ButtonCloseMenu_Click"
+                            Visibility="Collapsed"
+                            Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Margin="5"
+                            BorderBrush="{x:Null}"
+                            Width="60"
+                            Height="60"
+                            Background="{x:Null}"
+                            Foreground="{StaticResource ForegroundDarkBlueBrush}">
                         <materialDesign:PackIcon Kind="ArrowLeft" Width="25" Height="25" />
                     </Button>
 
@@ -174,13 +237,24 @@
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
 
                     <!-- EditProfileView -->
-                    <StackPanel Height="60" HorizontalAlignment="Left">
-                        <Button x:Name="EditProfileAsync" BorderBrush="#FF44325F" Height="60" Width="250"
-                                Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0">
+                    <StackPanel HorizontalAlignment="Left" Height="60">
+                        <Button x:Name="EditProfileAsync"
+                                BorderThickness="0"
+                                Width="250"
+                                Height="60"
+                                Background="{StaticResource BackgroundMainBrush}"
+                                Foreground="{StaticResource ForegroundLightBlueBrush}">
                             <StackPanel Orientation="Horizontal" Width="220">
-                                <materialDesign:PackIcon Kind="InformationVariant" Margin="5 0" Height="25" Width="25"
-                                                         VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                <TextBlock Margin="20 0" Text="Information" FontSize="20" FontFamily="Consolas" />
+                                <materialDesign:PackIcon Kind="InformationVariant"
+                                                         HorizontalAlignment="Left"
+                                                         VerticalAlignment="Center"
+                                                         Margin="5 0"
+                                                         Width="25"
+                                                         Height="25" />
+                                <TextBlock Text="Information"
+                                           Margin="20 0"
+                                           FontFamily="{StaticResource NirmalaUI}"
+                                           FontSize="{StaticResource FontSizeLarge}" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
@@ -188,54 +262,94 @@
                     <!-- AddPhotoView -->
                     <StackPanel
                         Visibility="{Binding IsLogIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
-                        Height="60" HorizontalAlignment="Left">
-                        <Button x:Name="UploadPhoto" BorderBrush="#FF44325F" Height="60" Width="250"
-                                Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0">
+                        HorizontalAlignment="Left"
+                        Height="60">
+                        <Button x:Name="UploadPhoto"
+                                BorderThickness="0"
+                                Width="250"
+                                Height="60"
+                                Background="{StaticResource BackgroundMainBrush}"
+                                Foreground="{StaticResource ForegroundLightBlueBrush}">
                             <StackPanel Orientation="Horizontal" Width="220">
-                                <materialDesign:PackIcon Kind="FileUploadOutline" Margin="5 0" Height="25" Width="25"
-                                                         VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                <TextBlock Margin="20 0" Text="Upload Photo" FontSize="20" FontFamily="Consolas" />
+                                <materialDesign:PackIcon Kind="FileUploadOutline"
+                                                         HorizontalAlignment="Left"
+                                                         VerticalAlignment="Center"
+                                                         Margin="5 0"
+                                                         Width="25"
+                                                         Height="25" />
+                                <TextBlock Text="Upload Photo"
+                                           Margin="20 0"
+                                           FontFamily="{StaticResource NirmalaUI}"
+                                           FontSize="{StaticResource FontSizeLarge}" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
 
                     <!-- PhotosListView -->
-                    <StackPanel Orientation="Horizontal" Height="60">
-                        <Button x:Name="PhotosListAsync" BorderBrush="#FF44325F" Height="60" Width="250"
-                                Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0">
+                    <StackPanel HorizontalAlignment="Left" Height="60">
+                        <Button x:Name="PhotosListAsync"
+                                BorderThickness="0"
+                                Width="250"
+                                Height="60"
+                                Background="{StaticResource BackgroundMainBrush}"
+                                Foreground="{StaticResource ForegroundLightBlueBrush}">
                             <StackPanel Orientation="Horizontal" Width="220">
-                                <materialDesign:PackIcon Kind="PhotoAlbum" Margin="5 0" Height="25" Width="25"
-                                                         VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                <TextBlock Margin="20 0" Text="Photos" FontSize="20" VerticalAlignment="Center"
-                                           FontFamily="Consolas" />
+                                <materialDesign:PackIcon Kind="PhotoAlbum"
+                                                         HorizontalAlignment="Left"
+                                                         VerticalAlignment="Center"
+                                                         Margin="5 0"
+                                                         Width="25"
+                                                         Height="25" />
+                                <TextBlock Text="Photos"
+                                           Margin="20 0"
+                                           FontFamily="{StaticResource NirmalaUI}"
+                                           FontSize="{StaticResource FontSizeLarge}" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
 
                     <!-- FollowersListView -->
-                    <StackPanel Orientation="Horizontal" Height="60">
+                    <StackPanel HorizontalAlignment="Left" Height="60">
                         <Button cal:Message.Attach="[Event Click] = [Action LoadFollowersAsync('followers')]"
-                                BorderBrush="#FF44325F" Height="60" Width="250"
-                                Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0">
+                                BorderThickness="0"
+                                Width="250"
+                                Height="60"
+                                Background="{StaticResource BackgroundMainBrush}"
+                                Foreground="{StaticResource ForegroundLightBlueBrush}">
                             <StackPanel Orientation="Horizontal" Width="220">
-                                <materialDesign:PackIcon Kind="AccountArrowLeft" Margin="5 0" Height="25" Width="25"
-                                                         VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                <TextBlock Margin="20 0" Text="Followers" FontSize="20" VerticalAlignment="Center"
-                                           FontFamily="Consolas" />
+                                <materialDesign:PackIcon Kind="AccountArrowLeft"
+                                                         HorizontalAlignment="Left"
+                                                         VerticalAlignment="Center"
+                                                         Margin="5 0"
+                                                         Width="25"
+                                                         Height="25" />
+                                <TextBlock Text="Followers"
+                                           Margin="20 0"
+                                           FontFamily="{StaticResource NirmalaUI}"
+                                           FontSize="{StaticResource FontSizeLarge}" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
 
                     <!-- FollowersListView -->
-                    <StackPanel Orientation="Horizontal" Height="60">
+                    <StackPanel HorizontalAlignment="Left" Height="60">
                         <Button cal:Message.Attach="[Event Click] = [Action LoadFollowersAsync('following')]"
-                                BorderBrush="#FF44325F" Height="60" Width="250"
-                                Background="#FF44325F" Foreground="#FF5C99D6" BorderThickness="0">
+                                BorderThickness="0"
+                                Width="250"
+                                Height="60"
+                                Background="{StaticResource BackgroundMainBrush}"
+                                Foreground="{StaticResource ForegroundLightBlueBrush}">
                             <StackPanel Orientation="Horizontal" Width="220">
-                                <materialDesign:PackIcon Kind="AccountArrowRight" Margin="5 0" Height="25" Width="25"
-                                                         VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                <TextBlock Margin="20 0" Text="Following" FontSize="20" VerticalAlignment="Center"
-                                           FontFamily="Consolas" />
+                                <materialDesign:PackIcon Kind="AccountArrowRight"
+                                                         HorizontalAlignment="Left"
+                                                         VerticalAlignment="Center"
+                                                         Margin="5 0"
+                                                         Width="25"
+                                                         Height="25" />
+                                <TextBlock Text="Following"
+                                           Margin="20 0"
+                                           FontFamily="{StaticResource NirmalaUI}"
+                                           FontSize="{StaticResource FontSizeLarge}" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
