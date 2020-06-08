@@ -7,10 +7,11 @@ using DesktopUI.Commands;
 using DesktopUI.EventModels;
 using DesktopUI.Library.Api.User;
 using DesktopUI.Library.Models;
+using DesktopUI.ViewModels.Base;
 
 namespace DesktopUI.ViewModels.Auth
 {
-    public class LoginViewModel : Screen
+    public class LoginViewModel : BaseViewModel
     {
         private readonly IUserEndpoint _userEndpoint;
         private readonly IEventAggregator _events;
@@ -29,6 +30,7 @@ namespace DesktopUI.ViewModels.Auth
         public bool IsErrorVisible => ErrorMessage?.Length > 0;
 
         private string _errorMessage;
+
         public string ErrorMessage
         {
             get => _errorMessage;
@@ -40,7 +42,20 @@ namespace DesktopUI.ViewModels.Auth
             }
         }
 
+        private bool _loginIsRunning;
+
+        public bool LoginIsRunning
+        {
+            get => _loginIsRunning;
+            set
+            {
+                _loginIsRunning = value;
+                NotifyOfPropertyChange(() => LoginIsRunning);
+            }
+        }
+
         private LoginUserFormValues _user;
+
         public LoginUserFormValues User
         {
             get => _user;
@@ -53,20 +68,23 @@ namespace DesktopUI.ViewModels.Auth
 
         public async Task LoginAsync(object parameter)
         {
-            try
+            await RunCommand(() => LoginIsRunning, async () =>
             {
-                ErrorMessage = "";
+                try
+                {
+                    ErrorMessage = "";
 
-                var authUser = await _userEndpoint.LoginAsync(parameter as LoginUserFormValues);
+                    var authUser = await _userEndpoint.LoginAsync(parameter as LoginUserFormValues);
 
-                await _userEndpoint.CurrentUserAsync(authUser.Token);
+                    await _userEndpoint.CurrentUserAsync(authUser.Token);
 
-                await _events.PublishOnUIThreadAsync(Navigation.Main, new CancellationToken());
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = ex.Message;
-            }
+                    await _events.PublishOnUIThreadAsync(Navigation.Main, new CancellationToken());
+                }
+                catch (Exception ex)
+                {
+                    ErrorMessage = ex.Message;
+                }
+            });
         }
 
         public async Task GoToRegisterAsync()

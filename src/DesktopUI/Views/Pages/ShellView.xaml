@@ -4,12 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Icon="../../Assets/insta_window.png"
         Title="Instagram"
-        Height="600" Width="1080"
-        WindowStartupLocation="CenterScreen">
+        Icon="../../Assets/insta_window.png"
+        WindowStartupLocation="CenterScreen"
+        Width="1080"
+        Height="600">
 
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="../../Assets/background.jpg" />
+        </Grid.Background>
 
         <ContentControl x:Name="ActiveItem" />
 

@@ -8,7 +8,7 @@
              xmlns:cal="http://www.caliburnproject.org"
              d:DesignHeight="600" d:DesignWidth="1080">
 
-    <Grid Background="#FF44325F">
+    <Grid Background="{StaticResource BackgroundMainBrush}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="100" />
@@ -93,7 +93,7 @@
 
                         <!-- Search textBox -->
                         <TextBox x:Name="Search" Grid.Column="1" FontSize="15" Margin="8 0 0 0"
-                                 materialDesign:HintAssist.Hint="Search"
+                                 materialDesign:HintAssist.Hint="Search friends"
                                  materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
                                  BorderThickness="0" MinWidth="200" VerticalAlignment="Center" />
 

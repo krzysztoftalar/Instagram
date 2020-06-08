@@ -4,15 +4,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:valueConverters="clr-namespace:DesktopUI.ValueConverters"
              mc:Ignorable="d"
-             d:DesignHeight="550" d:DesignWidth="800" FontSize="18" FontFamily="Segoe UI Emoji">
+             d:DesignWidth="800"
+             d:DesignHeight="550"
+             FontFamily="{StaticResource SegoeUIEmoji}">
 
-    <Grid Background="#FFDADADA">
-        <Grid Width="350" Height="500" Background="White">
+    <UserControl.Resources>
+        <valueConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
 
-            <Rectangle Height="280" VerticalAlignment="Top">
+    <Grid>
+        <Grid Width="350"
+              Height="500"
+              Background="{StaticResource BackgroundWhiteBrush}">
+
+            <Rectangle VerticalAlignment="Top"
+                       Height="280">
                 <Rectangle.Fill>
-                    <LinearGradientBrush EndPoint="0.5 1" StartPoint="0.5 0">
+                    <LinearGradientBrush StartPoint="0.5 0" EndPoint="0.5 1">
                         <GradientStop Color="#FF2281D1" />
                         <GradientStop Color="#FF34268A" Offset="1" />
                         <GradientStop Color="#FF33288B" Offset="0.546" />
@@ -20,60 +30,103 @@
                 </Rectangle.Fill>
             </Rectangle>
 
-            <Rectangle Width="300" Height="300" VerticalAlignment="Bottom" Margin="0,80" RadiusY="10" RadiusX="10"
-                       Fill="White">
+            <Rectangle VerticalAlignment="Bottom"
+                       RadiusX="10"
+                       RadiusY="10"
+                       Width="300"
+                       Height="300"
+                       Margin="0 80"
+                       Fill="{StaticResource BackgroundWhiteBrush}">
                 <Rectangle.Effect>
-                    <DropShadowEffect BlurRadius="15" Direction="0" RenderingBias="Quality" ShadowDepth="1"
-                                      Color="#FFBBBBBB" />
+                    <DropShadowEffect BlurRadius="15"
+                                      Direction="0"
+                                      RenderingBias="Quality"
+                                      ShadowDepth="1"
+                                      Color="{StaticResource ForegroundLightGray}" />
                 </Rectangle.Effect>
             </Rectangle>
 
-            <Grid VerticalAlignment="Bottom" Margin="35 80" Height="280">
-                <Label Content="REGISTER" Margin="-10" HorizontalAlignment="Center" VerticalAlignment="Top"
-                       Foreground="Gray" FontSize="18" />
+            <Grid VerticalAlignment="Bottom"
+                  Height="280"
+                  Margin="35 80">
+                <Label Content="REGISTER"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top"
+                       Margin="-10"
+                       Foreground="{StaticResource ForegroundGrayBrush}"
+                       FontSize="{StaticResource FontSizeRegular}" />
 
-                <StackPanel VerticalAlignment="Center" Margin="15">
+                <StackPanel VerticalAlignment="Center"
+                            Margin="15">
 
                     <!-- Error message -->
-                    <TextBlock x:Name="ErrorMessage" Foreground="Red" FontSize="13" TextWrapping="Wrap" Margin="0 5" />
+                    <TextBlock x:Name="ErrorMessage"
+                               Visibility="{Binding IsErrorVisible, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}"
+                               TextWrapping="Wrap"
+                               Margin="0 5"
+                               Foreground="{StaticResource ForegroundErrorBrush}"
+                               FontSize="{StaticResource FontSizeSmall}" />
 
                     <!-- Username -->
-                    <TextBox Margin="0 5" x:Name="User_Username" materialDesign:HintAssist.Hint="Username"
-                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             FontFamily="Champagne &amp; Limousines" FontSize="18" />
+                    <TextBox x:Name="User_Username"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBoxOverride}"
+                             materialDesign:HintAssist.Hint="Username"
+                             Margin="0 5" />
 
                     <!-- Display name -->
-                    <TextBox Margin="0 5" x:Name="User_DisplayName" materialDesign:HintAssist.Hint="Display Name"
-                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             FontFamily="Champagne &amp; Limousines" FontSize="18" />
+                    <TextBox x:Name="User_DisplayName"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBoxOverride}"
+                             materialDesign:HintAssist.Hint="Display Name"
+                             Margin="0 5" />
 
                     <!-- Email -->
-                    <TextBox x:Name="User_Email" Margin="0 5" materialDesign:HintAssist.Hint="Email"
-                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             FontFamily="Champagne &amp; Limousines" FontSize="18" />
+                    <TextBox x:Name="User_Email"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBoxOverride}"
+                             materialDesign:HintAssist.Hint="Email"
+                             Margin="0 5" />
 
                     <!-- Password -->
-                    <PasswordBox x:Name="User_Password" Margin="0 5" materialDesign:HintAssist.Hint="Password"
-                                 Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
-                                 FontFamily="Champagne &amp; Limousines" FontSize="18" />
+                    <PasswordBox x:Name="User_Password"
+                                 Style="{StaticResource MaterialDesignFloatingHintPasswordBoxOverride}"
+                                 materialDesign:HintAssist.Hint="Password"
+                                 Margin="0 5" />
 
                 </StackPanel>
 
             </Grid>
 
             <!-- Register button -->
-            <Button Command="{Binding RegisterCommand}" CommandParameter="{Binding User}"
-                    Width="150" HorizontalAlignment="Center" VerticalAlignment="Bottom"
-                    Margin="0 65" Content="REGISTER" />
+            <Button Content="REGISTER"
+                    Command="{Binding RegisterCommand}"
+                    CommandParameter="{Binding User}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Width="150"
+                    Margin="0 65"
+                    FontSize="{StaticResource FontSizeRegular}" />
 
             <!-- Login button -->
-            <Button x:Name="GoToLoginAsync" FontSize="12" Width="250" HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom" Margin="10" Foreground="Gray" Background="White"
-                    Content="Already using Instagram? Log in here." />
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        Margin="0 0 0 10">
+                <Label Content="Already using Instagram?"
+                       VerticalContentAlignment="Center"
+                       FontSize="{StaticResource FontSizeSmall}" />
 
-            <Image Stretch="Uniform" Source="../../Assets/home.png" Width="100" Height="100" VerticalAlignment="Top"
+                <Button x:Name="GoToLoginAsync"
+                        Content="Log in here."
+                        Style="{StaticResource MaterialDesignToolButtonOverride}"
+                        Margin="-3 0" />
+            </StackPanel>
+
+            <Image Source="../../Assets/home.png"
+                   VerticalAlignment="Top"
+                   Stretch="Uniform"
+                   Width="100"
+                   Height="100"
                    Margin="10" />
-            
+
         </Grid>
     </Grid>
 </UserControl>

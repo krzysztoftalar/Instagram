@@ -75,6 +75,7 @@ namespace DesktopUI.ViewModels.Auth
             }
 
             NotifyOfPropertyChange(() => ErrorMessage);
+            NotifyOfPropertyChange(() => IsErrorVisible);
         }
 
         public async Task GoToLoginAsync()
