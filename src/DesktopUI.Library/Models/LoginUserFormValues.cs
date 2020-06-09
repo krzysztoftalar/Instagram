@@ -2,7 +2,7 @@
 {
     public class LoginUserFormValues
     {
-        public string Email { get; set; } = "bob@test.com";
-        public string Password { get; set; } = "Pa$$w0rd";
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }
