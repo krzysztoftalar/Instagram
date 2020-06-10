@@ -6,7 +6,8 @@
              mc:Ignorable="d"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:cal="http://www.caliburnproject.org"
-             d:DesignHeight="600" d:DesignWidth="1080">
+             d:DesignWidth="1080"
+             d:DesignHeight="600">
 
     <Grid Background="{StaticResource BackgroundMainBrush}">
 

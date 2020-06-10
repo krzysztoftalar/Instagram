@@ -1,29 +1,35 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
+using DesktopUI.Commands;
 using DesktopUI.EventModels;
 using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Models;
 using DesktopUI.Library.Models.DbModels;
 using DesktopUI.Models;
+using DesktopUI.ViewModels.Base;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using AutoMapper;
 
 namespace DesktopUI.ViewModels.Profiles
 {
-    public class EditProfileViewModel : Screen
+    public class EditProfileViewModel : BaseViewModel
     {
         private readonly IEventAggregator _events;
         private readonly IProfileEndpoint _profileEndpoint;
         private readonly IProfile _iProfile;
         private readonly IAuthenticatedUser _user;
+        private readonly IMapper _mapper;
 
         public EditProfileViewModel(IEventAggregator events, IProfileEndpoint profileEndpoint, IProfile iProfile,
-            IAuthenticatedUser user)
+            IAuthenticatedUser user, IMapper mapper)
         {
             _events = events;
             _profileEndpoint = profileEndpoint;
             _iProfile = iProfile;
             _user = user;
+            _mapper = mapper;
 
             _events.SubscribeOnPublishedThread(this);
         }
@@ -34,6 +40,13 @@ namespace DesktopUI.ViewModels.Profiles
 
             IsEditMode = true;
         }
+
+        private ICommand _submitCommand;
+
+        public ICommand SubmitCommand =>
+            _submitCommand ??= new RelayParameterizedCommand<ProfileDisplayModel>(
+                async (profile) => await SubmitAsync(profile),
+                profile => !string.IsNullOrWhiteSpace(profile?.DisplayName));
 
         private ProfileDisplayModel _profile;
 
@@ -92,23 +105,9 @@ namespace DesktopUI.ViewModels.Profiles
             IsEditMode = !IsEditMode;
         }
 
-
-        public async Task SubmitAsync()
+        public async Task SubmitAsync(ProfileDisplayModel profile)
         {
-            var profile = new ProfileFormValues
-            {
-                DisplayName = Profile.DisplayName,
-                Bio = Profile.Bio
-            };
-
-            if (string.IsNullOrEmpty(Profile.DisplayName))
-            {
-                MessageBox.Show("Display name can not be empty", "Information",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
-            }
-
-            if (await _profileEndpoint.EditProfileAsync(profile))
+            if (await _profileEndpoint.EditProfileAsync(_mapper.Map<ProfileFormValues>(profile)))
             {
                 MessageBox.Show("Profile edited successfully", "Congratulations!",
                     MessageBoxButton.OK, MessageBoxImage.Information);

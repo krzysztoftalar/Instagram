@@ -69,7 +69,8 @@
                     Orientation="Horizontal">
 
                     <!-- Submit button -->
-                    <Button x:Name="SubmitAsync"
+                    <Button Command="{Binding SubmitCommand}"
+                            CommandParameter="{Binding Profile}"
                             Content="Submit"
                             HorizontalAlignment="Left"
                             Margin="20 40"

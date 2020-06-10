@@ -1,13 +1,13 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using DesktopUI.Commands;
 using DesktopUI.EventModels;
 using DesktopUI.Library.Api.User;
 using DesktopUI.Library.Models;
 using DesktopUI.ViewModels.Base;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace DesktopUI.ViewModels.Auth
 {
@@ -15,7 +15,6 @@ namespace DesktopUI.ViewModels.Auth
     {
         private readonly IUserEndpoint _userEndpoint;
         private readonly IEventAggregator _events;
-        public ICommand LoginCommand { get; set; }
 
         public LoginViewModel(IUserEndpoint userEndpoint, IEventAggregator events)
         {
@@ -23,9 +22,12 @@ namespace DesktopUI.ViewModels.Auth
             _events = events;
 
             User = new LoginUserFormValues();
-
-            LoginCommand = new LoginCommand(async (parameter) => await LoginAsync(parameter));
         }
+
+        private ICommand _loginCommand;
+
+        public ICommand LoginCommand => _loginCommand ??= new RelayParameterizedCommand<LoginUserFormValues>(
+          async user => await LoginAsync(user), CanLoginAsync);
 
         public bool IsErrorVisible => ErrorMessage?.Length > 0;
 
@@ -66,7 +68,10 @@ namespace DesktopUI.ViewModels.Auth
             }
         }
 
-        public async Task LoginAsync(object parameter)
+        public bool CanLoginAsync(LoginUserFormValues user) =>
+            !string.IsNullOrWhiteSpace(user?.Email) && !string.IsNullOrWhiteSpace(user?.Password);
+
+        public async Task LoginAsync(LoginUserFormValues user)
         {
             await RunCommand(() => LoginIsRunning, async () =>
             {
@@ -74,11 +79,12 @@ namespace DesktopUI.ViewModels.Auth
                 {
                     ErrorMessage = "";
 
-                    var authUser = await _userEndpoint.LoginAsync(parameter as LoginUserFormValues);
+                    var authUser = await _userEndpoint.LoginAsync(user);
 
                     await _userEndpoint.CurrentUserAsync(authUser.Token);
 
                     await _events.PublishOnUIThreadAsync(Navigation.Main, new CancellationToken());
+                    await _events.PublishOnUIThreadAsync(this, new CancellationToken());
                 }
                 catch (Exception ex)
                 {
@@ -89,7 +95,12 @@ namespace DesktopUI.ViewModels.Auth
 
         public async Task GoToRegisterAsync()
         {
-            await _events.PublishOnUIThreadAsync(Navigation.Register, new CancellationToken());
+            await Task.Run(async () =>
+            {
+                await _events.PublishOnUIThreadAsync(Navigation.Register, new CancellationToken());
+                await Task.Delay(900);
+                await _events.PublishOnUIThreadAsync(this, new CancellationToken());
+            });
         }
     }
 }

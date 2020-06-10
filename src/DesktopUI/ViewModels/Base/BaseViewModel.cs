@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Caliburn.Micro;
+using DesktopUI.Helpers;
+using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Caliburn.Micro;
-using DesktopUI.Helpers;
 
 namespace DesktopUI.ViewModels.Base
 {
-    public abstract class BaseViewModel : Screen
+    public class BaseViewModel : Screen
     {
-        protected static async Task RunCommand(Expression<Func<bool>> updatingFlag, Func<Task> action)
+        public async Task RunCommand(Expression<Func<bool>> updatingFlag, Func<Task> action)
         {
             if (updatingFlag.GetPropertyValue()) return;
 

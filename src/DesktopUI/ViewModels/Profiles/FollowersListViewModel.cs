@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Caliburn.Micro;
 using DesktopUI.EventModels;
 using DesktopUI.Helpers;
 using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Models.DbModels;
 using DesktopUI.Models;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DesktopUI.ViewModels.Profiles
 {
@@ -44,7 +44,7 @@ namespace DesktopUI.ViewModels.Profiles
         {
             var followersEnvelope = await _profileEndpoint.LoadFollowingAsync(_profile.Username, _predicate, skip, limit);
             var followers = _mapper.Map<List<ProfileDisplayModel>>(followersEnvelope.Followers);
-            
+
             UserFollowing = new BindableCollection<ProfileDisplayModel>(followers);
 
             _pagination.ItemsCount = followersEnvelope.FollowersCount;
@@ -81,8 +81,6 @@ namespace DesktopUI.ViewModels.Profiles
 
         public async Task ViewProfileAsync()
         {
-            await _events.PublishOnUIThreadAsync(Navigation.Profile, new CancellationToken());
-
             await _events.PublishOnUIThreadAsync(new MessageEvent {Username = SelectedProfile.Username},
                 new CancellationToken());
         }

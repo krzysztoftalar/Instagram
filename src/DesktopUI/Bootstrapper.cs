@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using DesktopUI.Library.Models;
 using Profile = DesktopUI.Library.Models.DbModels.Profile;
 
 namespace DesktopUI
@@ -38,6 +39,7 @@ namespace DesktopUI
                 // Mapping Display model to api model 
                 cfg.CreateMap<PhotoDisplayModel, Photo>();
                 cfg.CreateMap<ProfileDisplayModel, Profile>();
+                cfg.CreateMap<ProfileDisplayModel, ProfileFormValues>();
                 cfg.CreateMap<CommentDisplayModel, Comment>();
 
                 // Mapping Api model to display model 

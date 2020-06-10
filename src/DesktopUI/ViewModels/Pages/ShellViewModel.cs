@@ -1,13 +1,13 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using DesktopUI.EventModels;
 using DesktopUI.ViewModels.Auth;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DesktopUI.ViewModels.Pages
 {
-    public class ShellViewModel : Conductor<object>, IHandle<Navigation>
+    public class ShellViewModel : Conductor<Screen>.Collection.AllActive, IHandle<Navigation>, IHandle<Screen>
     {
         public ShellViewModel(IEventAggregator events)
         {
@@ -16,7 +16,7 @@ namespace DesktopUI.ViewModels.Pages
             events.SubscribeOnPublishedThread(this);
         }
 
-        public sealed override Task ActivateItemAsync(object item, CancellationToken cancellationToken)
+        public sealed override Task ActivateItemAsync(Screen item, CancellationToken cancellationToken)
         {
             return base.ActivateItemAsync(item, cancellationToken);
         }
@@ -44,11 +44,16 @@ namespace DesktopUI.ViewModels.Pages
                 case Navigation.Chat:
                     await ActivateItemAsync(IoC.Get<ChatPageViewModel>(), cancellationToken);
                     break;
-                
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(message), message, null);
             }
         }
+
+        public async Task HandleAsync(Screen message, CancellationToken cancellationToken)
+        {
+            await DeactivateItemAsync(message, true, cancellationToken);
+            await DeactivateItemAsync(message.Parent as Screen, true, cancellationToken);
+        }
     }
 }
-

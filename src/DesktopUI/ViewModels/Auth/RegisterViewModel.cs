@@ -1,15 +1,15 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using DesktopUI.Commands;
 using DesktopUI.EventModels;
 using DesktopUI.Library.Api.User;
 using DesktopUI.Library.Models;
 using DesktopUI.Validators;
 using DesktopUI.ViewModels.Base;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace DesktopUI.ViewModels.Auth
 {
@@ -17,7 +17,6 @@ namespace DesktopUI.ViewModels.Auth
     {
         private readonly IUserEndpoint _userEndpoint;
         private readonly IEventAggregator _events;
-        public ICommand RegisterCommand { get; set; }
 
         public RegisterViewModel(IUserEndpoint userEndpoint, IEventAggregator events)
         {
@@ -25,9 +24,12 @@ namespace DesktopUI.ViewModels.Auth
             _events = events;
 
             User = new RegisterUserFormValues();
-
-            RegisterCommand = new RegisterCommand(async (parameter) => await RegisterAsync(parameter));
         }
+
+        private ICommand _registerCommand;
+
+        public ICommand RegisterCommand => _registerCommand ??= new RelayParameterizedCommand<RegisterUserFormValues>(
+            async user => await RegisterAsync(user), CanRegisterAsync);
 
         public bool IsErrorVisible => ErrorMessage?.Length > 0;
 
@@ -68,13 +70,17 @@ namespace DesktopUI.ViewModels.Auth
             }
         }
 
-        public async Task RegisterAsync(object parameter)
+        public bool CanRegisterAsync(RegisterUserFormValues user)
+        {
+            return !string.IsNullOrWhiteSpace(user?.Email) && !string.IsNullOrWhiteSpace(user?.Password) &&
+                   !string.IsNullOrWhiteSpace(user?.DisplayName) && !string.IsNullOrWhiteSpace(user?.Username);
+        }
+
+        public async Task RegisterAsync(RegisterUserFormValues user)
         {
             await RunCommand(() => RegisterIsRunning, async () =>
             {
-                if (parameter is RegisterUserFormValues user &&
-                    (user.Password.IsValidPassword(ref _errorMessage) &&
-                     user.Email.IsValidEmail(ref _errorMessage)))
+                if (user.Password.IsValidPassword(ref _errorMessage) && user.Email.IsValidEmail(ref _errorMessage))
                 {
                     try
                     {
@@ -84,6 +90,7 @@ namespace DesktopUI.ViewModels.Auth
                             MessageBoxButton.OK, MessageBoxImage.Information);
 
                         await _events.PublishOnUIThreadAsync(Navigation.Login, new CancellationToken());
+                        await _events.PublishOnUIThreadAsync(this, new CancellationToken());
                     }
                     catch (Exception ex)
                     {
@@ -98,7 +105,12 @@ namespace DesktopUI.ViewModels.Auth
 
         public async Task GoToLoginAsync()
         {
-            await _events.PublishOnUIThreadAsync(Navigation.Login, new CancellationToken());
+            await Task.Run(async () =>
+            {
+                await _events.PublishOnUIThreadAsync(Navigation.Login, new CancellationToken());
+                await Task.Delay(900);
+                await _events.PublishOnUIThreadAsync(this, new CancellationToken());
+            });
         }
     }
 }

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cm="http://caliburnmicro.com"
         mc:Ignorable="d"
         Title="Instagram"
         Icon="../../Assets/insta_window.png"
@@ -15,7 +16,19 @@
             <ImageBrush ImageSource="../../Assets/background.jpg" />
         </Grid.Background>
 
-        <ContentControl x:Name="ActiveItem" />
+        <!-- Many views active -->
+        <ItemsControl ItemsSource="{Binding Path=Items}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ContentControl cm:View.Model="{Binding}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
 
     </Grid>
 </Window>

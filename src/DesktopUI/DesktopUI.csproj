@@ -229,11 +229,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Animation\PageAnimation.cs" />
+    <Compile Include="Animation\PageAnimations.cs" />
+    <Compile Include="Animation\StoryboardHelpers.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Commands\RegisterCommand.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Commands\RelayParameterizedCommand.cs" />
     <Compile Include="EventModels\CommentEvent.cs" />
     <Compile Include="EventModels\MessageEvent.cs" />
     <Compile Include="EventModels\ModeEvent.cs" />
@@ -242,7 +246,6 @@
     <Compile Include="Helpers\ExpressionHelpers.cs" />
     <Compile Include="Helpers\PaginationHelper.cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
-    <Compile Include="Commands\LoginCommand.cs" />
     <Compile Include="Models\CommentDisplayModel.cs" />
     <Compile Include="Models\PhotoDisplayModel.cs" />
     <Compile Include="Models\ProfileDisplayModel.cs" />
@@ -250,6 +253,7 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Validators\ValidatorExtensions.cs" />
     <Compile Include="ValueConverters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="ValueConverters\ValueToOppositeValueConverter.cs" />
     <Compile Include="ViewModels\Auth\LoginViewModel.cs" />
     <Compile Include="ViewModels\Auth\RegisterViewModel.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />

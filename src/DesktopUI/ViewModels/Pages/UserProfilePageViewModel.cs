@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Caliburn.Micro;
 using DesktopUI.EventModels;
 using DesktopUI.Library.Api.Profile;
@@ -8,6 +6,8 @@ using DesktopUI.Library.Models.DbModels;
 using DesktopUI.Models;
 using DesktopUI.ViewModels.Photos;
 using DesktopUI.ViewModels.Profiles;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DesktopUI.ViewModels.Pages
 {
@@ -36,8 +36,11 @@ namespace DesktopUI.ViewModels.Pages
         {
             base.OnViewLoaded(view);
 
-            var profile = await _profileEndpoint.LoadProfileAsync(_username);
-            Profile = _mapper.Map<ProfileDisplayModel>(profile);
+            if (_username != null)
+            {
+                var profile = await _profileEndpoint.LoadProfileAsync(_username);
+                Profile = _mapper.Map<ProfileDisplayModel>(profile);
+            }
 
             NotifyOfPropertyChange(() => IsLogIn);
             NotifyOfPropertyChange(() => IsCurrentUser);
@@ -87,9 +90,9 @@ namespace DesktopUI.ViewModels.Pages
         {
             await ActivateItemAsync(IoC.Get<PhotosListViewModel>(), new CancellationToken());
 
-            await _events.PublishOnUIThreadAsync(new ModeEvent {IsEditMode = true,}, new CancellationToken());
+            await _events.PublishOnUIThreadAsync(new ModeEvent { IsEditMode = true, }, new CancellationToken());
 
-            await _events.PublishOnUIThreadAsync(new NavigationEvent {IsProfilePageActive = true},
+            await _events.PublishOnUIThreadAsync(new NavigationEvent { IsProfilePageActive = true },
                 new CancellationToken());
         }
 
@@ -97,19 +100,29 @@ namespace DesktopUI.ViewModels.Pages
         {
             await ActivateItemAsync(IoC.Get<FollowersListViewModel>(), new CancellationToken());
 
-            await _events.PublishOnUIThreadAsync(new MessageEvent {Predicate = predicate}, new CancellationToken());
+            await _events.PublishOnUIThreadAsync(new MessageEvent { Predicate = predicate },
+              new CancellationToken());
         }
 
         public async Task BackToMainPageAsync()
         {
             await _events.PublishOnUIThreadAsync(Navigation.Main, new CancellationToken());
 
-            await _events.PublishOnUIThreadAsync(new ModeEvent {IsEditMode = false}, new CancellationToken());
+            await _events.PublishOnUIThreadAsync(new ModeEvent { IsEditMode = false }, new CancellationToken());
+
+            await _events.PublishOnUIThreadAsync(this, new CancellationToken());
         }
 
         public async Task HandleAsync(MessageEvent message, CancellationToken cancellationToken)
         {
             await Task.FromResult(_username = message.Username);
+
+            if (_username != null)
+            {
+                OnViewLoaded(this);
+
+                await ActivateItemAsync(null, cancellationToken);
+            }
 
             Profile = _iProfile as ProfileDisplayModel;
         }

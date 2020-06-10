@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Caliburn.Micro;
 using DesktopUI.EventModels;
 using DesktopUI.Helpers;
 using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Models.DbModels;
 using DesktopUI.Models;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Threading;
+using System.Threading.Tasks;
+using DesktopUI.ViewModels.Pages;
 
 namespace DesktopUI.ViewModels.Photos
 {
@@ -130,7 +131,8 @@ namespace DesktopUI.ViewModels.Photos
                     {
                         await _events.PublishOnUIThreadAsync(Navigation.Chat, new CancellationToken());
                         await _events.PublishOnUIThreadAsync(
-                            new NavigationEvent {IsProfilePageActive = _isProfilePageActive}, new CancellationToken());
+                            new NavigationEvent { IsProfilePageActive = _isProfilePageActive }, new CancellationToken());
+                        await _events.PublishOnUIThreadAsync(this, new CancellationToken());
                     });
                 }
             }

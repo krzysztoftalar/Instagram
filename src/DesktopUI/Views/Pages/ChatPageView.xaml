@@ -48,7 +48,7 @@
                     Width="30"
                     Height="30"
                     Margin="170 0 0 5">
-                <materialDesign:PackIcon Kind="HandPointingLeft" Foreground="#FF44325F" />
+                <materialDesign:PackIcon Kind="HandPointingLeft" Foreground="{StaticResource BackgroundMainBrush}" />
             </Button>
 
             <StackPanel Orientation="Vertical"
@@ -168,6 +168,7 @@
 
         </Grid>
 
+        <!-- Footer -->
         <Grid Row="2" Column="1" Background="{StaticResource BackgroundLightGreenBrush}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 

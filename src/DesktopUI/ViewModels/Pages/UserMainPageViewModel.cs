@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Caliburn.Micro;
 using DesktopUI.EventModels;
 using DesktopUI.Library.Api.User;
 using DesktopUI.Library.Models.DbModels;
 using DesktopUI.Models;
 using DesktopUI.ViewModels.Photos;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DesktopUI.ViewModels.Pages
 {
@@ -88,6 +88,8 @@ namespace DesktopUI.ViewModels.Pages
 
             await _events.PublishOnUIThreadAsync(new MessageEvent {Username = SelectedUser.Username},
                 new CancellationToken());
+
+            await _events.PublishOnUIThreadAsync(this, new CancellationToken());
         }
 
         public async Task EditProfileAsync()
@@ -95,6 +97,8 @@ namespace DesktopUI.ViewModels.Pages
             await _events.PublishOnUIThreadAsync(Navigation.Profile, new CancellationToken());
 
             await _events.PublishOnUIThreadAsync(new MessageEvent {Username = _user.Username}, new CancellationToken());
+
+            await _events.PublishOnUIThreadAsync(this, new CancellationToken());
         }
 
         public async Task LogoutAsync()
@@ -105,6 +109,7 @@ namespace DesktopUI.ViewModels.Pages
             _userEndpoint.LogOffUser();
 
             await _events.PublishOnUIThreadAsync(Navigation.Login, new CancellationToken());
+            await _events.PublishOnUIThreadAsync(this, new CancellationToken());
         }
     }
 }

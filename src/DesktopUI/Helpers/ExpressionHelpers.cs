@@ -11,11 +11,16 @@ namespace DesktopUI.Helpers
             return lambda.Compile().Invoke();
         }
 
+        public static T GetPropertyValue<TIn, T>(this Expression<Func<TIn, T>> lambda, TIn input)
+        {
+            return lambda.Compile().Invoke(input);
+        }
+
         public static void SetPropertyValue<T>(this Expression<Func<T>> lambda, T value)
         {
             var expression = (lambda as LambdaExpression).Body as MemberExpression;
 
-            var propertyInfo = (PropertyInfo) expression?.Member;
+            var propertyInfo = (PropertyInfo)expression?.Member;
             var target = Expression.Lambda(expression.Expression).Compile().DynamicInvoke();
 
             propertyInfo?.SetValue(target, value);

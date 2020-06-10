@@ -11,13 +11,50 @@
              FontFamily="{StaticResource SegoeUIEmoji}">
 
     <UserControl.Resources>
+
         <valueConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <valueConverters:ValueToOppositeValueConverter x:Key="ValueToOppositeValueConverter" />
+
+        <!-- Slide in from right animation  -->
+        <Storyboard x:Key="SlideInFromRight">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
+                             Storyboard.TargetName="GridMain"
+                             Duration="0:0:0.9"
+                             From="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, 
+                             Path=ActualWidth}"
+                             To="0" />
+        </Storyboard>
+
+        <!-- Slide out to left animation  -->
+        <Storyboard x:Key="SlideOutToLeft">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
+                             Storyboard.TargetName="GridMain"
+                             Duration="0:0:0.9"
+                             From="0"
+                             To="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},
+                             Path=ActualWidth, Converter={StaticResource ValueToOppositeValueConverter}}" />
+        </Storyboard>
+
     </UserControl.Resources>
 
+    <UserControl.Triggers>
+
+        <!-- Animate the user control while loading  -->
+        <EventTrigger RoutedEvent="UserControl.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource SlideInFromRight}" />
+        </EventTrigger>
+
+    </UserControl.Triggers>
+
     <Grid>
-        <Grid Width="350"
+        <Grid x:Name="GridMain"
+              Width="350"
               Height="500"
               Background="{StaticResource BackgroundWhiteBrush}">
+
+            <Grid.RenderTransform>
+                <TranslateTransform />
+            </Grid.RenderTransform>
 
             <Rectangle VerticalAlignment="Top"
                        Height="280">
@@ -125,7 +162,14 @@
                 <Button x:Name="GoToRegisterAsync"
                         Content="sign up here."
                         Style="{StaticResource MaterialDesignToolButtonOverride}"
-                        Margin="-3 0" />
+                        Margin="-3 0">
+                    <Button.Triggers>
+                        <!-- Slide out to left animation -->
+                        <EventTrigger RoutedEvent="Button.Click" SourceName="GoToRegisterAsync">
+                            <BeginStoryboard Storyboard="{StaticResource SlideOutToLeft}" />
+                        </EventTrigger>
+                    </Button.Triggers>
+                </Button>
             </StackPanel>
 
 
