@@ -5,16 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:valueConverters="clr-namespace:DesktopUI.ValueConverters"
+             xmlns:attachedProperties="clr-namespace:DesktopUI.AttachedProperties"
              mc:Ignorable="d"
              d:DesignWidth="800"
              d:DesignHeight="550"
              FontFamily="{StaticResource SegoeUIEmoji}">
 
     <UserControl.Resources>
-
-        <valueConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <valueConverters:ValueToOppositeValueConverter x:Key="ValueToOppositeValueConverter" />
-
+        
         <!-- Slide in from right animation  -->
         <Storyboard x:Key="SlideInFromRight">
             <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
@@ -32,7 +30,7 @@
                              Duration="0:0:0.9"
                              From="0"
                              To="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},
-                             Path=ActualWidth, Converter={StaticResource ValueToOppositeValueConverter}}" />
+                             Path=ActualWidth, Converter={valueConverters:ValueToOppositeValueConverter}}" />
         </Storyboard>
 
     </UserControl.Resources>
@@ -97,7 +95,7 @@
 
                     <!-- Error message -->
                     <TextBlock x:Name="ErrorMessage"
-                               Visibility="{Binding IsErrorVisible, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}"
+                               Visibility="{Binding IsErrorVisible, Converter={valueConverters:BooleanToVisibilityConverter}, ConverterParameter=True}"
                                TextWrapping="Wrap"
                                Margin="0 5"
                                Foreground="{StaticResource ForegroundErrorBrush}"
@@ -129,24 +127,11 @@
                     FontSize="{StaticResource FontSizeRegular}">
                 <Grid>
                     <TextBlock Text="LOGIN"
-                               Visibility="{Binding LoginIsRunning, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                               Visibility="{Binding LoginIsRunning, Converter={valueConverters:BooleanToVisibilityConverter}}" />
 
                     <!-- Loading indicator -->
-                    <ProgressBar
-                        Visibility="{Binding LoginIsRunning, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}"
-                        Value="60"
-                        Foreground="{StaticResource BackgroundMainBrush}">
-                        <ProgressBar.Style>
-                            <Style TargetType="ProgressBar"
-                                   BasedOn="{StaticResource MaterialDesignCircularProgressBar}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding LoginIsRunning}" Value="True">
-                                        <Setter Property="IsIndeterminate" Value="True" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ProgressBar.Style>
-                    </ProgressBar>
+                    <ProgressBar attachedProperties:IsBusyProperty.Value="{Binding LoginIsRunning}"
+                                 Style="{StaticResource MaterialDesignCircularProgressBarOverride}" />
                 </Grid>
             </Button>
 

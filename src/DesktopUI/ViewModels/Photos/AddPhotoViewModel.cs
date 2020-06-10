@@ -4,11 +4,12 @@ using System.Windows;
 using Caliburn.Micro;
 using DesktopUI.EventModels;
 using DesktopUI.Library.Api.Profile;
+using DesktopUI.ViewModels.Base;
 using Microsoft.Win32;
 
 namespace DesktopUI.ViewModels.Photos
 {
-    public class AddPhotoViewModel : Screen
+    public class AddPhotoViewModel : BaseViewModel
     {
         private readonly IProfileEndpoint _profile;
         private readonly IEventAggregator _events;
@@ -31,6 +32,18 @@ namespace DesktopUI.ViewModels.Photos
             }
         }
 
+        private bool _uploadIsRunning;
+
+        public bool UploadIsRunning
+        {
+            get => _uploadIsRunning;
+            set
+            {
+                _uploadIsRunning = value;
+                NotifyOfPropertyChange(() => UploadIsRunning);
+            }
+        }
+
         public void AddPhoto()
         {
             var open = new OpenFileDialog
@@ -47,20 +60,23 @@ namespace DesktopUI.ViewModels.Photos
 
         public async Task UploadPhotoAsync()
         {
-            if (await _profile.UploadPhotoAsync(ImagePath))
+            await RunCommand(() => UploadIsRunning, async () =>
             {
-                MessageBox.Show("Image uploaded successfully", "Congratulations!",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
+                if (await _profile.UploadPhotoAsync(ImagePath))
+                {
+                    MessageBox.Show("Image uploaded successfully", "Congratulations!",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
 
-                await _events.PublishOnUIThreadAsync(new MessageEvent(), new CancellationToken());
+                    await _events.PublishOnUIThreadAsync(new MessageEvent(), new CancellationToken());
 
-                ImagePath = "";
-            }
-            else
-            {
-                MessageBox.Show("Problem uploading the photo", "Error!",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
+                    ImagePath = "";
+                }
+                else
+                {
+                    MessageBox.Show("Problem uploading the photo", "Error!",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            });
         }
     }
 }

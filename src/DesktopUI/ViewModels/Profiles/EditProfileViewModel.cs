@@ -105,9 +105,11 @@ namespace DesktopUI.ViewModels.Profiles
             IsEditMode = !IsEditMode;
         }
 
-        public async Task SubmitAsync(ProfileDisplayModel profile)
+        public async Task SubmitAsync(ProfileDisplayModel formValues)
         {
-            if (await _profileEndpoint.EditProfileAsync(_mapper.Map<ProfileFormValues>(profile)))
+            var profile = _mapper.Map<ProfileFormValues>(formValues);
+
+            if (await _profileEndpoint.EditProfileAsync(profile))
             {
                 MessageBox.Show("Profile edited successfully", "Congratulations!",
                     MessageBoxButton.OK, MessageBoxImage.Information);

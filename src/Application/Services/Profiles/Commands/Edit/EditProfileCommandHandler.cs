@@ -23,6 +23,8 @@ namespace Application.Services.Profiles.Commands.Edit
             var user = await _context.Users
                 .SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername(), cancellationToken);
 
+            if (user.DisplayName == request.DisplayName && user.Bio == request.Bio) return Unit.Value;
+
             user.DisplayName = request.DisplayName ?? user.DisplayName;
             user.Bio = request.Bio ?? user.Bio;
 

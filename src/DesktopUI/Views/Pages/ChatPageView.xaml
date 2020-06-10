@@ -6,6 +6,8 @@
              mc:Ignorable="d"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:chat="clr-namespace:DesktopUI.Views.Chat"
+             xmlns:attachedProperties="clr-namespace:DesktopUI.AttachedProperties"
+             xmlns:valueConverters="clr-namespace:DesktopUI.ValueConverters"
              d:DesignWidth="800"
              d:DesignHeight="450">
 
@@ -90,17 +92,17 @@
 
         <!-- Chat panel -->
         <Grid Row="1" Column="0" Background="{StaticResource BackgroundWhiteBrush}">
+            
+            <!-- Loading indicator -->
+            <ProgressBar attachedProperties:IsBusyProperty.Value="{Binding LoadingNext}"
+                         Style="{StaticResource MaterialDesignCircularProgressBarOverride}"
+                         VerticalAlignment="Top"/>
+
             <ScrollViewer x:Name="CommentsScrollViewer"
                           ScrollChanged="ScrollViewer_ScrollChanged"
-                          VerticalScrollBarVisibility="Auto">
+                          VerticalScrollBarVisibility="Auto"
+                          Margin="0 20 0 0">
                 <StackPanel>
-
-                    <!-- Loading indicator -->
-                    <ProgressBar
-                        Visibility="{Binding LoadingNext, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
-                        Style="{StaticResource MaterialDesignCircularProgressBar}"
-                        Value="35"
-                        IsIndeterminate="True" />
 
                     <!-- Comments -->
                     <ListBox ItemsSource="{Binding Source={StaticResource cvs}}"
@@ -182,7 +184,7 @@
 
                 <!-- Delete message button -->
                 <Button x:Name="DeleteCommentAsync"
-                        Visibility="{Binding IsCommentSelected, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
+                        Visibility="{Binding IsCommentSelected, Converter={valueConverters:BooleanToVisibilityConverter}, ConverterParameter=True}"
                         Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
                         ToolTip="Delete message">
                     <materialDesign:PackIcon Kind="Delete" />

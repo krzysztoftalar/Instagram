@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:attachedProperties="clr-namespace:DesktopUI.AttachedProperties">
+
+    <Style x:Key="MaterialDesignCircularProgressBarOverride"
+           TargetType="{x:Type ProgressBar}"
+           BasedOn="{StaticResource MaterialDesignCircularProgressBar}">
+        <Setter Property="Visibility" Value="Hidden" />
+        <Setter Property="Value" Value="60" />
+        <Setter Property="IsIndeterminate" Value="False" />
+        <Setter Property="Foreground" Value="{StaticResource BackgroundBlackBrush}" />
+
+        <Setter Property="attachedProperties:IsBusyProperty.Value" Value="False" />
+
+        <Style.Triggers>
+            <DataTrigger
+                Binding="{Binding Path=(attachedProperties:IsBusyProperty.Value), RelativeSource={RelativeSource Self}}"
+                Value="True">
+                <Setter Property="Visibility" Value="Visible" />
+                <Setter Property="IsIndeterminate" Value="True" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

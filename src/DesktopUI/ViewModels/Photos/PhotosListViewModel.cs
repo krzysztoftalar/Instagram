@@ -5,15 +5,16 @@ using DesktopUI.Helpers;
 using DesktopUI.Library.Api.Profile;
 using DesktopUI.Library.Models.DbModels;
 using DesktopUI.Models;
+using DesktopUI.ViewModels.Base;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
-using DesktopUI.ViewModels.Pages;
 
 namespace DesktopUI.ViewModels.Photos
 {
-    public class PhotosListViewModel : Screen, IHandle<MessageEvent>, IHandle<ModeEvent>, IHandle<NavigationEvent>
+    public class PhotosListViewModel : BaseViewModel, IHandle<MessageEvent>, IHandle<ModeEvent>,
+        IHandle<NavigationEvent>
     {
         private readonly IProfileEndpoint _profileEndpoint;
         private readonly IEventAggregator _events;
@@ -72,11 +73,10 @@ namespace DesktopUI.ViewModels.Photos
             {
                 _pagination.PageNumber++;
 
-                LoadingNext = true;
-
-                await LoadPhotosAsync(_pagination.Skip, _pagination.Limit);
-
-                LoadingNext = false;
+                await RunCommand(() => LoadingNext, async () =>
+                {
+                    await LoadPhotosAsync(_pagination.Skip, _pagination.Limit);
+                });
             }
         }
 

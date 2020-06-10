@@ -6,6 +6,7 @@
              mc:Ignorable="d"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:photos="clr-namespace:DesktopUI.Views.Photos"
+             xmlns:attachedProperties="clr-namespace:DesktopUI.AttachedProperties"
              d:DesignWidth="800"
              d:DesignHeight="450">
 
@@ -78,12 +79,9 @@
                 </ListView>
 
                 <!-- Loading indicator -->
-                <ProgressBar
-                    Visibility="{Binding LoadingNext, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
-                    Style="{StaticResource MaterialDesignCircularProgressBar}"
-                    Value="60"
-                    IsIndeterminate="True" />
-
+                <ProgressBar attachedProperties:IsBusyProperty.Value="{Binding LoadingNext}"
+                             Style="{StaticResource MaterialDesignCircularProgressBarOverride}" />
+                             
             </StackPanel>
         </ScrollViewer>
     </Grid>

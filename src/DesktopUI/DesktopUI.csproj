@@ -229,13 +229,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Animation\PageAnimation.cs" />
-    <Compile Include="Animation\PageAnimations.cs" />
-    <Compile Include="Animation\StoryboardHelpers.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AttachedProperties\BaseAttachedProperty.cs" />
+    <Compile Include="AttachedProperties\ProgressBarAttachedProperty.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayParameterizedCommand.cs" />
     <Compile Include="EventModels\CommentEvent.cs" />
@@ -252,6 +251,7 @@
     <Compile Include="Models\UserDisplayModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Validators\ValidatorExtensions.cs" />
+    <Compile Include="ValueConverters\BaseValueConverter.cs" />
     <Compile Include="ValueConverters\BooleanToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\ValueToOppositeValueConverter.cs" />
     <Compile Include="ViewModels\Auth\LoginViewModel.cs" />
@@ -344,6 +344,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\Images.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ProgressBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

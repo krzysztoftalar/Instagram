@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Caliburn.Micro;
 using DesktopUI.EventModels;
 using DesktopUI.Helpers;
@@ -10,10 +6,15 @@ using DesktopUI.Library.Api.Comment;
 using DesktopUI.Library.Helpers;
 using DesktopUI.Library.Models.DbModels;
 using DesktopUI.Models;
+using DesktopUI.ViewModels.Base;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DesktopUI.ViewModels.Pages
 {
-    public class ChatPageViewModel : Screen, IHandle<MessageEvent>, IHandle<NavigationEvent>
+    public class ChatPageViewModel : BaseViewModel, IHandle<MessageEvent>, IHandle<NavigationEvent>
     {
         private readonly IChatHelper _chat;
         private readonly ICommentEndpoint _commentEndpoint;
@@ -62,7 +63,7 @@ namespace DesktopUI.ViewModels.Pages
 
             Comments.Add(commentModel);
 
-            _events.PublishOnUIThreadAsync(new CommentEvent {ScrollToEnd = true}, new CancellationToken());
+            _events.PublishOnUIThreadAsync(new CommentEvent { ScrollToEnd = true }, new CancellationToken());
         }
 
         public void EvalComment(CommentDisplayModel comment)
@@ -93,14 +94,13 @@ namespace DesktopUI.ViewModels.Pages
             {
                 _pagination.PageNumber++;
 
-                LoadingNext = true;
+                await RunCommand(() => LoadingNext, async () =>
+                {
+                    await _events.PublishOnUIThreadAsync(new CommentEvent { ScrollToVerticalOffset = true },
+                        new CancellationToken());
 
-                await _events.PublishOnUIThreadAsync(new CommentEvent {ScrollToVerticalOffset = true},
-                    new CancellationToken());
-
-                await LoadCommentsAsync(_pagination.Skip, _pagination.Limit);
-
-                LoadingNext = false;
+                    await LoadCommentsAsync(_pagination.Skip, _pagination.Limit);
+                });
             }
         }
 
@@ -220,6 +220,8 @@ namespace DesktopUI.ViewModels.Pages
             await _chat.StopHubConnectionAsync(_photo.Id);
 
             await _events.PublishOnUIThreadAsync(Navigation.Main, new CancellationToken());
+
+            await _events.PublishOnUIThreadAsync(this, new CancellationToken());
         }
 
         public async Task HandleAsync(MessageEvent message, CancellationToken cancellationToken)

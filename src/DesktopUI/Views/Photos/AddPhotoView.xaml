@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:valueConverters="clr-namespace:DesktopUI.ValueConverters"
+             xmlns:attachedProperties="clr-namespace:DesktopUI.AttachedProperties"
              mc:Ignorable="d"
              d:DesignWidth="800"
              d:DesignHeight="500">
@@ -51,7 +53,14 @@
                         Margin="20"
                         Background="{StaticResource BackgroundGreenBrush}"
                         Foreground="{StaticResource BackgroundWhiteBrush}">
-                    <materialDesign:PackIcon Kind="Check" />
+                    <Grid>
+                        <materialDesign:PackIcon Kind="Check"
+                                                 Visibility="{Binding UploadIsRunning, Converter={valueConverters:BooleanToVisibilityConverter}}" />
+
+                        <!-- Loading indicator -->
+                        <ProgressBar attachedProperties:IsBusyProperty.Value="{Binding UploadIsRunning}"
+                                     Style="{StaticResource MaterialDesignCircularProgressBarOverride}" />
+                    </Grid>
                 </Button>
 
             </StackPanel>
