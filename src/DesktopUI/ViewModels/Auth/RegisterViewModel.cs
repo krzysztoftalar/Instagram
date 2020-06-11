@@ -3,7 +3,6 @@ using DesktopUI.Commands;
 using DesktopUI.EventModels;
 using DesktopUI.Library.Api.User;
 using DesktopUI.Library.Models;
-using DesktopUI.Validators;
 using DesktopUI.ViewModels.Base;
 using System;
 using System.Threading;
@@ -29,7 +28,7 @@ namespace DesktopUI.ViewModels.Auth
         private ICommand _registerCommand;
 
         public ICommand RegisterCommand => _registerCommand ??= new RelayParameterizedCommand<RegisterUserFormValues>(
-            async user => await RegisterAsync(user), CanRegisterAsync);
+            async user => await RegisterAsync(user), CanRegister);
 
         public bool IsErrorVisible => ErrorMessage?.Length > 0;
 
@@ -70,36 +69,28 @@ namespace DesktopUI.ViewModels.Auth
             }
         }
 
-        public bool CanRegisterAsync(RegisterUserFormValues user)
-        {
-            return !string.IsNullOrWhiteSpace(user?.Email) && !string.IsNullOrWhiteSpace(user?.Password) &&
-                   !string.IsNullOrWhiteSpace(user?.DisplayName) && !string.IsNullOrWhiteSpace(user?.Username);
-        }
+        public bool CanRegister(RegisterUserFormValues user) => user?.IsValid ?? false;
 
         public async Task RegisterAsync(RegisterUserFormValues user)
         {
             await RunCommand(() => RegisterIsRunning, async () =>
             {
-                if (user.Password.IsValidPassword(ref _errorMessage) && user.Email.IsValidEmail(ref _errorMessage))
+                try
                 {
-                    try
-                    {
-                        await _userEndpoint.RegisterAsync(user);
+                    ErrorMessage = "";
 
-                        MessageBox.Show("You have been successfully registered.", "Congratulations!",
-                            MessageBoxButton.OK, MessageBoxImage.Information);
+                    await _userEndpoint.RegisterAsync(user);
 
-                        await _events.PublishOnUIThreadAsync(Navigation.Login, new CancellationToken());
-                        await _events.PublishOnUIThreadAsync(this, new CancellationToken());
-                    }
-                    catch (Exception ex)
-                    {
-                        ErrorMessage = ex.Message;
-                    }
+                    MessageBox.Show("You have been successfully registered.", "Congratulations!",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    await _events.PublishOnUIThreadAsync(Navigation.Login, new CancellationToken());
+                    await _events.PublishOnUIThreadAsync(this, new CancellationToken());
                 }
-
-                NotifyOfPropertyChange(() => ErrorMessage);
-                NotifyOfPropertyChange(() => IsErrorVisible);
+                catch (Exception ex)
+                {
+                    ErrorMessage = ex.Message;
+                }
             });
         }
 

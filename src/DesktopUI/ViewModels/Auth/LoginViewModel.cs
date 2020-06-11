@@ -27,7 +27,7 @@ namespace DesktopUI.ViewModels.Auth
         private ICommand _loginCommand;
 
         public ICommand LoginCommand => _loginCommand ??= new RelayParameterizedCommand<LoginUserFormValues>(
-          async user => await LoginAsync(user), CanLoginAsync);
+          async user => await LoginAsync(user), CanLogin);
 
         public bool IsErrorVisible => ErrorMessage?.Length > 0;
 
@@ -68,7 +68,7 @@ namespace DesktopUI.ViewModels.Auth
             }
         }
 
-        public bool CanLoginAsync(LoginUserFormValues user) =>
+        public bool CanLogin(LoginUserFormValues user) =>
             !string.IsNullOrWhiteSpace(user?.Email) && !string.IsNullOrWhiteSpace(user?.Password);
 
         public async Task LoginAsync(LoginUserFormValues user)

@@ -13,6 +13,29 @@
 
     <UserControl.Resources>
 
+        <!-- Validation errors trigger -->
+        <Style TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                        Path=(Validation.Errors)[0].ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Validation errors trigger -->
+        <Style TargetType="PasswordBox">
+            <Setter Property="ToolTip" Value="{StaticResource MaterialDesignToolTip}" />
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                        Path=(Validation.Errors)[0].ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
         <!-- Slide in from right animation  -->
         <Storyboard x:Key="SlideInFromRight">
             <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
@@ -115,13 +138,15 @@
                              Margin="0 5" />
 
                     <!-- Email -->
-                    <TextBox x:Name="User_Email"
-                             Style="{StaticResource MaterialDesignFloatingHintTextBoxOverride}"
-                             materialDesign:HintAssist.Hint="Email"
-                             Margin="0 5" />
+                    <TextBox
+                        Text="{Binding User.Email, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBoxOverride}"
+                        materialDesign:HintAssist.Hint="Email"
+                        Margin="0 5" />
 
                     <!-- Password -->
                     <PasswordBox x:Name="User_Password"
+                                 Tag="{Binding User.Password, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource MaterialDesignFloatingHintPasswordBoxOverride}"
                                  materialDesign:HintAssist.Hint="Password"
                                  Margin="0 5" />

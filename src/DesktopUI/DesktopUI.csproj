@@ -250,7 +250,6 @@
     <Compile Include="Models\ProfileDisplayModel.cs" />
     <Compile Include="Models\UserDisplayModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="Validators\ValidatorExtensions.cs" />
     <Compile Include="ValueConverters\BaseValueConverter.cs" />
     <Compile Include="ValueConverters\BooleanToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\ValueToOppositeValueConverter.cs" />
