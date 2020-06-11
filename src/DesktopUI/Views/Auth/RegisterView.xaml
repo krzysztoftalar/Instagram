@@ -6,6 +6,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:attachedProperties="clr-namespace:DesktopUI.AttachedProperties"
              xmlns:valueConverters="clr-namespace:DesktopUI.ValueConverters"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d"
              d:DesignWidth="800"
              d:DesignHeight="550"
@@ -36,24 +37,38 @@
             </Style.Triggers>
         </Style>
 
-        <!-- Slide in from right animation  -->
-        <Storyboard x:Key="SlideInFromRight">
+        <!-- Slide and fade in from right animation  -->
+        <Storyboard x:Key="SlideAndFadeInFromRight">
             <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
                              Storyboard.TargetName="GridMain"
                              Duration="0:0:0.9"
                              From="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, 
                              Path=ActualWidth}"
                              To="0" />
+            <DoubleAnimation Storyboard.TargetName="GridMain"
+                             Storyboard.TargetProperty="Opacity"
+                             From="0.0"
+                             To="1.0"
+                             Duration="0:0:0.9"
+                             AutoReverse="False"
+                             RepeatBehavior="1x" />
         </Storyboard>
 
-        <!-- Slide out to left animation  -->
-        <Storyboard x:Key="SlideOutToLeft">
+        <!-- Slide and fade out to left animation  -->
+        <Storyboard x:Key="SlideAndFadeOutToLeft">
             <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
                              Storyboard.TargetName="GridMain"
                              Duration="0:0:0.9"
                              From="0"
                              To="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},
                              Path=ActualWidth, Converter={valueConverters:ValueToOppositeValueConverter}}" />
+            <DoubleAnimation Storyboard.TargetName="GridMain"
+                             Storyboard.TargetProperty="Opacity"
+                             From="1.0"
+                             To="0.0"
+                             Duration="0:0:0.9"
+                             AutoReverse="False"
+                             RepeatBehavior="1x" />
         </Storyboard>
 
     </UserControl.Resources>
@@ -62,7 +77,7 @@
 
         <!-- Animate the user control while loading  -->
         <EventTrigger RoutedEvent="UserControl.Loaded">
-            <BeginStoryboard Storyboard="{StaticResource SlideInFromRight}" />
+            <BeginStoryboard Storyboard="{StaticResource SlideAndFadeInFromRight}" />
         </EventTrigger>
 
     </UserControl.Triggers>
@@ -183,16 +198,17 @@
                        FontSize="{StaticResource FontSizeSmall}" />
 
                 <Button x:Name="GoToLoginAsync"
-                        Content="Log in here."
                         Style="{StaticResource MaterialDesignToolButtonOverride}"
+                        Content="Log in here."
                         Margin="-3 0">
                     <Button.Triggers>
-                        <!-- Slide out to left animation -->
+                        <!-- Slide and fade out to left animation -->
                         <EventTrigger RoutedEvent="Button.Click" SourceName="GoToLoginAsync">
-                            <BeginStoryboard Storyboard="{StaticResource SlideOutToLeft}" />
+                            <BeginStoryboard Storyboard="{StaticResource SlideAndFadeOutToLeft}" />
                         </EventTrigger>
                     </Button.Triggers>
                 </Button>
+
             </StackPanel>
 
             <Image Source="../../Assets/home.png"

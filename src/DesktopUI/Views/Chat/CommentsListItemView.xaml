@@ -22,6 +22,7 @@
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>
+                    
                     <DataTrigger.ExitActions>
                         <BeginStoryboard>
                             <Storyboard>
@@ -34,6 +35,7 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        
     </UserControl.Resources>
 
     <StackPanel Orientation="Horizontal">
