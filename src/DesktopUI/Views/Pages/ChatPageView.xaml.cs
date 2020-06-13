@@ -29,7 +29,8 @@ namespace DesktopUI.Views.Pages
             {
                 if (CommentsScrollViewer.VerticalOffset == 0)
                 {
-                    Task.Run(() => _events.PublishOnUIThreadAsync(new MessageEvent {HandleGetNextComments = true}, new CancellationToken()));
+                    Task.Run(() => _events.PublishOnUIThreadAsync(new MessageEvent {HandleGetNextComments = true},
+                        new CancellationToken()));
                 }
             }
         }

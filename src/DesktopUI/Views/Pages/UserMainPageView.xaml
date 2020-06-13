@@ -23,7 +23,8 @@
         </Grid.ColumnDefinitions>
 
         <!-- NavBar -->
-        <Grid Grid.Row="0" Grid.ColumnSpan="2" Background="White">
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+              Background="{StaticResource BackgroundWhiteBrush}">
             <Image Source="../../Assets/insta.jpg"
                    HorizontalAlignment="Left"
                    Margin="10 0" />
@@ -111,13 +112,13 @@
                         </Grid.ColumnDefinitions>
 
                         <!-- Search users button -->
-                        <Button cal:Message.Attach="[Event Click] = [Action SearchUsersAsync(Search)]"
+                        <Button cal:Message.Attach="[Event Click] = [Action SearchUsersAsync(SearchText)]"
                                 Style="{DynamicResource MaterialDesignToolButton}">
                             <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
                         </Button>
 
                         <!-- Search textBox -->
-                        <TextBox x:Name="Search"
+                        <TextBox x:Name="SearchText"
                                  Grid.Column="1"
                                  VerticalAlignment="Center"
                                  materialDesign:HintAssist.Hint="Search friends"

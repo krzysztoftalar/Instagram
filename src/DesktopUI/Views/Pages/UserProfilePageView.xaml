@@ -57,7 +57,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- NavBar -->
-        <Grid Grid.Row="0" Grid.ColumnSpan="2" Background="White">
+        <Grid Grid.Row="0" Grid.ColumnSpan="2" Background="{StaticResource BackgroundWhiteBrush}">
             <Image Source="../../Assets/insta.jpg"
                    HorizontalAlignment="Left"
                    Margin="10 0" />

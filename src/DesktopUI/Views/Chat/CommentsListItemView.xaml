@@ -8,11 +8,13 @@
              d:DesignHeight="300">
 
     <UserControl.Resources>
-        
-        <!-- Hover effect -->
+
+        <!-- Hover effect, displaying comment's time -->
         <Style x:Key="ContentStyle" TargetType="{x:Type TextBlock}">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Panel}}, Path=IsMouseOver}" Value="True">
+                <DataTrigger
+                    Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Panel}}, Path=IsMouseOver}"
+                    Value="True">
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
@@ -22,7 +24,7 @@
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>
-                    
+
                     <DataTrigger.ExitActions>
                         <BeginStoryboard>
                             <Storyboard>
@@ -35,10 +37,32 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        
+
+        <!-- Slide in from bottom animation  -->
+        <Storyboard x:Key="SlideInFromBottom">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                             Storyboard.TargetName="Panel"
+                             Duration="0:0:0.2"
+                             From="{Binding ActualWidth, ElementName=Panel}"
+                             To="0" />
+        </Storyboard>
+
     </UserControl.Resources>
 
-    <StackPanel Orientation="Horizontal">
+    <UserControl.Triggers>
+
+        <!-- Slide in from bottom comment animation -->
+        <EventTrigger RoutedEvent="UserControl.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource SlideInFromBottom}" />
+        </EventTrigger>
+
+    </UserControl.Triggers>
+
+    <StackPanel x:Name="Panel" Orientation="Horizontal">
+
+        <StackPanel.RenderTransform>
+            <TranslateTransform />
+        </StackPanel.RenderTransform>
 
         <!-- Author's image -->
         <Ellipse HorizontalAlignment="Left"
@@ -95,6 +119,6 @@
                    Margin="10 0"
                    Foreground="Transparent"
                    FontSize="{StaticResource FontSizeSmaller}" />
-  
+
     </StackPanel>
 </UserControl>
