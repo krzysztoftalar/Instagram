@@ -90,7 +90,7 @@ The project implements Dependency Injection and MVVM patterns._
   },
 ```
 
-3. Set multiple startup projects: WebUI and DesktopUI.
+3. Set multiple startup projects: WebUI, DesktopUI and MVCApp.
 4. Build and run the solution.
 
 ## License
