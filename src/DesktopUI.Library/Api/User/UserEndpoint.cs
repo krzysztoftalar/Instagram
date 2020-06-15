@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace DesktopUI.Library.Api.User
 {
@@ -87,6 +88,20 @@ namespace DesktopUI.Library.Api.User
                 }
 
                 throw new Exception(response.ReasonPhrase);
+            }
+        }
+
+        public async Task VerifyEmail(string userId, string emailToken)
+        {
+            string code = HttpUtility.UrlEncode(emailToken);
+
+            using (HttpResponseMessage response =
+              await _apiHelper.ApiClient.GetAsync($"/api/users/verify/email?userId={userId}&emailToken={code}"))
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception(await response.RegisterExceptionAsync());
+                }
             }
         }
     }

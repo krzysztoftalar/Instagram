@@ -33,7 +33,7 @@ namespace Infrastructure.Email
             var emailVerificationCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
             var verificationUrl =
-                $"{_configuration["AppSettings:Url"]}/api/users/verify/email?userId={HttpUtility.UrlEncode(userIdentity.Id)}&emailToken={HttpUtility.UrlEncode(emailVerificationCode)}";
+                $"{_configuration["MVCAppSettings:Url"]}/users/verifyemail?userId={HttpUtility.UrlEncode(userIdentity.Id)}&emailToken={HttpUtility.UrlEncode(emailVerificationCode)}";
 
             return await _emailSender.SendGeneralEmailAsync(new SendEmailDetails
             {

@@ -1,7 +1,7 @@
 ﻿using DesktopUI.Library.Models;
+using DesktopUI.Library.Models.DbModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DesktopUI.Library.Models.DbModels;
 
 namespace DesktopUI.Library.Api.User
 {
@@ -12,5 +12,6 @@ namespace DesktopUI.Library.Api.User
         void LogOffUser();
         Task<AuthenticatedUser> CurrentUserAsync(string token);
         Task<List<AuthenticatedUser>> SearchUsersAsync(string displayName);
+        Task VerifyEmail(string userId, string emailToken);
     }
 }

@@ -6,6 +6,7 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Application.Services.User.Commands.VerifyEmail
 {
@@ -29,10 +30,9 @@ namespace Application.Services.User.Commands.VerifyEmail
 
             var result = await _userManager.ConfirmEmailAsync(user, request.EmailToken);
 
-            // TODO Add view
             if (result.Succeeded) return Unit.Value;
 
-            throw new Exception("Invalid email verification token");
+            throw new RestException(HttpStatusCode.BadRequest, new { Email = "Invalid email verification token." });
         }
     }
 }
