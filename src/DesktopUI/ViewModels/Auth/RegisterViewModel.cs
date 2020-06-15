@@ -81,7 +81,7 @@ namespace DesktopUI.ViewModels.Auth
 
                     await _userEndpoint.RegisterAsync(user);
 
-                    MessageBox.Show("You have been successfully registered.", "Congratulations!",
+                    MessageBox.Show("You have been successfully registered. We have sent an email with a confirmation link to your email address. In order to complete the sign-up process, please click the confirmation link.", "Congratulations!",
                         MessageBoxButton.OK, MessageBoxImage.Information);
 
                     await _events.PublishOnUIThreadAsync(Navigation.Login, new CancellationToken());

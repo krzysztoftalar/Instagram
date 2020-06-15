@@ -43,7 +43,7 @@ namespace DesktopUI.Library.Api.User
                     return await response.Content.ReadAsAsync<AuthenticatedUser>();
                 }
 
-                throw new Exception(response.LoginException());
+                throw new Exception(await response.LoginExceptionAsync());
             }
         }
 

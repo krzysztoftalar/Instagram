@@ -2,6 +2,7 @@ using Application;
 using Application.Interfaces;
 using FluentValidation.AspNetCore;
 using Infrastructure;
+using Infrastructure.Email;
 using Infrastructure.Photos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -48,6 +49,7 @@ namespace WebUI
             services.AddJwtIdentity(Configuration.GetSection("JwtConfiguration"));
 
             services.Configure<CloudinarySettings>(Configuration.GetSection("Cloudinary"));
+            services.Configure<EmailSettings>(Configuration.GetSection("Email"));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

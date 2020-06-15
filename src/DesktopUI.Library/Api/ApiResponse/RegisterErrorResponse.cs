@@ -17,16 +17,12 @@ namespace DesktopUI.Library.Api.ApiResponse
 
         public class ApiError
         {
-            [JsonProperty("errors")]
             public Errors Errors { get; set; }
         }
 
         public class Errors
         {
-            [JsonProperty("Email")]
             public string Email { get; set; }
-
-            [JsonProperty("UserName")]
             public string UserName { get; set; }
         }
     }

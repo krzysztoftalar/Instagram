@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,12 +17,15 @@ namespace Application.Services.User.Commands.Register
         private readonly IApplicationDbContext _context;
         private readonly IJwtGenerator _jwtGenerator;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IEmailAccessor _emailAccessor;
 
-        public RegisterUserCommandHandler(IApplicationDbContext context, IJwtGenerator jwtGenerator, UserManager<AppUser> userManager)
+        public RegisterUserCommandHandler(IApplicationDbContext context, IJwtGenerator jwtGenerator,
+            UserManager<AppUser> userManager, IEmailAccessor emailAccessor)
         {
             _context = context;
             _jwtGenerator = jwtGenerator;
             _userManager = userManager;
+            _emailAccessor = emailAccessor;
         }
 
         public async Task<RegisterUserDto> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -47,16 +51,24 @@ namespace Application.Services.User.Commands.Register
 
             if (result.Succeeded)
             {
-                return new RegisterUserDto
+                var response = await _emailAccessor.SendUserEmailVerificationAsync(user);
+
+                if (response.Errors != null)
                 {
-                    DisplayName = user.DisplayName,
-                    Username = user.UserName,
-                    Token = _jwtGenerator.CreateToken(user)
-                };
+                    throw new RestException(HttpStatusCode.BadRequest, new { Email = response });
+                }
+                else
+                {
+                    return new RegisterUserDto
+                    {
+                        DisplayName = user.DisplayName,
+                        Username = user.UserName,
+                        Token = _jwtGenerator.CreateToken(user)
+                    };
+                }
             }
 
             throw new Exception("Problem creating user");
         }
     }
 }
-

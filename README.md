@@ -35,7 +35,7 @@ The project implements Dependency Injection and MVVM patterns._
 
 ## Features
 
-- Registration, login
+- Registration, login with email verification
 - Uploading photos to the cloud
 - Real-time chat with SignalR
 - Profile page
@@ -53,6 +53,7 @@ The project implements Dependency Injection and MVVM patterns._
 | [AutoMapper](https://automapper.org/)                                                                            |
 | [Swagger](https://swagger.io/)                                                                                   |
 | [Cloudinary](https://cloudinary.com/)                                                                            |
+| [SendGrid](https://sendgrid.com/)                                                                              |
 
 ## Getting Started
 
@@ -62,17 +63,24 @@ The project implements Dependency Injection and MVVM patterns._
 - .NET Framework 4.8
 - SQL Server
 - Cloudinary account
+- SendGrid account
 
 ### Installation
 
-1. Create an account on Cloudinary.
-2. In solution WebUI in `appsettings.json` set your Cloudinary account details and database connection string.
+1. Create an account on Cloudinary and SendGrid.
+2. In solution WebUI in `appsettings.json` set your Cloudinary, SendGrid account details and database connection string.
 
 ```JSON
 "Cloudinary": {
     "CloudName": "ENTER YOUR ACCOUNT DETAIL",
     "ApiSecret": "ENTER YOUR ACCOUNT DETAIL",
     "ApiKey": "ENTER YOUR ACCOUNT DETAIL"
+  }
+```
+
+```JSON
+"SendGrid": {
+    "SendGridKey": "ENTER YOUR ACCOUNT DETAIL"
   }
 ```
 

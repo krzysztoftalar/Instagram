@@ -35,153 +35,175 @@ namespace Persistence.Data
                     DisplayName = "Bob",
                     UserName = "bob",
                     Email = "bob@test.com",
+                    EmailConfirmed = true,
                 },
                 new AppUser
                 {
                     Id = "b",
                     DisplayName = "Agata",
                     UserName = "agata",
-                    Email = "agata@test.com"
+                    Email = "agata@test.com",
+                    EmailConfirmed = true,
                 },
                 new AppUser
                 {
                     Id = "c",
                     DisplayName = "Tom",
                     UserName = "tom",
-                    Email = "tom@test.com"
+                    Email = "tom@test.com",
+                    EmailConfirmed = true,
                 },
                 new AppUser
                 {
                     Id = "d",
                     DisplayName = "Ania",
                     UserName = "an1122",
-                    Email = "ania@test.com"
+                    Email = "ania@test.com",
+                    EmailConfirmed = true,
                 },
                 new AppUser
                 {
                     Id = "e",
                     DisplayName = "Mark",
                     UserName = "ma44",
-                    Email = "mark@test.com"
+                    Email = "mark@test.com",
+                    EmailConfirmed = true,
                 },
                 new AppUser
                 {
                     Id = "f",
                     DisplayName = "Tom",
                     UserName = "tomek1167",
-                    Email = "tomek@test.com"
+                    Email = "tomek@test.com",
+                    EmailConfirmed = true,
                 },
                 new AppUser
                 {
                     Id = "g",
                     DisplayName = "Jan",
                     UserName = "tom11",
-                    Email = "jan@test.com"
+                    Email = "jan@test.com",
+                    EmailConfirmed = true,
                 },
                 new AppUser
                 {
                     Id = "h",
                     DisplayName = "Kasia",
                     UserName = "kasia1167",
-                    Email = "kasia@test.com"
+                    Email = "kasia@test.com",
+                    EmailConfirmed = true,
                 },
                 new AppUser
                 {
                     Id = "i",
                     DisplayName = "Mark",
                     UserName = "marek1167",
-                    Email = "marek@test.com"
+                    Email = "marek@test.com",
+                    EmailConfirmed = true,
                 },
                 new AppUser
                 {
                     Id = "j",
                     DisplayName = "Monika",
                     UserName = "monia",
-                    Email = "monia@test.com"
+                    Email = "monia@test.com",
+                    EmailConfirmed = true,
                 },
                 new AppUser
                 {
                     Id = "k",
                     DisplayName = "Jurek",
                     UserName = "jurek",
-                    Email = "jurek@test.com"
+                    Email = "jurek@test.com",
+                    EmailConfirmed = true,
                 },
                 new AppUser
                 {
                     Id = "l",
                     DisplayName = "Olek",
                     UserName = "olek",
-                    Email = "olek@test.com"
+                    Email = "olek@test.com",
+                    EmailConfirmed = true,
                 },
                 new AppUser
                 {
                     Id = "m",
                     DisplayName = "Barbara",
                     UserName = "barbara",
-                    Email = "barbara@test.com"
+                    Email = "barbara@test.com",
+                    EmailConfirmed = true,
                 },
                 new AppUser
                 {
                     Id = "n",
                     DisplayName = "Kazimierz",
                     UserName = "kazek",
-                    Email = "kazek@test.com"
+                    Email = "kazek@test.com",
+                    EmailConfirmed = true,
                 },
                 new AppUser
                 {
                     Id = "o",
                     DisplayName = "Olek",
                     UserName = "olek22",
-                    Email = "olek22@test.com"
+                    Email = "olek22@test.com",
+                    EmailConfirmed = true,
                 },
                 new AppUser
                 {
                     Id = "p",
                     DisplayName = "Tom Kowalski",
                     UserName = "tom1122",
-                    Email = "tom1122@test.com"
+                    Email = "tom1122@test.com",
+                    EmailConfirmed = true,
                 },
                 new AppUser
                 {
                     Id = "q",
                     DisplayName = "Filip",
                     UserName = "filip",
-                    Email = "filip@test.com"
+                    Email = "filip@test.com",
+                    EmailConfirmed = true,
                 },
                 new AppUser
                 {
                     Id = "r",
                     DisplayName = "Edward",
                     UserName = "edward",
-                    Email = "edward@test.com"
+                    Email = "edward@test.com",
+                    EmailConfirmed = true,
                 },
                 new AppUser
                 {
                     Id = "s",
                     DisplayName = "Maja",
                     UserName = "maja",
-                    Email = "maja@test.com"
+                    Email = "maja@test.com",
+                    EmailConfirmed = true,
                 },
                 new AppUser
                 {
                     Id = "t",
                     DisplayName = "Piotr",
                     UserName = "piotr",
-                    Email = "piotr@test.com"
+                    Email = "piotr@test.com",
+                    EmailConfirmed = true,
                 },
                 new AppUser
                 {
                     Id = "u",
                     DisplayName = "Alan",
                     UserName = "alan",
-                    Email = "alan@test.com"
+                    Email = "alan@test.com",
+                    EmailConfirmed = true,
                 },
                 new AppUser
                 {
                     Id = "v",
                     DisplayName = "Justyna",
                     UserName = "justyna",
-                    Email = "justyna@test.com"
+                    Email = "justyna@test.com",
+                    EmailConfirmed = true,
                 },
             };
         }

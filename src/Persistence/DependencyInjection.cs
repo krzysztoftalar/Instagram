@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,14 +14,18 @@ namespace Persistence
             IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-            {       
+            {
                 options.UseSqlServer(configuration.GetConnectionString("EFInstagramData"));
             });
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
-            services.AddDefaultIdentity<AppUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<AppUser>(options =>
+              {
+                  options.SignIn.RequireConfirmedEmail = true;
+              })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             return services;
         }
