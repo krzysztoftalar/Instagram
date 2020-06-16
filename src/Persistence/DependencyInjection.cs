@@ -21,9 +21,9 @@ namespace Persistence
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
             services.AddDefaultIdentity<AppUser>(options =>
-              {
-                  options.SignIn.RequireConfirmedEmail = true;
-              })
+                {
+                    //options.SignIn.RequireConfirmedEmail = true;
+                })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 

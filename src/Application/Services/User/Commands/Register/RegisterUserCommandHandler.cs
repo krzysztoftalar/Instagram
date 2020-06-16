@@ -51,21 +51,22 @@ namespace Application.Services.User.Commands.Register
 
             if (result.Succeeded)
             {
-                var response = await _emailAccessor.SendUserEmailVerificationAsync(user);
+                // var response = await _emailAccessor.SendUserEmailVerificationAsync(user);
+                //
+                // if (response.Errors != null)
+                // {
+                //     throw new RestException(HttpStatusCode.BadRequest, new { Email = response });
+                // }
+                // else
+                // {
+                // }
 
-                if (response.Errors != null)
+                return new RegisterUserDto
                 {
-                    throw new RestException(HttpStatusCode.BadRequest, new { Email = response });
-                }
-                else
-                {
-                    return new RegisterUserDto
-                    {
-                        DisplayName = user.DisplayName,
-                        Username = user.UserName,
-                        Token = _jwtGenerator.CreateToken(user)
-                    };
-                }
+                    DisplayName = user.DisplayName,
+                    Username = user.UserName,
+                    Token = _jwtGenerator.CreateToken(user)
+                };
             }
 
             throw new Exception("Problem creating user");
