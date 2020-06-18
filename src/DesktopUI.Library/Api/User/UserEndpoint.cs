@@ -1,5 +1,4 @@
-﻿using DesktopUI.Library.Api.ApiResponse;
-using DesktopUI.Library.Helpers;
+﻿using DesktopUI.Library.Helpers;
 using DesktopUI.Library.Models;
 using DesktopUI.Library.Models.DbModels;
 using System;
@@ -8,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
+using DesktopUI.Library.Errors;
 
 namespace DesktopUI.Library.Api.User
 {
@@ -29,7 +29,7 @@ namespace DesktopUI.Library.Api.User
             {
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new Exception(await response.RegisterExceptionAsync());
+                    throw new Exception(await response.ExceptionAsync());
                 }
             }
         }
@@ -44,7 +44,7 @@ namespace DesktopUI.Library.Api.User
                     return await response.Content.ReadAsAsync<AuthenticatedUser>();
                 }
 
-                throw new Exception(await response.LoginExceptionAsync());
+                throw new Exception(await response.ExceptionAsync());
             }
         }
 
@@ -100,7 +100,7 @@ namespace DesktopUI.Library.Api.User
             {
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new Exception(await response.RegisterExceptionAsync());
+                    throw new Exception(await response.ExceptionAsync());
                 }
             }
         }
