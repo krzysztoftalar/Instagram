@@ -78,6 +78,7 @@ namespace DesktopUI
                 .Singleton<IProfile, ProfileDisplayModel>()
                 .Singleton<IPhoto, PhotoDisplayModel>();
 
+            // Register view models
             GetType().Assembly.GetTypes()
                 .Where(type => type.IsClass)
                 .Where(type => type.Name.EndsWith("ViewModel"))

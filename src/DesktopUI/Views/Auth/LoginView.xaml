@@ -58,127 +58,125 @@
 
     </UserControl.Triggers>
 
-    <Grid>
-        <Grid x:Name="GridMain"
-              Width="350"
-              Height="500"
-              Background="{StaticResource BackgroundWhiteBrush}">
+    <Grid x:Name="GridMain"
+          Width="350"
+          Height="500"
+          Background="{StaticResource BackgroundWhiteBrush}">
 
-            <Grid.RenderTransform>
-                <TranslateTransform />
-            </Grid.RenderTransform>
+        <Grid.RenderTransform>
+            <TranslateTransform />
+        </Grid.RenderTransform>
 
-            <Rectangle VerticalAlignment="Top"
-                       Height="280">
-                <Rectangle.Fill>
-                    <LinearGradientBrush StartPoint="0.5 0" EndPoint="0.5 1">
-                        <GradientStop Color="#FF2281D1" />
-                        <GradientStop Color="#FF34268A" Offset="1" />
-                        <GradientStop Color="#FF33288B" Offset="0.546" />
-                    </LinearGradientBrush>
-                </Rectangle.Fill>
-            </Rectangle>
+        <Rectangle VerticalAlignment="Top"
+                   Height="280">
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0.5 0" EndPoint="0.5 1">
+                    <GradientStop Color="#FF2281D1" />
+                    <GradientStop Color="#FF34268A" Offset="1" />
+                    <GradientStop Color="#FF33288B" Offset="0.546" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
 
-            <Rectangle VerticalAlignment="Bottom"
-                       RadiusY="10"
-                       RadiusX="10"
-                       Width="300"
-                       Height="300"
-                       Margin="0 80"
-                       Fill="{StaticResource BackgroundWhiteBrush}">
-                <Rectangle.Effect>
-                    <DropShadowEffect BlurRadius="15"
-                                      Direction="0"
-                                      RenderingBias="Quality"
-                                      ShadowDepth="1"
-                                      Color="{StaticResource ForegroundLightGray}" />
-                </Rectangle.Effect>
-            </Rectangle>
+        <Rectangle VerticalAlignment="Bottom"
+                   RadiusY="10"
+                   RadiusX="10"
+                   Width="300"
+                   Height="300"
+                   Margin="0 80"
+                   Fill="{StaticResource BackgroundWhiteBrush}">
+            <Rectangle.Effect>
+                <DropShadowEffect BlurRadius="15"
+                                  Direction="0"
+                                  RenderingBias="Quality"
+                                  ShadowDepth="1"
+                                  Color="{StaticResource ForegroundLightGray}" />
+            </Rectangle.Effect>
+        </Rectangle>
 
-            <Grid VerticalAlignment="Bottom"
-                  Height="280"
-                  Margin="35 80">
-                <Label Content="LOGIN"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Top"
-                       Foreground="{StaticResource ForegroundGrayBrush}"
-                       FontSize="{StaticResource FontSizeRegular}" />
+        <Grid VerticalAlignment="Bottom"
+              Height="280"
+              Margin="35 80">
+            <Label Content="LOGIN"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   Foreground="{StaticResource ForegroundGrayBrush}"
+                   FontSize="{StaticResource FontSizeRegular}" />
 
-                <StackPanel VerticalAlignment="Top"
-                            Margin="15 50">
+            <StackPanel VerticalAlignment="Top"
+                        Margin="15 50">
 
-                    <!-- Error message -->
-                    <TextBlock x:Name="ErrorMessage"
-                               Visibility="{Binding IsErrorVisible, Converter={valueConverters:BooleanToVisibilityConverter}, ConverterParameter=True}"
-                               TextWrapping="Wrap"
-                               Margin="0 5"
-                               Foreground="{StaticResource ForegroundErrorBrush}"
-                               FontSize="{StaticResource FontSizeSmall}" />
+                <!-- Error message -->
+                <TextBlock x:Name="ErrorMessage"
+                           Visibility="{Binding IsErrorVisible, Converter={valueConverters:BooleanToVisibilityConverter}, ConverterParameter=True}"
+                           TextWrapping="Wrap"
+                           Margin="0 5"
+                           Foreground="{StaticResource ForegroundErrorBrush}"
+                           FontSize="{StaticResource FontSizeSmall}" />
 
-                    <!-- Email -->
-                    <TextBox x:Name="User_Email"
-                             Style="{StaticResource MaterialDesignFloatingHintTextBoxOverride}"
-                             materialDesign:HintAssist.Hint="Email"
-                             Margin="0 20" />
+                <!-- Email -->
+                <TextBox x:Name="User_Email"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBoxOverride}"
+                         materialDesign:HintAssist.Hint="Email"
+                         Margin="0 20" />
 
-                    <!-- Password -->
-                    <PasswordBox x:Name="User_Password"
-                                 Style="{StaticResource MaterialDesignFloatingHintPasswordBoxOverride}"
-                                 materialDesign:HintAssist.Hint="Password"
-                                 Margin="0 5" />
+                <!-- Password -->
+                <PasswordBox x:Name="User_Password"
+                             Style="{StaticResource MaterialDesignFloatingHintPasswordBoxOverride}"
+                             materialDesign:HintAssist.Hint="Password"
+                             Margin="0 5" />
 
-                </StackPanel>
-
-            </Grid>
-
-            <!-- Login button -->
-            <Button Command="{Binding LoginCommand}"
-                    CommandParameter="{Binding User}"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom"
-                    Width="150"
-                    Margin="0 65"
-                    FontSize="{StaticResource FontSizeRegular}">
-                <Grid>
-                    <TextBlock Text="LOGIN"
-                               Visibility="{Binding LoginIsRunning, Converter={valueConverters:BooleanToVisibilityConverter}}" />
-
-                    <!-- Loading indicator -->
-                    <ProgressBar attachedProperties:IsBusyProperty.Value="{Binding LoginIsRunning}"
-                                 Style="{StaticResource MaterialDesignCircularProgressBarOverride}" />
-                </Grid>
-            </Button>
-
-            <!-- Register button -->
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Bottom"
-                        Margin="0 0 0 10">
-                <Label Content="New to Instagram? You can"
-                       VerticalContentAlignment="Center"
-                       FontSize="{StaticResource FontSizeSmall}" />
-
-                <Button x:Name="GoToRegisterAsync"
-                        Content="sign up here."
-                        Style="{StaticResource MaterialDesignToolButtonOverride}"
-                        Margin="-3 0">
-                    <Button.Triggers>
-                        <!-- Slide and fade out to left animation -->
-                        <EventTrigger RoutedEvent="Button.Click" SourceName="GoToRegisterAsync">
-                            <BeginStoryboard Storyboard="{StaticResource SlideAndFadeOutToLeft}" />
-                        </EventTrigger>
-                    </Button.Triggers>
-                </Button>
             </StackPanel>
 
-
-            <Image Source="../../Assets/home.png"
-                   VerticalAlignment="Top"
-                   Stretch="Uniform"
-                   Width="100"
-                   Height="100"
-                   Margin="10" />
-
         </Grid>
+
+        <!-- Login button -->
+        <Button Command="{Binding LoginCommand}"
+                CommandParameter="{Binding User}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Width="150"
+                Margin="0 65"
+                FontSize="{StaticResource FontSizeRegular}">
+            <Grid>
+                <TextBlock Text="LOGIN"
+                           Visibility="{Binding LoginIsRunning, Converter={valueConverters:BooleanToVisibilityConverter}}" />
+
+                <!-- Loading indicator -->
+                <ProgressBar attachedProperties:IsBusyProperty.Value="{Binding LoginIsRunning}"
+                             Style="{StaticResource MaterialDesignCircularProgressBarOverride}" />
+            </Grid>
+        </Button>
+
+        <!-- Register button -->
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Margin="0 0 0 10">
+            <Label Content="New to Instagram? You can"
+                   VerticalContentAlignment="Center"
+                   FontSize="{StaticResource FontSizeSmall}" />
+
+            <Button x:Name="GoToRegisterAsync"
+                    Content="sign up here."
+                    Style="{StaticResource MaterialDesignToolButtonOverride}"
+                    Margin="-3 0">
+                <Button.Triggers>
+                    <!-- Slide and fade out to left animation -->
+                    <EventTrigger RoutedEvent="Button.Click" SourceName="GoToRegisterAsync">
+                        <BeginStoryboard Storyboard="{StaticResource SlideAndFadeOutToLeft}" />
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
+        </StackPanel>
+
+
+        <Image Source="../../Assets/home.png"
+               VerticalAlignment="Top"
+               Stretch="Uniform"
+               Width="100"
+               Height="100"
+               Margin="10" />
+
     </Grid>
 </UserControl>

@@ -91,7 +91,7 @@
                 <Border.Style>
                     <!-- Comment styling trigger -->
                     <Style TargetType="Border">
-                        <Setter Property="Background" Value="Gray" />
+                        <Setter Property="Background" Value="{StaticResource ForegroundGrayBrush}" />
                         <Setter Property="CornerRadius" Value="15 15 15 0" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsLoggedInComment}" Value="true">

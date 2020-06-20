@@ -32,10 +32,10 @@ namespace Application.Services.User.Queries.Login
                 throw new RestException(HttpStatusCode.Unauthorized);
             }
 
-            // if (!await _userManager.IsEmailConfirmedAsync(user))
-            // {
-            //     throw new RestException(HttpStatusCode.Unauthorized, new { User = "You must have a confirmed email to log in." });
-            // }
+            if (!await _userManager.IsEmailConfirmedAsync(user))
+            {
+                throw new RestException(HttpStatusCode.Unauthorized, new { User = "You must have a confirmed email to log in." });
+            }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
