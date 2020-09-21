@@ -19,7 +19,7 @@ namespace Infrastructure.Email.SendGrid
 
         public async Task<ResponseError> SendEmailAsync(SendEmailDetails details)
         {
-            var apiKey = _configuration["SendGrid:SendGridKey"];
+            var apiKey = _configuration["SendGrid:InstaSendApiKey"];
 
             var client = new SendGridClient(apiKey);
 
